@@ -1,0 +1,176 @@
+/* --- Global & Font (dari Referensi) --- */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    /* Menggunakan background abu-abu terang agar kontainer putih menonjol */
+    background-color: #f2f2f2;
+    color: #777;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- Container Utama Halaman Pesanan --- */
+.order-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+    width: 100%;
+    max-width: 650px;
+    box-sizing: border-box;
+    /* Mengadaptasi warna sidebar dari referensi sebagai border atas */
+    border-top: 5px solid #015360;
+}
+
+/* --- Header & Logo di Dalam Form --- */
+.order-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.order-logo {
+    width: 70px;
+    margin-bottom: 15px;
+}
+
+.order-header h2 {
+    color: #333;
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.order-header p {
+    font-size: 16px;
+    margin-top: 8px;
+    line-height: 1.6;
+}
+
+/* --- Grup Form (Label + Input) --- */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 14px;
+}
+
+/* --- Input Teks & Select Box --- */
+input[type="text"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    color: #555;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+select:focus {
+    /* Menggunakan warna sidebar sebagai aksen saat aktif */
+    border-color: #015360;
+    box-shadow: 0 0 5px rgba(1, 83, 96, 0.2);
+    outline: none;
+}
+
+/* --- Styling Pilihan Radio Button --- */
+.checkbox-group {
+    border-radius: 3px;
+    padding: 0;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.checkbox-item:hover {
+    background-color: #fafafa;
+    /* Menggunakan warna link dari referensi saat di-hover */
+    border-color: #aa0a5f;
+}
+
+.checkbox-item input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+    accent-color: #015360; /* Warna centang */
+    cursor: pointer;
+}
+
+.checkbox-item label {
+    margin: 0;
+    font-weight: 400;
+    flex-grow: 1;
+    cursor: pointer;
+    color: #555;
+}
+
+.checkbox-item:has(input[type="radio"]:checked) {
+    border-color: #015360;
+    background-color: #f7fbfc;
+}
+.checkbox-item:has(input[type="radio"]:checked) label {
+    color: #015360;
+    font-weight: 700;
+}
+
+/* --- Tombol Aksi (CTA Button) --- */
+.cta-button {
+    /* Menggunakan warna link magenta dari referensi */
+    background-color: #aa0a5f;
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    border-radius: 3px;
+    display: block;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.cta-button:hover {
+    background-color: #8c084d; /* Warna sedikit lebih gelap saat hover */
+}
+
+/* --- Penyesuaian untuk Layar HP (Responsive) --- */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    .order-container {
+        padding: 25px;
+    }
+    .order-header h2 {
+        font-size: 20px;
+    }
+}
