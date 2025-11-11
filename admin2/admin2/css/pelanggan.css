@@ -1,0 +1,41 @@
+.content {
+  margin-left: 350px; /* Sesuaikan dengan lebar sidebar */
+  padding: 20px;
+  background: #f4f6f9;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.table-data {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.table-data th, .table-data td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-data th {
+  background: #007bff;
+  color: white;
+  text-align: left;
+}
+
+.btn-tambah {
+  display: inline-block;
+  background: #28a745;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+
+.btn-tambah:hover {
+  background: #218838;
+}
