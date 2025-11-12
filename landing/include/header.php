@@ -1,3 +1,10 @@
+<style>
+.logo img {
+    width: 120px; /* ubah sesuai kebutuhan, misalnya 100px, 120px, dst */
+    height: auto;
+}
+</style>
+
 <div class="header-area header-transparent pt-20">
             <div class="main-header header-sticky">
                 <div class="container-fluid">
