@@ -1,14 +1,45 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
+
 <head>
     <?php include 'include/head.php' ?>
     <?php include 'include/css.php' ?>
+
+    <style>
+        /* Efek hover & bayangan ikon layanan */
+        .services-caption {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .services-caption:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background-color: #f9fcff;
+        }
+
+        .service-icon i {
+            font-size: 55px;
+            color: #007bff;
+            transition: all 0.3s ease;
+        }
+
+        .services-caption:hover .service-icon i {
+            color: #0056b3;
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 10px rgba(0, 123, 255, 0.6));
+        }
+    </style>
 </head>
+
 <body>
     <?php include 'include/loading.php' ?>
     <header>
         <?php include 'include/header.php' ?>
-        </header>
+    </header>
     <main>
         <div class="slider-area2">
             <div class="slider-height2 d-flex align-items-center">
@@ -39,7 +70,7 @@
                     $servername = "127.0.0.1";
                     $username = "root";
                     $password = ""; // Sesuaikan jika database Anda memiliki password
-                    $dbname = "umkmbarber";
+                    $dbname = "umkm_barber";
 
                     // Buat koneksi
                     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -50,42 +81,45 @@
                     }
 
                     // 2. QUERY UNTUK MENGAMBIL DATA DARI TABEL 'layanan'
-                    $sql = "SELECT nama_layanan, deskripsi_layanan FROM layanan ORDER BY id_layanan ASC";
+                    $sql = "SELECT nama_layanan, deskripsi_layanan, gambar_layanan FROM layanan ORDER BY id_layanan ASC";
                     $result = $conn->query($sql);
 
-                    // 3. TAMPILKAN DATA JIKA ADA
                     if ($result->num_rows > 0) {
-                        // Looping untuk setiap baris data layanan
-                        while($row = $result->fetch_assoc()) {
-                    ?>
+                        while ($row = $result->fetch_assoc()) {
+                            // Path gambar
+                            $gambarPath = "assets/img/layanan/" . htmlspecialchars($row["gambar_layanan"]);
+                            ?>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="services-caption text-center mb-30">
-                                    <div class="service-icon">
-                                        <i class="flaticon-healthcare-and-medical"></i>
-                                    </div> 
+                                    <div class="service-icon mb-3">
+                                        <img src="<?php echo $gambarPath; ?>"
+                                            alt="<?php echo htmlspecialchars($row["nama_layanan"]); ?>"
+                                            class="img-fluid rounded" style="max-height:200px; object-fit:cover;">
+                                    </div>
                                     <div class="service-cap">
                                         <h4><a href="#"><?php echo htmlspecialchars($row["nama_layanan"]); ?></a></h4>
                                         <p><?php echo htmlspecialchars($row["deskripsi_layanan"]); ?></p>
                                     </div>
                                 </div>
                             </div>
-                    <?php
-                        } // Akhir dari while loop
+                            <?php
+                        }
                     } else {
                         echo "<div class='col-12'><p class='text-center'>Belum ada layanan yang tersedia.</p></div>";
                     }
-                    
+
+
                     // 4. TUTUP KONEKSI
                     $conn->close();
                     ?>
                 </div>
             </div>
         </section>
-        </main>
+    </main>
     <footer>
         <?php include 'include/footer.php' ?>
-        </footer>
-    <div id="back-top" >
+    </footer>
+    <div id="back-top">
         <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
 
@@ -113,6 +147,7 @@
     <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
-    
+
 </body>
+
 </html>
