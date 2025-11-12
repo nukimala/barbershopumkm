@@ -42,15 +42,15 @@ if (isset($_POST['login'])) {
   <link rel="stylesheet" href="../assets/css/style.css">
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #f4f6f8;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(to bottom, #007bff, #00f2fe);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
     .login-box {
-      background: #fff;
+      background: #ffffff77;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -61,7 +61,7 @@ if (isset($_POST['login'])) {
       margin-bottom: 20px;
     }
     input {
-      width: 100%;
+      width: 94%;
       padding: 10px;
       margin: 10px 0;
       border: 1px solid #ccc;

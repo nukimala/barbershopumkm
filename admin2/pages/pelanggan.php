@@ -8,6 +8,23 @@ if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit();
 }
+// 🔹 Proses hapus data pelanggan
+if (isset($_GET['hapus'])) {
+    $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus']);
+
+    // Pastikan data ada sebelum dihapus
+    $cek = mysqli_query($conn, "SELECT * FROM customer WHERE id_customer = '$id_hapus'");
+    if (mysqli_num_rows($cek) > 0) {
+        $hapus = mysqli_query($conn, "DELETE FROM customer WHERE id_customer = '$id_hapus'");
+        if ($hapus) {
+            echo "<script>alert('Data pelanggan berhasil dihapus.'); window.location='pelanggan.php';</script>";
+        } else {
+            echo "<script>alert('Gagal menghapus data pelanggan.');</script>";
+        }
+    } else {
+        echo "<script>alert('Data tidak ditemukan.'); window.location='pelanggan.php';</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -97,18 +114,18 @@ if (!isset($_SESSION['user'])) {
         </tr>
 
         <?php
-        $result = mysqli_query($conn, "SELECT * FROM antrian ORDER BY id_antrian ASC");
+        $result = mysqli_query($conn, "SELECT * FROM customer ORDER BY id_customer ASC");
         $no = 1;
         if (mysqli_num_rows($result) > 0) {
           while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>
                     <td>{$no}</td>
-                    <td>{$row['id_antrian']}</td>
+                    <td>{$row['id_customer']}</td>
                     <td>{$row['nama_customer']}</td>
                     <td>{$row['status']}</td>
                     <td>
-                      <a href='edit_pelanggan.php?id={$row['id_antrian']}' class='btn btn-edit'>Edit</a>
-                      <a href='pelanggan.php?hapus={$row['id_antrian']}' class='btn btn-delete' onclick='return confirm(\"Yakin ingin hapus data ini?\")'>Hapus</a>
+                      <a href='edit_pelanggan.php?id={$row['id_customer']}' class='btn btn-edit'>Edit</a>
+                      <a href='pelanggan.php?hapus={$row['id_customer']}' class='btn btn-delete' onclick='return confirm(\"Yakin ingin hapus data ini?\")'>Hapus</a>
                     </td>
                   </tr>";
             $no++;

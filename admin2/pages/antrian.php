@@ -103,7 +103,7 @@ if (!isset($_SESSION['user'])) {
     <!-- Content -->
     <div class="content">
       <h2>Daftar Antrian Hari Ini</h2>
-      <a href="tambah_antrian.php" class="btn btn-add">+ Tambah Antrian</a>
+      <a href="../../landing/order/order.php" class="btn btn-add">+ Tambah Antrian</a>
 
       <table>
         <tr>
@@ -114,7 +114,7 @@ if (!isset($_SESSION['user'])) {
         </tr>
 
         <?php
-        $result = mysqli_query($conn, "SELECT * FROM antrian ORDER BY waktu_daftar ASC");
+        $result = mysqli_query($conn, "SELECT * FROM customer ORDER BY waktu_daftar ASC");
         $no = 1;
         if (mysqli_num_rows($result) > 0) {
           while ($row = mysqli_fetch_assoc($result)) {

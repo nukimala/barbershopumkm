@@ -2,12 +2,12 @@
 include '../includes/koneksi.php';
 $query = mysqli_query($conn, "SELECT 
                     transaksi_jual.id_jual, 
-                    antrian.nama_customer, 
+                    customer.nama_customer, 
                     transaksi_jual.tanggal_jual, 
                     transaksi_jual.total_harga_jual
                 FROM transaksi_jual
-                LEFT JOIN antrian 
-                    ON transaksi_jual.fk_customer = antrian.id_antrian
+                LEFT JOIN customer
+                    ON transaksi_jual.fk_customer = customer.id_customer
                 ORDER BY transaksi_jual.tanggal_jual DESC");
 ?>
 <!DOCTYPE html>
