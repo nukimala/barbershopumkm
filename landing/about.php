@@ -121,28 +121,33 @@
     <script src="./assets/js/main.js"></script>
     <!-- slidernya -->
     <script>
-        $(document).ready(function() {
-            $('.model-carousel').owlCarousel({
-                loop: true,
-                margin: 30,
-                nav: true,
-                dots: true,
-                autoplay: true,
-                autoplayTimeout: 3000,
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    768: {
-                        items: 2
-                    },
-                    1024: {
-                        items: 3
-                    }
+    $(document).ready(function() {
+        $('.model-carousel').owlCarousel({
+            loop: true,
+            margin: 30,
+            nav: true, // Enables navigation buttons
+            dots: true, // Enables dots navigation (you can disable it if you don't want dots)
+            autoplay: true,
+            autoplayTimeout: 3000,
+            navText: [
+                '<i class="fas fa-arrow-left"></i>',  // Custom previous arrow
+                '<i class="fas fa-arrow-right"></i>'  // Custom next arrow
+            ],
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 2
+                },
+                1024: {
+                    items: 3
                 }
-            });
+            }
         });
-    </script>
+    });
+</script>
+
 
 </body>
 
