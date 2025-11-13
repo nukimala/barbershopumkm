@@ -4,6 +4,103 @@
 <head>
     <?php include 'include/head.php' ?>
     <?php include 'include/css.php' ?>
+    <style>
+        /* Efek hover untuk card model */
+        .services-caption {
+            transition: all 0.3s ease;
+            cursor: grab;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .services-caption:active {
+            cursor: grabbing;
+        }
+        
+        .services-caption:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Efek hover untuk gambar */
+        .service-icon {
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .service-icon img {
+            transition: transform 0.4s ease;
+        }
+        
+        .services-caption:hover .service-icon img {
+            transform: scale(1.1);
+        }
+        
+        /* Efek hover untuk teks */
+        .service-cap h4 {
+            transition: color 0.3s ease;
+        }
+        
+        .services-caption:hover .service-cap h4 {
+            color: #ff6b6b;
+        }
+        
+        /* Sembunyikan navigation buttons */
+        .owl-nav {
+            display: none !important;
+        }
+        
+        /* Cursor grab untuk carousel */
+        .owl-carousel {
+            cursor: grab;
+        }
+        
+        .owl-carousel.dragging {
+            cursor: grabbing;
+        }
+        
+        .owl-carousel .owl-stage {
+            cursor: grab;
+        }
+        
+        .owl-carousel .owl-stage:active {
+            cursor: grabbing;
+        }
+        
+        /* Style untuk dots - visible untuk semua device */
+        .owl-dots {
+            margin-top: 40px !important;
+            text-align: center;
+            display: block !important;
+        }
+        
+        .owl-dot {
+            display: inline-block;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .owl-dot span {
+            width: 15px !important;
+            height: 15px !important;
+            background: #d1d1d1 !important;
+            border-radius: 50%;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .owl-dot:hover span {
+            transform: scale(1.3);
+            background: #999 !important;
+        }
+        
+        .owl-dot.active span {
+            background: #ff6b6b !important;
+            width: 40px !important;
+            border-radius: 10px;
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 
 <body>
@@ -32,6 +129,9 @@
                         <div class="section-tittle text-center mb-90">
                             <span>Model Rambut</span>
                             <h2>Temukan gaya rambut yang cocok dengan kepribadian anda</h2>
+                            <p class="text-muted mt-3">
+                                <i class="fas fa-hand-pointer"></i> Geser dengan cursor atau jari Anda
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -67,7 +167,6 @@
                                     <img src="<?php echo $gambarPath; ?>"
                                         alt="<?php echo htmlspecialchars($row['nama_model']); ?>"
                                         style="width: 250px; height: 250px; object-fit: cover;">
-
                                 </div>
                                 <div class="service-cap">
                                     <h4><a href="#"><?php echo htmlspecialchars($row["nama_model"]); ?></a></h4>
@@ -82,9 +181,6 @@
                     $conn->close();
                     ?>
                 </div>
-
-
-
             </div>
         </section>
     </main>
@@ -119,20 +215,20 @@
     <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
-    <!-- slidernya -->
+    
+    <!-- Slider Configuration -->
     <script>
     $(document).ready(function() {
-        $('.model-carousel').owlCarousel({
+        var owl = $('.model-carousel').owlCarousel({
             loop: true,
             margin: 30,
-            nav: true, // Enables navigation buttons
-            dots: true, // Enables dots navigation (you can disable it if you don't want dots)
-            autoplay: true,
-            autoplayTimeout: 3000,
-            navText: [
-                '<i class="fas fa-arrow-left"></i>',  // Custom previous arrow
-                '<i class="fas fa-arrow-right"></i>'  // Custom next arrow
-            ],
+            nav: false, // Disable navigation buttons
+            dots: true, // Enable dots
+            autoplay: false,
+            mouseDrag: true, // Enable mouse drag
+            touchDrag: true, // Enable touch drag
+            pullDrag: true,
+            freeDrag: false,
             responsive: {
                 0: {
                     items: 1
@@ -145,10 +241,47 @@
                 }
             }
         });
+
+        // Tambahkan class 'dragging' saat sedang drag
+        owl.on('drag.owl.carousel', function(event) {
+            $('.owl-carousel').addClass('dragging');
+        });
+
+        owl.on('dragged.owl.carousel', function(event) {
+            $('.owl-carousel').removeClass('dragging');
+        });
+
+        // Efek tap untuk mobile - simulasi hover
+        $('.services-caption').on('touchstart', function() {
+            $(this).css({
+                'transform': 'translateY(-10px)',
+                'box-shadow': '0 10px 30px rgba(0,0,0,0.2)'
+            });
+            $(this).find('img').css('transform', 'scale(1.1)');
+            $(this).find('h4').css('color', '#ff6b6b');
+        });
+
+        $('.services-caption').on('touchend touchcancel', function() {
+            $(this).css({
+                'transform': 'translateY(0)',
+                'box-shadow': '0 2px 10px rgba(0,0,0,0.1)'
+            });
+            $(this).find('img').css('transform', 'scale(1)');
+            $(this).find('h4').css('color', '');
+        });
+
+        // Efek untuk dots di mobile
+        $('.owl-dot').on('touchstart', function() {
+            $(this).find('span').css('transform', 'scale(1.3)');
+        });
+
+        $('.owl-dot').on('touchend touchcancel', function() {
+            if (!$(this).hasClass('active')) {
+                $(this).find('span').css('transform', 'scale(1)');
+            }
+        });
     });
-</script>
-
-
+    </script>
 </body>
 
 </html>
