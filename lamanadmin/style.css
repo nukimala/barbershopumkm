@@ -1,0 +1,381 @@
+/* === style.css (Skema Warna #212529) === */
+
+/* === GLOBAL & FONT === */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.5em; margin-bottom: 20px; }
+h3 { font-size: 1.2em; margin-bottom: 10px; }
+
+a {
+  color: #007bff; /* Tautan standar tetap biru agar terlihat */
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 30px 0;
+}
+
+/* === TATA LETAK UTAMA (Sidebar + Konten) === */
+.sidebar {
+  width: 240px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: #212529; /* WARNA BARU */
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  margin-left: 240px;
+  padding: 0;
+}
+
+/* === SIDEBAR (Internal) === */
+.sidebar .sidebar-logo {
+  text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .sidebar-logo img {
+  max-width: 150px;
+  height: auto;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.sidebar ul li {
+  margin-bottom: 5px;
+}
+
+.sidebar ul li a {
+  display: block;
+  padding: 12px 15px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.sidebar ul li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar ul li a.active {
+  background: #f4f6f8;
+  color: #212529; /* WARNA BARU */
+  font-weight: 600;
+}
+
+/* === TOPBAR (di dalam main-content) === */
+.topbar {
+  background: #ffffff;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.topbar .user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 500;
+}
+
+/* === KONTEN UTAMA (di dalam main-content) === */
+.content-wrapper {
+  padding: 30px;
+}
+
+/* === KOMPONEN: TOMBOL (Baru) === */
+.btn {
+  display: inline-block;
+  padding: 8px 14px;
+  margin: 2px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: 'Poppins', sans-serif;
+}
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
+
+.btn-primary { background: #212529; color: #fff; } /* WARNA BARU */
+.btn-success { background: #4caf50; color: #fff; }
+.btn-danger { background: #f44336; color: #fff; }
+.btn-secondary { background: #6c757d; color: #fff; }
+.btn-warning { background: #ffc107; color: #212529; }
+.btn-logout { background: #dc3545; color: #fff; }
+
+.btn-primary:hover { background: #343a40; color: #fff; text-decoration: none; } /* Hover baru */
+.btn-success:hover { background: #388e3c; color: #fff; text-decoration: none; }
+.btn-danger:hover { background: #d32f2f; color: #fff; text-decoration: none; }
+.btn-secondary:hover { background: #5a6268; color: #fff; text-decoration: none; }
+.btn-warning:hover { background: #e0a800; color: #212529; text-decoration: none; }
+.btn-logout:hover { background: #c82333; color: #fff; text-decoration: none; }
+
+/* === KOMPONEN: FORM (Baru) === */
+.form-wrapper {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+.form-wrapper div {
+  margin-bottom: 15px;
+}
+.form-wrapper label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+.form-wrapper input[type="text"],
+.form-wrapper input[type="password"],
+.form-wrapper input[type="number"],
+.form-wrapper input[type="file"],
+.form-wrapper input[type="date"],
+.form-wrapper textarea,
+.form-wrapper select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+.form-wrapper textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Style khusus form filter laporan */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+}
+.filter-form .form-group {
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+.filter-form .form-group-submit {
+    margin-bottom: 0;
+}
+
+/* === KOMPONEN: TABEL (Baru) === */
+.table-wrapper {
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+.table th, .table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+.table th {
+  background: #f9f9f9;
+  font-weight: 600;
+  color: #333;
+}
+.table tr:hover {
+  background-color: #f5f5f5;
+}
+.table-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.no-data {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+.table-actions {
+    display: flex;
+    gap: 5px;
+}
+
+/* Style khusus tabel laporan */
+.laporan-hasil {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.laporan-periode {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+.table tfoot tr {
+    border-top: 2px solid #333;
+}
+.table tfoot th {
+    font-size: 1.1em;
+    text-align: right;
+    color: #1a202c;
+}
+.table tfoot th:last-child {
+    text-align: left;
+}
+
+
+/* === KOMPONEN: KARTU DASHBOARD (Baru) === */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 20px;
+}
+.card h3 {
+  margin: 0 0 10px;
+  font-size: 1em;
+  color: #555;
+  font-weight: 500;
+}
+.card p {
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #212529; /* WARNA BARU */
+  margin: 0;
+}
+
+/* === KOMPONEN: GRAFIK (Baru) === */
+.chart-wrapper {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+/* === LAIN-LAIN: Status & Pesan === */
+.status-belum { color: #f44336; font-weight: bold; }
+.status-selesai { color: #4caf50; font-weight: bold; }
+
+.message {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  background-color: #e6f7ff;
+  border: 1px solid #b3e0ff;
+  color: #0056b3;
+}
+.message.error {
+   background-color: #f8d7da;
+   border-color: #f5c6cb;
+   color: #721c24;
+}
+
+/* === LOGIN BOX === */
+.login-box {
+  width: 380px;
+  margin: 100px auto;
+  padding: 35px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.login-box form div { margin-bottom: 15px; }
+.login-box form label { font-weight: 600; display: block; margin-bottom: 5px; }
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+.login-box button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+}
+
+/* === GAYA CETAK (Baru) === */
+@media print {
+  .sidebar, .topbar, .form-wrapper, .btn {
+    display: none !important;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+  
+  .content-wrapper {
+    padding: 0 !important;
+  }
+  
+  .laporan-hasil {
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  body {
+    background-color: #fff !important;
+  }
+}
