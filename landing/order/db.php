@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "revisi_umkm";
+$dbname = "umkm_barber";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

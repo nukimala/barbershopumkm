@@ -14,6 +14,7 @@
             <h2>Formulir Pemesanan</h2>
             <p>Silakan isi detail di bawah ini untuk memesan layanan kami.</p>
         </div>
+
         <form id="order-form" action="process_order.php" method="POST">
             <div class="form-group">
                 <label for="name">Nama Lengkap Anda:</label>
@@ -26,15 +27,10 @@
                     <option value="" disabled selected>-- Silakan pilih model --</option>
                     <?php
                     include 'db.php';
-                    if ($conn->connect_error) {
-                        $conn = new mysqli("localhost", "root", "", "umkm");
-                    }
                     $sql = "SELECT * FROM model";
                     $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<option value='" . $row["id_model"] . "'>" . $row["nama_model"] . "</option>";
-                        }
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='".$row['id_model']."'>".$row['nama_model']."</option>";
                     }
                     ?>
                 </select>
@@ -50,13 +46,11 @@
                     <?php
                     $sql = "SELECT * FROM layanan";
                     $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<div class='checkbox-item'>";
-                            echo "<input type='radio' id='" . $row["id_layanan"] . "' name='service' value='" . $row["id_layanan"] . "'>";
-                            echo "<label for='" . $row["id_layanan"] . "'>" . $row["nama_layanan"] . "</label>";
-                            echo "</div>";
-                        }
+                    while($row = $result->fetch_assoc()) {
+                        echo "<div class='checkbox-item'>";
+                        echo "<input type='radio' id='".$row['id_layanan']."' name='service' value='".$row['id_layanan']."'>";
+                        echo "<label for='".$row['id_layanan']."'>".$row['nama_layanan']."</label>";
+                        echo "</div>";
                     }
                     $conn->close();
                     ?>
@@ -66,7 +60,5 @@
             <button type="submit" class="cta-button">Kirim Pesanan</button>
         </form>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
