@@ -2,8 +2,11 @@
 <html class="no-js" lang="zxx">
 
 <head>
-    <?php include 'include/head.php' ?>
-    <?php include 'include/css.php' ?>
+    <?php
+    include 'include/head.php';
+    include 'include/css.php';
+    include 'include/db.php'
+    ?>
     
     <!-- Owl Carousel CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">

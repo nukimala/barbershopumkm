@@ -2,8 +2,11 @@
 <html class="no-js" lang="zxx">
 
 <head>
-    <?php include 'include/head.php' ?>
-    <?php include 'include/css.php' ?>
+    <?php
+    include 'include/head.php';
+    include 'include/css.php';
+    include 'include/db.php'
+    ?>
     <style>
         /* Efek hover untuk card model */
         .services-caption {
@@ -138,16 +141,6 @@
 
                 <div class="owl-carousel model-carousel">
                     <?php
-                    $servername = "127.0.0.1";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "umkm_barber";
-
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-                    if ($conn->connect_error) {
-                        die("<p class='text-center'>Koneksi ke database gagal: " . $conn->connect_error . "</p>");
-                    }
-
                     // Ambil kolom gambar_model
                     $sql = "SELECT nama_model, deskripsi_model, gambar_model FROM model ORDER BY id_model ASC";
                     $result = $conn->query($sql);

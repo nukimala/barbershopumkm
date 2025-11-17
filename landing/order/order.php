@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Potong Rambut Pak To</title>
     <link rel="stylesheet" href="style.css">
+    <?php
+    include '../include/db.php';
+    ?>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="order-container">
         <div class="order-header">
@@ -29,8 +34,8 @@
                     include 'db.php';
                     $sql = "SELECT * FROM model";
                     $result = $conn->query($sql);
-                    while($row = $result->fetch_assoc()) {
-                        echo "<option value='".$row['id_model']."'>".$row['nama_model']."</option>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['id_model'] . "'>" . $row['nama_model'] . "</option>";
                     }
                     ?>
                 </select>
@@ -46,10 +51,10 @@
                     <?php
                     $sql = "SELECT * FROM layanan";
                     $result = $conn->query($sql);
-                    while($row = $result->fetch_assoc()) {
+                    while ($row = $result->fetch_assoc()) {
                         echo "<div class='checkbox-item'>";
-                        echo "<input type='radio' id='".$row['id_layanan']."' name='service' value='".$row['id_layanan']."'>";
-                        echo "<label for='".$row['id_layanan']."'>".$row['nama_layanan']."</label>";
+                        echo "<input type='radio' id='" . $row['id_layanan'] . "' name='service' value='" . $row['id_layanan'] . "'>";
+                        echo "<label for='" . $row['id_layanan'] . "'>" . $row['nama_layanan'] . "</label>";
                         echo "</div>";
                     }
                     $conn->close();
@@ -61,4 +66,5 @@
         </form>
     </div>
 </body>
+
 </html>

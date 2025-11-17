@@ -10,8 +10,8 @@
       <!-- Teks tengah -->
       <div class="footer-info" style="flex:2;">
         <p style="margin:5px 0; font-weight:600; color:#f4c27f;">Potong Rambut "PAK TO"</p>
-        <p style="margin:5px 0; color:#F7F1DE;">Jl. Raya Gondang No. 10, Nganjuk</p>
-        <p style="margin:5px 0; color:#F7F1DE;">Telp: +62 812 3456 7890 | Email: info@smkn1gondang.sch.id</p>
+        <p style="margin:5px 0; color:#F7F1DE;">Jl. Lawu Gg. 1 Balonggebang, Gondang</p>
+        <p style="margin:5px 0; color:#F7F1DE;">Telp: +62 895 2547 8926 | Email: paktocukur@gmail.com</p>
       </div>
 
       <!-- Sosial kanan -->
@@ -23,7 +23,7 @@
     </div>
 
     <div class="footer-bottom" style="text-align:center; color:#999; font-size:14px; padding-top:10px;">
-      © <script>document.write(new Date().getFullYear());</script> SMKN 1 Gondang. All rights reserved.
+      © <script>document.write(new Date().getFullYear());</script> klmpk5-shlkh-wldnx-dfr-sryn-wdy. All rights reserved.
     </div>
   </div>
 </footer>
