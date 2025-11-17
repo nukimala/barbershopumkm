@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $servername = "127.0.0.1"; // atau "localhost"
 $username = "root";        // Ganti jika username database Anda berbeda
 $password = "";            // Ganti jika password database Anda berbeda
-$dbname = "revisi_umkm";   // --- [DIUBAH] Sesuai dengan database Anda ---
+$dbname = "umkm_barber";   // --- [DIUBAH] Sesuai dengan database Anda ---
 
 // Membuat koneksi
 $conn = new mysqli($servername, $username, $password, $dbname);
