@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2025 at 08:23 AM
+-- Generation Time: Nov 17, 2025 at 08:43 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -266,6 +266,7 @@ CREATE TABLE `pesan` (
   `nama_pengirim` varchar(100) NOT NULL,
   `waktu_kirim` datetime NOT NULL,
   `isi_pesan` varchar(1000) NOT NULL,
+  `kategori_pesan` enum('Ditampilkan','Tidak Ditampilkan') NOT NULL DEFAULT 'Tidak Ditampilkan',
   `fk_admin` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -360,6 +361,13 @@ CREATE TABLE `transaksi_beli` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `transaksi_beli`
+--
+
+INSERT INTO `transaksi_beli` (`id_beli`, `tanggal_beli`, `total_harga_beli`, `fk_supplier`, `fk_admin`) VALUES
+('BEL01', '2025-11-17 14:27:02', 29000.00, 'SUP01', 'ADM01');
+
+--
 -- Triggers `transaksi_beli`
 --
 DELIMITER $$
@@ -390,6 +398,46 @@ CREATE TABLE `transaksi_jual` (
 --
 -- Triggers `transaksi_jual`
 --
+DELIMITER $$
+CREATE TRIGGER `cek_stok_sebelum_penjualan` BEFORE INSERT ON `transaksi_jual` FOR EACH ROW BEGIN
+  DECLARE v_stok_sisa_terendah INT DEFAULT 0;
+  DECLARE v_nama_produk_habis VARCHAR(100);
+
+  DECLARE v_error_message VARCHAR(255);
+
+  IF NEW.fk_layanan IS NOT NULL AND NEW.fk_layanan <> '' THEN
+    
+    SELECT 
+      MIN(p.stok - dl.jumlah_produk),
+      (SELECT p.nama_produk 
+       FROM produk p 
+       JOIN detail_layanan dl ON p.id_produk = dl.fk_produk 
+       WHERE dl.fk_layanan = NEW.fk_layanan 
+       ORDER BY (p.stok - dl.jumlah_produk) ASC 
+       LIMIT 1)
+    INTO 
+      v_stok_sisa_terendah, 
+      v_nama_produk_habis
+    FROM 
+      detail_layanan dl
+    JOIN 
+      produk p ON dl.fk_produk = p.id_produk
+    WHERE 
+      dl.fk_layanan = NEW.fk_layanan;
+
+    IF v_stok_sisa_terendah < 0 THEN
+
+      SET v_error_message = CONCAT('Stok tidak mencukupi untuk produk: ', v_nama_produk_habis, '. Transaksi dibatalkan.');
+
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = v_error_message;
+      
+    END IF;
+
+  END IF;
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `generate_id_jual` BEFORE INSERT ON `transaksi_jual` FOR EACH ROW BEGIN
   DECLARE last_id INT;
