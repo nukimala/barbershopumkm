@@ -21,8 +21,8 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-9 col-md-11 col-sm-10">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInUp" data-delay="0.2s">with patrick potter</span>
-                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Our Hair Style make your look elegance</h1>
+                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal,Gaya Professional</span>
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil Percaya Diri</h1>
                                 </div>
                             </div>
                         </div>
@@ -34,23 +34,18 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-9 col-md-11 col-sm-10">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInUp" data-delay="0.2s">with patrick potter</span>
-                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Our Hair Style make your look elegance</h1>
+                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal,Gaya Professional</span>
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil Percaya Diri</h1>
                                 </div>
                             </div>
                         </div>
                     </div>          
                 </div>
             </div>
-            <!-- stroke Text -->
-            <div class="stock-text">
-                <h2>Get More confident</h2>
-                <h2>Get More confident</h2>
-            </div>
              <!-- Arrow -->
              <div class="thumb-content-box">
                 <div class="thumb-content">
-                    <h3>make an appointment now</h3>
+                    <h3>Pesan Jadwal Cukur Sekarang</h3>
                     <a href="#"> <i class="fas fa-long-arrow-alt-right"></i></a>
                 </div>
             </div>
@@ -70,12 +65,11 @@
                         <div class="about-caption">
                             <!-- Section Tittle -->
                             <div class="section-tittle section-tittle3 mb-35">
-                                <span>About Our company</span>
-                                <h2>52 Years Of Experience In Hair cut!</h2>
+                                <span>OWNER</span>
+                                <h2>PAK SUPRAPTO</h2>
                             </div>
-                            <p class="mb-30 pera-bottom">Brook presents your services with flexible, convenient and cdpoe layouts. You can select your favorite layouts & elements for cular ts with unlimited ustomization possibilities. Pixel-perfreplication of the designers is intended.</p>
-                            <p class="pera-top mb-50">Brook presents your services with flexible, convefnient and ent anipurpose layouts. You can select your favorite.</p>
-                            <img src="assets/img/gallery/signature.png" alt="">
+                            <p class="pera-top mb-50">Pak Suprapto ialah seorang owner atau pemilik dari UMKM barbershop.Ia telah menekuni bidang usaha jasa potong rambut. </p>
+                            <p class="pera-top mb-50">Sejak 10 tahun yang lalu. Berawal dari beliau mengantarkan anaknya potong rambut dan memang minatnya suka di bidang potong rambut. Dari situlah beliau mulai belajar menekuni keahliannya yang terus diasah sendiri dan pada tahun 2015 akhirnya beliau memutuskan untuk membuka usaha jasa potong rambutnya sendiri di depan rumah, dengan nama "Potong Rambut Pak To". Dan diawali dengan percobaaan memotong rambut anaknya sendiri ketika baru pertama kali beliau membuka uasahanya tersebut. Dulu sebelum ia membuka usaha tersebut secara pribadi dirumahnya beliau pernah membuka usaha tersebut di rumah kontrakan yang beliau tempati sebelum pindah ke rumahnya yang sekarang.   </p>
                         </div>
                     </div>
                 </div>
@@ -137,68 +131,6 @@
             </div>
         </section>
         <!-- Services Area End -->
-        <!--? Team Start -->
-        <div class="team-area pb-180">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row justify-content-center">
-                    <div class="col-xl-8 col-lg-8 col-md-11 col-sm-11">
-                        <div class="section-tittle text-center mb-100">
-                            <span>Professional Teams</span>
-                            <h2>Our award winner hair cut exparts for you</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row team-active dot-style">
-                    <!-- single Tem -->
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-80 text-center">
-                            <div class="team-img">
-                                <img src="assets/img/gallery/team1.png" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <span>Master Barber</span>
-                                <h3><a href="#">Guy C. Pulido bks</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-80 text-center">
-                            <div class="team-img">
-                                <img src="assets/img/gallery/team2.png" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <span>Color Expart</span>
-                                <h3><a href="#">Steve L. Nolan</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-80 text-center">
-                            <div class="team-img">
-                                <img src="assets/img/gallery/team3.png" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <span>Master Barber</span>
-                                <h3><a href="#">Edgar P. Mathis</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-80 text-center">
-                            <div class="team-img">
-                                <img src="assets/img/gallery/team2.png" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <span>Master Barber</span>
-                                <h3><a href="#">Edgar P. Mathis</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Team End -->
         <!-- Best Pricing Area Start -->
         <div class="best-pricing section-padding2 position-relative">
             <div class="container">
@@ -224,7 +156,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="pricing-list">
+                             <div class="pricing-list">
                                     <ul>
                                         <li>Cut. . . . . . . . . . . . . . . . . . . . . . . . . . . . .<span>$25</span></li>
                                         <li>Shave. . . . . . . . . . . . . . . . . . . . . . . . . . <span>$65</span></li>
@@ -328,61 +260,6 @@
            </div>
         </div>
         <!-- Cut Details End -->
-        <!--? Blog Area Start -->
-        <section class="home-blog-area section-padding30">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row justify-content-center">
-                    <div class="col-xl-6 col-lg-7 col-md-10 col-sm-10">
-                        <div class="section-tittle text-center mb-90">
-                            <span>our recent news</span>
-                            <h2>Hipos and tricks from recent blog</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/gallery/home-blog1.png" alt="">
-                                    <!-- Blog date -->
-                                    <div class="blog-date text-center">
-                                        <span>24</span>
-                                        <p>Now</p>
-                                    </div>
-                                </div>
-                                <div class="blog-cap">
-                                    <p>|   Physics</p>
-                                    <h3><a href="blog_details.html">Footprints in Time is perfect House in Kurashiki</a></h3>
-                                    <a href="blog_details.html" class="more-btn">became a member »</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="home-blog-single mb-30">
-                            <div class="blog-img-cap">
-                                <div class="blog-img">
-                                    <img src="assets/img/gallery/home-blog2.png" alt="">
-                                    <!-- Blog date -->
-                                    <div class="blog-date text-center">
-                                        <span>24</span>
-                                        <p>Now</p>
-                                    </div>
-                                </div>
-                                <div class="blog-cap">
-                                    <p>|   Physics</p>
-                                    <h3><a href="blog_details.html">Footprints in Time is perfect House in Kurashiki</a></h3>
-                                    <a href="blog_details.html" class="more-btn">became a member »</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Blog Area End -->
     </main>
     <footer>
         <!--? Footer Start-->
