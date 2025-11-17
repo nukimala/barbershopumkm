@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2025 at 08:43 AM
+-- Generation Time: Nov 17, 2025 at 09:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,6 +67,19 @@ CREATE TABLE `customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id_customer`, `nomor_antrian`, `waktu_daftar`, `nama_customer`, `status`) VALUES
+('CUS01', 1, '2025-11-14 15:22:25', 'Wildan', 'Selesai'),
+('CUS02', 2, '2025-11-14 15:22:25', 'Afif', 'Selesai'),
+('CUS03', 3, '2025-11-15 15:22:25', 'Shulkhi', 'Selesai'),
+('CUS04', 4, '2025-11-15 15:22:25', 'Wahyu', 'Selesai'),
+('CUS05', 5, '2025-11-15 15:22:25', 'Faul', 'Selesai'),
+('CUS06', 6, '2025-11-16 15:22:25', 'Alex', 'Selesai'),
+('CUS07', 7, '2025-11-16 15:22:25', 'Fauzi', 'Selesai');
+
+--
 -- Triggers `customer`
 --
 DELIMITER $$
@@ -109,6 +122,19 @@ CREATE TABLE `detail_beli` (
   `fk_beli` varchar(10) NOT NULL,
   `fk_produk` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `detail_beli`
+--
+
+INSERT INTO `detail_beli` (`id_detail_beli`, `jumlah_beli`, `fk_beli`, `fk_produk`) VALUES
+('DEB01', 1, 'BEL01', 'PRO01'),
+('DEB02', 2, 'BEL02', 'PRO03'),
+('DEB03', 1, 'BEL03', 'PRO01'),
+('DEB04', 1, 'BEL04', 'PRO02'),
+('DEB05', 1, 'BEL05', 'PRO01'),
+('DEB06', 1, 'BEL06', 'PRO02'),
+('DEB07', 1, 'BEL07', 'PRO02');
 
 --
 -- Triggers `detail_beli`
@@ -271,6 +297,19 @@ CREATE TABLE `pesan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `pesan`
+--
+
+INSERT INTO `pesan` (`id_pesan`, `nama_pengirim`, `waktu_kirim`, `isi_pesan`, `kategori_pesan`, `fk_admin`) VALUES
+('PES01', 'Wildan', '2025-11-14 09:32:57', 'Bagus', 'Tidak Ditampilkan', 'ADM01'),
+('PES02', 'Afif', '2025-11-14 09:32:57', 'Rapi', 'Tidak Ditampilkan', 'ADM01'),
+('PES03', 'Shulkhi', '2025-11-15 09:33:30', 'Keren', 'Tidak Ditampilkan', 'ADM01'),
+('PES04', 'Wahyu', '2025-11-15 09:33:30', 'Jos', 'Tidak Ditampilkan', 'ADM01'),
+('PES05', 'Faul', '2025-11-15 09:33:59', 'Sip', 'Tidak Ditampilkan', 'ADM01'),
+('PES06', 'Alex', '2025-11-16 09:33:59', 'Cakep', 'Tidak Ditampilkan', 'ADM01'),
+('PES07', 'Fauzi', '2025-11-16 09:34:32', 'Lumayan', 'Tidak Ditampilkan', 'ADM01');
+
+--
 -- Triggers `pesan`
 --
 DELIMITER $$
@@ -300,9 +339,9 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`id_produk`, `nama_produk`, `harga_beli`, `stok`) VALUES
-('PRO01', 'Shampoo', 29000.00, 0),
-('PRO02', 'Conditioner', 37000.00, 0),
-('PRO03', 'Hair Tonic', 55000.00, 0);
+('PRO01', 'Shampoo', 29000.00, 36),
+('PRO02', 'Conditioner', 37000.00, 48),
+('PRO03', 'Hair Tonic', 55000.00, 120);
 
 --
 -- Triggers `produk`
@@ -365,7 +404,13 @@ CREATE TABLE `transaksi_beli` (
 --
 
 INSERT INTO `transaksi_beli` (`id_beli`, `tanggal_beli`, `total_harga_beli`, `fk_supplier`, `fk_admin`) VALUES
-('BEL01', '2025-11-17 14:27:02', 29000.00, 'SUP01', 'ADM01');
+('BEL01', '2025-11-03 09:27:47', 29000.00, 'SUP01', 'ADM01'),
+('BEL02', '2025-11-05 09:27:47', 110000.00, 'SUP01', 'ADM01'),
+('BEL03', '2025-11-06 09:28:09', 29000.00, 'SUP01', 'ADM01'),
+('BEL04', '2025-11-09 09:28:10', 37000.00, 'SUP01', 'ADM01'),
+('BEL05', '2025-11-12 09:28:22', 29000.00, 'SUP01', 'ADM01'),
+('BEL06', '2025-11-13 09:28:22', 37000.00, 'SUP01', 'ADM01'),
+('BEL07', '2025-11-14 09:28:33', 37000.00, 'SUP01', 'ADM01');
 
 --
 -- Triggers `transaksi_beli`
@@ -394,6 +439,19 @@ CREATE TABLE `transaksi_jual` (
   `fk_model` varchar(10) NOT NULL,
   `fk_layanan` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transaksi_jual`
+--
+
+INSERT INTO `transaksi_jual` (`id_jual`, `tanggal_jual`, `total_harga_jual`, `fk_customer`, `fk_admin`, `fk_model`, `fk_layanan`) VALUES
+('JUA01', '2025-11-14 09:18:29', 36000.00, 'CUS01', 'ADM01', 'MOD02', 'LAY02'),
+('JUA02', '2025-11-14 09:18:29', 37000.00, 'CUS02', 'ADM01', 'MOD05', 'LAY03'),
+('JUA03', '2025-11-15 09:19:12', 33000.00, 'CUS03', 'ADM01', 'MOD04', 'LAY01'),
+('JUA04', '2025-11-15 09:19:12', 36000.00, 'CUS04', 'ADM01', 'MOD03', 'LAY02'),
+('JUA05', '2025-11-15 09:19:37', 36000.00, 'CUS05', 'ADM01', 'MOD04', 'LAY02'),
+('JUA06', '2025-11-16 09:19:37', 33000.00, 'CUS06', 'ADM01', 'MOD01', 'LAY01'),
+('JUA07', '2025-11-16 09:20:17', 33000.00, 'CUS07', 'ADM01', 'MOD03', 'LAY01');
 
 --
 -- Triggers `transaksi_jual`
