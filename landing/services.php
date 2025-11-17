@@ -12,126 +12,101 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
-    <style>
-        /* Logo Header Adjustment */
-        .logo img {
-            width: 120px;
-            height: auto;
-        }
-        
-        .header-area {
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
-        
-        /* Efek hover & bayangan ikon layanan */
+     <style>
+        /* Efek hover untuk card model */
         .services-caption {
-            background-color: #fff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             transition: all 0.3s ease;
-            height: 100%;
-            margin: 0 15px;
+            cursor: grab;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
+        
+        .services-caption:active {
+            cursor: grabbing;
+        }
+        
         .services-caption:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            background-color: #f9fcff;
-        }
-
-        .service-icon img {
-            transition: all 0.3s ease;
-        }
-
-        .services-caption:hover .service-icon img {
-            transform: scale(1.05);
-            filter: brightness(1.1);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         
-        /* Owl Carousel Custom Styling */
-        .owl-nav button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: white !important;
-            width: 50px;
-            height: 50px;
-            border-radius: 50% !important;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .owl-nav button:hover {
-            background: #007bff !important;
-            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
-        }
-        
-        .owl-nav button span {
-            font-size: 30px;
-            line-height: 50px;
-            color: #007bff;
-        }
-        
-        .owl-nav button:hover span {
-            color: white;
-        }
-        
-        .owl-prev {
-            left: -25px;
-        }
-        
-        .owl-next {
-            right: -25px;
-        }
-        
-        .owl-dots {
-            text-align: center;
-            margin-top: 40px;
-        }
-        
-        .owl-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ddd !important;
-            display: inline-block;
-            margin: 0 5px;
-            transition: all 0.3s ease;
-        }
-        
-        .owl-dot.active {
-            background: #007bff !important;
-            width: 30px;
+        /* Efek hover untuk gambar */
+        .service-icon {
+            overflow: hidden;
             border-radius: 10px;
         }
         
-        /* Responsive Mobile */
-        @media (max-width: 768px) {
-            .logo {
-                text-align: center;
-                margin: 0 auto;
-            }
-            
-            .logo img {
-                margin: 0 auto;
-                display: block;
-            }
-            
-            .header-area {
-                padding-top: 10px;
-                padding-bottom: 10px;
-            }
-            
-            .hero-cap {
-                padding-top: 80px !important;
-                padding-bottom: 30px !important;
-            }
-            
-            .hero-cap img {
-                max-width: 100px !important;
-            }
+        .service-icon img {
+            transition: transform 0.4s ease;
+        }
+        
+        .services-caption:hover .service-icon img {
+            transform: scale(1.1);
+        }
+        
+        /* Efek hover untuk teks */
+        .service-cap h4 {
+            transition: color 0.3s ease;
+        }
+        
+        .services-caption:hover .service-cap h4 {
+            color: #ff6b6b;
+        }
+        
+        /* Sembunyikan navigation buttons */
+        .owl-nav {
+            display: none !important;
+        }
+        
+        /* Cursor grab untuk carousel */
+        .owl-carousel {
+            cursor: grab;
+        }
+        
+        .owl-carousel.dragging {
+            cursor: grabbing;
+        }
+        
+        .owl-carousel .owl-stage {
+            cursor: grab;
+        }
+        
+        .owl-carousel .owl-stage:active {
+            cursor: grabbing;
+        }
+        
+        /* Style untuk dots - visible untuk semua device */
+        .owl-dots {
+            margin-top: 40px !important;
+            text-align: center;
+            display: block !important;
+        }
+        
+        .owl-dot {
+            display: inline-block;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .owl-dot span {
+            width: 15px !important;
+            height: 15px !important;
+            background: #d1d1d1 !important;
+            border-radius: 50%;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .owl-dot:hover span {
+            transform: scale(1.3);
+            background: #999 !important;
+        }
+        
+        .owl-dot.active span {
+            background: #ff6b6b !important;
+            width: 40px !important;
+            border-radius: 10px;
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -163,12 +138,15 @@
                         <div class="section-tittle text-center mb-90">
                             <span>Layanan</span>
                             <h2>Penawaran pelayanan terbaik dari kami untuk anda</h2>
+                            <p class="text-muted mt-3">
+                                <i class="fas fa-hand-pointer"></i> Geser dengan cursor atau jari Anda
+                            </p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Services Slider -->
-                <div class="services-slider owl-carousel">
+                <div class="layanan-slider owl-carousel">
                     <?php
                     // 1. PENGATURAN KONEKSI DATABASE
                     $servername = "127.0.0.1";
@@ -249,32 +227,71 @@
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
     
-    <!-- Services Slider Script -->
+    <!-- Slider Configuration -->
     <script>
-        $(document).ready(function(){
-            $('.services-slider').owlCarousel({
-                loop: true,
-                margin: 30,
-                nav: true,
-                dots: true,
-                autoplay: false,
-                touchDrag: true,
-                mouseDrag: true,
-                pullDrag: true,
-                navText: ['<span>‹</span>', '<span>›</span>'],
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    768: {
-                        items: 2
-                    },
-                    1024: {
-                        items: 3
-                    }
+    $(document).ready(function() {
+        var owl = $('.layanan-slider').owlCarousel({
+            loop: true,
+            margin: 30,
+            nav: false, // Disable navigation buttons
+            dots: true, // Enable dots
+            autoplay: false,
+            mouseDrag: true, // Enable mouse drag
+            touchDrag: true, // Enable touch drag
+            pullDrag: true,
+            freeDrag: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 2
+                },
+                1024: {
+                    items: 3
                 }
-            });
+            }
         });
+
+        // Tambahkan class 'dragging' saat sedang drag
+        owl.on('drag.owl.carousel', function(event) {
+            $('.owl-carousel').addClass('dragging');
+        });
+
+        owl.on('dragged.owl.carousel', function(event) {
+            $('.owl-carousel').removeClass('dragging');
+        });
+
+        // Efek tap untuk mobile - simulasi hover
+        $('.services-caption').on('touchstart', function() {
+            $(this).css({
+                'transform': 'translateY(-10px)',
+                'box-shadow': '0 10px 30px rgba(0,0,0,0.2)'
+            });
+            $(this).find('img').css('transform', 'scale(1.1)');
+            $(this).find('h4').css('color', '#ff6b6b');
+        });
+
+        $('.services-caption').on('touchend touchcancel', function() {
+            $(this).css({
+                'transform': 'translateY(0)',
+                'box-shadow': '0 2px 10px rgba(0,0,0,0.1)'
+            });
+            $(this).find('img').css('transform', 'scale(1)');
+            $(this).find('h4').css('color', '');
+        });
+
+        // Efek untuk dots di mobile
+        $('.owl-dot').on('touchstart', function() {
+            $(this).find('span').css('transform', 'scale(1.3)');
+        });
+
+          $('.owl-dot').on('touchend touchcancel', function() {
+            if (!$(this).hasClass('active')) {
+                $(this).find('span').css('transform', 'scale(1)');
+            }
+        });
+    });
     </script>
 
 </body>
