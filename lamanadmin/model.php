@@ -16,9 +16,9 @@ if (isset($_GET['hapus'])) {
     $result_img = $stmt_img->get_result();
     if ($result_img->num_rows > 0) {
         $row_img = $result_img->fetch_assoc();
-        $gambar_path = $row_img['gambar_model'];
+        $gambar_path = "uploads/" . $row_img['gambar_model']; // Tambahkan 'uploads/'
         
-        if (!empty($gambar_path) && file_exists($gambar_path)) {
+        if (!empty($row_img['gambar_model']) && file_exists($gambar_path)) {
             unlink($gambar_path);
         }
     }
@@ -56,7 +56,10 @@ if (isset($_POST['submit'])) {
             $allowed_types = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
             if (in_array($file_ext, $allowed_types)) {
                 if (move_uploaded_file($_FILES["gambar_model"]["tmp_name"], $target_file_path)) {
-                    $gambar_path_db = $target_file_path;
+                    // --- PERUBAHAN 1 DI SINI ---
+                    // Kita simpan nama filenya saja, bukan seluruh path
+                    $gambar_path_db = $unique_file_name;
+                    // --- AKHIR PERUBAHAN 1 ---
                 } else { $message = "Error: Gagal memindahkan file."; $message_type = 'message error'; }
             } else { $message = "Error: Tipe file tidak diizinkan."; $message_type = 'message error'; }
         }
@@ -153,11 +156,15 @@ if (isset($_POST['submit'])) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
                                 echo "<td>";
-                                if (!empty($row['gambar_model']) && file_exists($row['gambar_model'])) {
-                                    echo "<img src='" . htmlspecialchars($row['gambar_model']) . "' alt='" . htmlspecialchars($row['nama_model']) . "' class='table-image'>";
+                                // --- PERUBAHAN 2 DI SINI ---
+                                // Tambahkan path "uploads/" secara manual saat menampilkan gambar
+                                $gambar_url = "uploads/" . htmlspecialchars($row['gambar_model']);
+                                if (!empty($row['gambar_model']) && file_exists($gambar_url)) {
+                                    echo "<img src='" . $gambar_url . "' alt='" . htmlspecialchars($row['nama_model']) . "' class='table-image'>";
                                 } else {
                                     echo "<em>-</em>";
                                 }
+                                // --- AKHIR PERUBAHAN 2 ---
                                 echo "</td>";
                                 echo "<td>" . htmlspecialchars($row['nama_model']) . "</td>";
                                 echo "<td>" . number_format($row['harga_model'], 0, ',', '.') . "</td>";
