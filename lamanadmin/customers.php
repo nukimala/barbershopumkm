@@ -9,10 +9,8 @@ $message_type = 'message';
 // === FITUR HAPUS CUSTOMER ===
 if (isset($_GET['hapus'])) {
     $id_customer_hapus = $_GET['hapus'];
-    
     $stmt_hapus = $conn->prepare("DELETE FROM customer WHERE id_customer = ?");
     $stmt_hapus->bind_param("s", $id_customer_hapus);
-    
     if ($stmt_hapus->execute()) {
         $message = "Customer berhasil dihapus. (Data transaksi terkait juga terhapus)";
     } else {
@@ -21,7 +19,7 @@ if (isset($_GET['hapus'])) {
     }
 }
 
-// === FITUR 1: MENANDAI SELESAI ===
+// === FITUR SELESAI ===
 if (isset($_GET['selesai'])) {
     $id_customer = $_GET['selesai'];
     $stmt = $conn->prepare("UPDATE customer SET status = 'Selesai' WHERE id_customer = ?");
@@ -30,7 +28,7 @@ if (isset($_GET['selesai'])) {
     else { $message = "Gagal update status: " . $conn->error; $message_type = 'message error'; }
 }
 
-// === FITUR 2: MEMBATALKAN ===
+// === FITUR BATALKAN ===
 if (isset($_GET['batalkan'])) {
     $id_customer = $_GET['batalkan'];
     $stmt = $conn->prepare("UPDATE customer SET status = 'Belum Selesai' WHERE id_customer = ?");
@@ -39,7 +37,7 @@ if (isset($_GET['batalkan'])) {
     else { $message = "Gagal update status: " . $conn->error; $message_type = 'message error'; }
 }
 
-// === FITUR 3: MENAMBAH CUSTOMER + TRANSAKSI JUAL (DENGAN CEK STOK) ===
+// === FITUR TAMBAH CUSTOMER (CEK STOK OLEH DATABASE) ===
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['tambah_customer'])) {
     $nama_customer = $_POST['nama_customer'];
     $fk_model = $_POST['fk_model'];
@@ -51,65 +49,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['tambah_customer'])) {
         $message_type = 'message error';
     } else {
         
-        $stok_aman = true;
-        $produk_habis = "";
-
-        if (!empty($fk_layanan)) {
-            $sql_cek_stok = "SELECT p.nama_produk, p.stok, dl.jumlah_produk
-                             FROM detail_layanan dl
-                             JOIN produk p ON dl.fk_produk = p.id_produk
-                             WHERE dl.fk_layanan = ?";
-                             
-            $stmt_cek = $conn->prepare($sql_cek_stok);
-            $stmt_cek->bind_param("s", $fk_layanan);
-            $stmt_cek->execute();
-            $result_stok = $stmt_cek->get_result();
-            
-            if ($result_stok->num_rows > 0) {
-                while ($row = $result_stok->fetch_assoc()) {
-                    if ($row['stok'] < $row['jumlah_produk']) {
-                        $stok_aman = false;
-                        $produk_habis = $row['nama_produk'];
-                        break;
-                    }
-                }
-            }
-        }
+        // --- VALIDASI STOK PHP DIHAPUS ---
+        // Trigger database 'cek_stok_sebelum_penjualan' sekarang menangani ini.
+        // Kita hanya perlu 'try' untuk memasukkan data.
         
-        if ($stok_aman == false) {
-            $message = "Error: Gagal membuat transaksi. Stok untuk produk '" . htmlspecialchars($produk_habis) . "' habis.";
-            $message_type = 'message error';
-        } else {
-            $conn->begin_transaction();
-            try {
-                $stmt_cust = $conn->prepare("INSERT INTO customer (nama_customer) VALUES (?)");
-                $stmt_cust->bind_param("s", $nama_customer);
-                $stmt_cust->execute();
-                
-                $result_id = $conn->query("SELECT id_customer FROM customer WHERE DATE(waktu_daftar) = CURDATE() ORDER BY nomor_antrian DESC LIMIT 1");
-                if ($result_id && $result_id->num_rows > 0) {
-                    $new_customer_id = $result_id->fetch_assoc()['id_customer'];
-                } else {
-                    throw new Exception("Tidak dapat mengambil ID customer baru.");
-                }
-                
-                $fk_layanan_db = empty($fk_layanan) ? NULL : $fk_layanan;
-                $stmt_jual = $conn->prepare("INSERT INTO transaksi_jual (tanggal_jual, fk_customer, fk_admin, fk_model, fk_layanan) VALUES (NOW(), ?, ?, ?, ?)");
-                $stmt_jual->bind_param("ssss", $new_customer_id, $fk_admin, $fk_model, $fk_layanan_db);
-                $stmt_jual->execute();
-                
-                $conn->commit();
-                $message = "Customer '" . htmlspecialchars($nama_customer) . "' & Transaksi berhasil ditambahkan.";
-                
-            } catch (Exception $e) {
-                $conn->rollback();
-                $message = "Error: Gagal membuat data. " . $e->getMessage();
-                $message_type = 'message error';
+        $conn->begin_transaction();
+        try {
+            // 1. Masukkan customer
+            $stmt_cust = $conn->prepare("INSERT INTO customer (nama_customer) VALUES (?)");
+            $stmt_cust->bind_param("s", $nama_customer);
+            $stmt_cust->execute();
+            
+            // 2. Ambil ID customer baru
+            $result_id = $conn->query("SELECT id_customer FROM customer WHERE DATE(waktu_daftar) = CURDATE() ORDER BY nomor_antrian DESC LIMIT 1");
+            if ($result_id && $result_id->num_rows > 0) {
+                $new_customer_id = $result_id->fetch_assoc()['id_customer'];
+            } else {
+                throw new Exception("Tidak dapat mengambil ID customer baru.");
             }
+            
+            // 3. Masukkan transaksi jual (Ini akan memicu trigger cek stok)
+            $fk_layanan_db = empty($fk_layanan) ? NULL : $fk_layanan;
+            $stmt_jual = $conn->prepare("INSERT INTO transaksi_jual (tanggal_jual, fk_customer, fk_admin, fk_model, fk_layanan) VALUES (NOW(), ?, ?, ?, ?)");
+            $stmt_jual->bind_param("ssss", $new_customer_id, $fk_admin, $fk_model, $fk_layanan_db);
+            $stmt_jual->execute();
+            
+            // 4. Commit
+            $conn->commit();
+            $message = "Customer '" . htmlspecialchars($nama_customer) . "' & Transaksi berhasil ditambahkan.";
+            
+        } catch (Exception $e) {
+            // 5. Rollback jika ada error (TERMASUK ERROR DARI TRIGGER)
+            $conn->rollback();
+            // Pesan error dari trigger akan ditangkap di sini
+            $message = "Error: Gagal membuat data. " . $e->getMessage();
+            $message_type = 'message error';
         }
     }
 }
 
+// Ambil data untuk dropdown
 $models_result = $conn->query("SELECT id_model, nama_model, harga_model FROM model ORDER BY nama_model");
 $layanan_result = $conn->query("SELECT id_layanan, nama_layanan, harga_layanan FROM layanan ORDER BY nama_layanan");
 ?>
@@ -179,6 +158,7 @@ $layanan_result = $conn->query("SELECT id_layanan, nama_layanan, harga_layanan F
                         <select id="fk_layanan" name="fk_layanan">
                             <option value="">-- Tidak ada layanan tambahan --</option>
                              <?php
+                             $layanan_result->data_seek(0); // Balikkan pointer
                             if ($layanan_result->num_rows > 0) {
                                 while($row = $layanan_result->fetch_assoc()) {
                                     echo "<option value='{$row['id_layanan']}'>{$row['nama_layanan']} (" . number_format($row['harga_layanan'], 0, ',', '.') . ")</option>";
