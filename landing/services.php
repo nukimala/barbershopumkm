@@ -148,21 +148,7 @@
                 <!-- Services Slider -->
                 <div class="layanan-slider owl-carousel">
                     <?php
-                    // 1. PENGATURAN KONEKSI DATABASE
-                    $servername = "127.0.0.1";
-                    $username = "root";
-                    $password = ""; // Sesuaikan jika database Anda memiliki password
-                    $dbname = "umkm_barber";
-
-                    // Buat koneksi
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-
-                    // Cek koneksi
-                    if ($conn->connect_error) {
-                        die("<p class='text-center'>Koneksi ke database gagal: " . $conn->connect_error . "</p>");
-                    }
-
-                    // 2. QUERY UNTUK MENGAMBIL DATA DARI TABEL 'layanan'
+                    //  QUERY UNTUK MENGAMBIL DATA DARI TABEL 'layanan'
                     $sql = "SELECT nama_layanan, deskripsi_layanan, gambar_layanan FROM layanan ORDER BY id_layanan ASC";
                     $result = $conn->query($sql);
 
@@ -188,7 +174,7 @@
                         echo "<div class='col-12'><p class='text-center'>Belum ada layanan yang tersedia.</p></div>";
                     }
 
-                    // 4. TUTUP KONEKSI
+                    // TUTUP KONEKSI
                     $conn->close();
                     ?>
                 </div>
