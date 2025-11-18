@@ -26,10 +26,8 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-9 col-md-11 col-sm-10">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal,Gaya
-                                        Professional</span>
-                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil
-                                        Percaya Diri</h1>
+                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal, Gaya Professional</span>
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil Percaya Diri</h1>
                                 </div>
                             </div>
                         </div>
@@ -41,10 +39,8 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-9 col-md-11 col-sm-10">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal,Gaya
-                                        Professional</span>
-                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil
-                                        Percaya Diri</h1>
+                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal, Gaya Professional</span>
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil Percaya Diri</h1>
                                 </div>
                             </div>
                         </div>
@@ -77,16 +73,11 @@
                                 <span>OWNER</span>
                                 <h2>PAK SUPRAPTO</h2>
                             </div>
-                            <p class="pera-top mb-50">Pak Suprapto ialah seorang owner atau pemilik dari UMKM
-                                barbershop.Ia telah menekuni bidang usaha jasa potong rambut. </p>
-                            <p class="pera-top mb-50">Sejak 10 tahun yang lalu. Berawal dari beliau mengantarkan anaknya
-                                potong rambut dan memang minatnya suka di bidang potong rambut. Dari situlah beliau
-                                mulai belajar menekuni keahliannya yang terus diasah sendiri dan pada tahun 2015
-                                akhirnya beliau memutuskan untuk membuka usaha jasa potong rambutnya sendiri di depan
-                                rumah, dengan nama "Potong Rambut Pak To". Dan diawali dengan percobaaan memotong rambut
-                                anaknya sendiri ketika baru pertama kali beliau membuka uasahanya tersebut. Dulu sebelum
-                                ia membuka usaha tersebut secara pribadi dirumahnya beliau pernah membuka usaha tersebut
-                                di rumah kontrakan yang beliau tempati sebelum pindah ke rumahnya yang sekarang. </p>
+                            <p class="pera-top mb-50">Pak Suprapto adalah owner atau pemilik dari usaha UMKM barbershop ini, 
+                                beliau telah menekuni bidang usaha jasa potong rambut sejak 10 tahun lalu. Berawal dari beliau mengantarkan anaknya untuk potong rambut, 
+                                dari situlah beliau mendapatkan rasa minat terhadap bidang potong rambut, dari situ mulailah beliau mengasah skill yang kemudian pada tahun 2015 akhirnya beliau memutuskan untuk membuka usaha jasa potong rambut. 
+                                Berawal dari membuka usaha di kontrakan yang beliau sewa, hingga kini telah berdiri didepan rumah sendiri.
+                            </p>
                         </div>
                     </div>
                 </div>
