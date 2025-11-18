@@ -222,10 +222,6 @@
                 <img class="pricing-img2" src="assets/img/gallery/pricing2.png" alt="">
             </div>
         </div>
-        <?php
-        // 4. TUTUP KONEKSI
-        $conn->close();
-        ?>
         <!-- Best Pricing Area End -->
         <!--? Gallery Area Start -->
         <div class="gallery-area section-padding30">
@@ -273,9 +269,35 @@
         </div>
         <!-- Gallery Area End -->
         <!-- Cut Details Start -->
-        <div class="cut-details section-bg section-padding2" data-background="assets/img/gallery/section_bg02.png">
-            <div class="container">
-                <div class="cut-active dot-style">
+        <?php
+
+//  QUERY UNTUK MENGAMBIL PESAN
+// -------------------------------------------------
+// Kita ambil pesan yang 'Ditampilkan' dan urutkan berdasarkan waktu kirim terbaru
+$sql_pesan = "SELECT nama_pengirim, isi_pesan FROM pesan 
+              WHERE kategori_pesan = 'Ditampilkan' 
+              ORDER BY waktu_kirim DESC";
+
+$result_pesan = $conn->query($sql_pesan);
+
+?>
+
+<div class="cut-details section-bg section-padding2" data-background="assets/img/gallery/section_bg02.png">
+    <div class="container">
+        <div class="cut-active dot-style">
+
+            <?php
+            // 4. Lakukan Pengecekan dan Loop Data
+            if ($result_pesan && $result_pesan->num_rows > 0) {
+                
+                // Loop untuk setiap baris data pesan
+                while($row = $result_pesan->fetch_assoc()) {
+                    
+                    // Amankan data sebelum ditampilkan (mencegah XSS attack)
+                    $nama_pengirim = htmlspecialchars($row["nama_pengirim"]);
+                    $isi_pesan = htmlspecialchars($row["isi_pesan"]);
+            ?>
+
                     <div class="single-cut">
                         <div class="cut-icon mb-20">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -285,42 +307,32 @@
                             </svg>
                         </div>
                         <div class="cut-descriptions">
-                            <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula
-                                dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
-                            <span>JONT NICOLIN KOOK</span>
+                            <p><?php echo $isi_pesan; ?></p>
+                            <span><?php echo $nama_pengirim; ?></span>
                         </div>
                     </div>
-                    <div class="single-cut">
-                        <div class="cut-icon mb-20">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                width="50px" height="50px">
-                                <image x="0px" y="0px" width="50px" height="50px"
-                                    xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBQ4MDDIERuyfAAADc0lEQVRYw7WYXWxTZRjH/+e0ikhh7QgfiYJZZ7bhBC6mU0LQ6DBADNGYLEaNJGpi4jTEQczYjQG8EL2ThAUTvTRGBwmECyBA+XRKHJpUL1yXFseWbe1ixgZCSAg/Lmo9bXe+up0+/5vT//Oc9/ee8z7nqwbyGbVqUL2iiuiurmtMKf2tu/52DXtW1OhVtekFRZTSkCY1rYcV0VI1arl+VULH9JvnGLhpHT/wD728z+M22QVs5ksyJOlkgds4zqlWEgzSQQ3uEzF4ju8ZpZsHK4NEOcgo7xL2AFhq4CgDtPmHPEWGg0R9AwrayjD77CY2s/RtsrRXDMhrCSc5wyIvyE6GaJ4lQogQB/idZW6QjxlkxRwQee0lWdoupec0a9uqlauHM8VrYyXqyLIuEIQIcYLPZ0JC/EJnQIh8C4xYDV0wO0hgBAgRm0kxrxhSS46mQBFCHKa7GLKbbwNHiCayRAqQCBMBdVW5etlRgGzjWFUQYgMDGHnIaZfbSIxTWNFP3MGzl0GaViQWMVXoAhv9SGn0O3hO+oLPkHiZ4y5FacrD3nPSJn5GptbrJ7+P+VnERa3VA6bWKFlFyC0NqdFUXOkqQqS06kwt1XhVIeNaZiqqSZeS0z4955jWwrBCuudSskvSRklSTDEXzznuaJ74l/m+rt4Wm3Zt8WxhcYAOU5Na7OuwJ3165RHTlKlhrfQFaZckXfH0ymOFhsNKaZX6POYSU7v2SZJ6XTz7aFJKbKfH9ZxuLLp9pIk5evaKM4ZMndXzrjOJ/7+V0Uv/rYKdZx9tOi8Jg3HqPY+kn66iGdt59jrMe/nnyX52V+mhVcsNFuchLWQqeH+vRB9xCBVeJC7xZhUQYTKstyBb+JNQ4JB3OJvfKhgJPggYEeEaz5ZCmpgI4H2+WD18Xdi2zG4uBbj8r5GxvtUs2+AE+wNCrCZHq/W7OBUlya4AEI9yjbeKnfL0VbrmiIgzyCelXnnJI/zBV3NYm6cZoaPcnVkW4yQXZtVpBp1keWVmxq7YpIsc2ys8nmbOc5k6u5zTLqtIkOQNn/eBer4hx4eY9nm3XbdwkTSfun67PEQ7R8ixh1rnKsPj/64WbdPrmtI5XdGAruqGrmu+IlquBj2hDXpGl/WdDumm2yBeEEky9KRe1Go16jFFFNVt3dSEUvpLfbqgae8B7gNdcvnkrRzZ4gAAAABJRU5ErkJggg==" />
-                            </svg>
+
+            <?php
+                } // Akhir dari loop while
+            
+            } else {
+                // Jika tidak ada pesan yang 'Ditampilkan', beri tahu pengguna
+                echo "<div class='single-cut'>
+                        <div class='cut-descriptions'>
+                            <p style='color: white;'>Belum ada testimoni untuk ditampilkan saat ini.</p>
                         </div>
-                        <div class="cut-descriptions">
-                            <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula
-                                dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
-                            <span>JONT NICOLIN KOOK</span>
-                        </div>
-                    </div>
-                    <div class="single-cut">
-                        <div class="cut-icon mb-20">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                width="50px" height="50px">
-                                <image x="0px" y="0px" width="50px" height="50px"
-                                    xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBQ4MDDIERuyfAAADc0lEQVRYw7WYXWxTZRjH/+e0ikhh7QgfiYJZZ7bhBC6mU0LQ6DBADNGYLEaNJGpi4jTEQczYjQG8EL2ThAUTvTRGBwmECyBA+XRKHJpUL1yXFseWbe1ixgZCSAg/Lmo9bXe+up0+/5vT//Oc9/ee8z7nqwbyGbVqUL2iiuiurmtMKf2tu/52DXtW1OhVtekFRZTSkCY1rYcV0VI1arl+VULH9JvnGLhpHT/wD728z+M22QVs5ksyJOlkgds4zqlWEgzSQQ3uEzF4ju8ZpZsHK4NEOcgo7xL2AFhq4CgDtPmHPEWGg0R9AwrayjD77CY2s/RtsrRXDMhrCSc5wyIvyE6GaJ4lQogQB/idZW6QjxlkxRwQee0lWdoupec0a9uqlauHM8VrYyXqyLIuEIQIcYLPZ0JC/EJnQIh8C4xYDV0wO0hgBAgRm0kxrxhSS46mQBFCHKa7GLKbbwNHiCayRAqQCBMBdVW5etlRgGzjWFUQYgMDGHnIaZfbSIxTWNFP3MGzl0GaViQWMVXoAhv9SGn0O3hO+oLPkHiZ4y5FacrD3nPSJn5GptbrJ7+P+VnERa3VA6bWKFlFyC0NqdFUXOkqQqS06kwt1XhVIeNaZiqqSZeS0z4955jWwrBCuudSskvSRklSTDEXzznuaJ74l/m+rt4Wm3Zt8WxhcYAOU5Na7OuwJ3165RHTlKlhrfQFaZckXfH0ymOFhsNKaZX6POYSU7v2SZJ6XTz7aFJKbKfH9ZxuLLp9pIk5evaKM4ZMndXzrjOJ/7+V0Uv/rYKdZx9tOi8Jg3HqPY+kn66iGdt59jrMe/nnyX52V+mhVcsNFuchLWQqeH+vRB9xCBVeJC7xZhUQYTKstyBb+JNQ4JB3OJvfKhgJPggYEeEaz5ZCmpgI4H2+WD18Xdi2zG4uBbj8r5GxvtUs2+AE+wNCrCZHq/W7OBUlya4AEI9yjbeKnfL0VbrmiIgzyCelXnnJI/zBV3NYm6cZoaPcnVkW4yQXZtVpBp1keWVmxq7YpIsc2ys8nmbOc5k6u5zTLqtIkOQNn/eBer4hx4eY9nm3XbdwkTSfun67PEQ7R8ixh1rnKsPj/64WbdPrmtI5XdGAruqGrmu+IlquBj2hDXpGl/WdDumm2yBeEEky9KRe1Go16jFFFNVt3dSEUvpLfbqgae8B7gNdcvnkrRzZ4gAAAABJRU5ErkJggg==" />
-                            </svg>
-                        </div>
-                        <div class="cut-descriptions">
-                            <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula
-                                dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
-                            <span>JONT NICOLIN KOOK</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                      </div>";
+            }
+            ?>
+
         </div>
+    </div>
+</div>
+
+<?php
+// 5. Tutup Koneksi
+$conn->close();
+?>
         <!-- Cut Details End -->
     </main>
     <footer>
