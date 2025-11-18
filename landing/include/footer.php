@@ -16,9 +16,9 @@
 
       <!-- Sosial kanan -->
       <div class="footer-social" style="flex:1; text-align:right;">
-        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="social"><i class="fab fa-twitter"></i></a>
+        <a href="https://wa.me/6289525478916" class="social"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://maps.app.goo.gl/ivGLNrGXjKMc5WQh8" class="social"><i class="fas fa-map-marker-alt"></i></a>
+        <a href="mailto:wildanaish0614@gmail.com" class="social"><i class="fa fa-envelope"></i></a>
       </div>
     </div>
 
