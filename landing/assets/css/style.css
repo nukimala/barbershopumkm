@@ -405,17 +405,14 @@ hr {
     border-radius: 0px;
     line-height: 1;
     -moz-user-select: none;
-    letter-spacing: 1px;
-    line-height: 0;
-    margin-bottom: 0;
-    margin: 10px;
-    cursor: pointer;
+    user-select: none;
+    letter-spacing: 0;
+    margin: 0;
     transition: color 0.4s linear;
     position: relative;
     z-index: 1;
     border: 0;
     overflow: hidden;
-    margin: 0
 }
 
 .btn::before {
@@ -3362,14 +3359,45 @@ hr {
     background: #fffcf9
 }
 
+
 .best-pricing .pricing-list ul li {
     font-family: "Oswald", sans-serif;
     text-transform: uppercase;
     font-size: 15px;
     font-weight: 500;
     color: #010101;
-    margin-bottom: 18px
+    margin-bottom: 18px;
+    
+    /* Ini kuncinya */
+    display: flex;
+    align-items: center; /* Jaga agar tetap lurus secara vertikal */
 }
+
+.best-pricing .pricing-list ul li .nama-layanan {
+    flex-shrink: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.best-pricing .pricing-list ul li .nama-layanan::after {
+    /* Buat string titik yang panjang */
+    content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+    
+    /* Perintahkan titik-titik untuk mengambil sisa ruang */
+    flex-grow: 1; 
+    
+    /* Beri jarak */
+    margin-left: 10px;
+    margin-right: 10px;
+    
+    /* Atur tampilan titik */
+    color: #888;
+    font-weight: lighter;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .best-pricing .pricing-list ul li {
@@ -3386,9 +3414,10 @@ hr {
 .best-pricing .pricing-list ul li span {
     color: #d19f68 !important;
     font-weight: 400;
-    font-size: 16px
+    font-size: 16px;
+    flex-shrink: 0;
 }
-
+/* Sisa kode di bawah ini tidak perlu diubah */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     .best-pricing .pricing-img {
         padding-top: 80px

@@ -1,9 +1,14 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
+
 <head>
-    <?php include 'include/head.php' ?>
-    <?php include 'include/css.php' ?>
+    <?php
+    include 'include/head.php';
+    include 'include/css.php';
+    include 'include/db.php'
+        ?>
 </head>
+
 <body>
     <?php include 'include/loading.php' ?>
     <header>
@@ -21,12 +26,14 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-9 col-md-11 col-sm-10">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal,Gaya Professional</span>
-                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil Percaya Diri</h1>
+                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal,Gaya
+                                        Professional</span>
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil
+                                        Percaya Diri</h1>
                                 </div>
                             </div>
                         </div>
-                    </div>          
+                    </div>
                 </div>
                 <!-- Single Slider -->
                 <div class="single-slider slider-height d-flex align-items-center">
@@ -34,16 +41,18 @@
                         <div class="row">
                             <div class="col-xl-8 col-lg-9 col-md-11 col-sm-10">
                                 <div class="hero__caption">
-                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal,Gaya Professional</span>
-                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil Percaya Diri</h1>
+                                    <span data-animation="fadeInUp" data-delay="0.2s">Barber Lokal,Gaya
+                                        Professional</span>
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Gaya Rambut Terbaik Untuk Tampil
+                                        Percaya Diri</h1>
                                 </div>
                             </div>
                         </div>
-                    </div>          
+                    </div>
                 </div>
             </div>
-             <!-- Arrow -->
-             <div class="thumb-content-box">
+            <!-- Arrow -->
+            <div class="thumb-content-box">
                 <div class="thumb-content">
                     <h3>Pesan Jadwal Cukur Sekarang</h3>
                     <a href="#"> <i class="fas fa-long-arrow-alt-right"></i></a>
@@ -68,8 +77,16 @@
                                 <span>OWNER</span>
                                 <h2>PAK SUPRAPTO</h2>
                             </div>
-                            <p class="pera-top mb-50">Pak Suprapto ialah seorang owner atau pemilik dari UMKM barbershop.Ia telah menekuni bidang usaha jasa potong rambut. </p>
-                            <p class="pera-top mb-50">Sejak 10 tahun yang lalu. Berawal dari beliau mengantarkan anaknya potong rambut dan memang minatnya suka di bidang potong rambut. Dari situlah beliau mulai belajar menekuni keahliannya yang terus diasah sendiri dan pada tahun 2015 akhirnya beliau memutuskan untuk membuka usaha jasa potong rambutnya sendiri di depan rumah, dengan nama "Potong Rambut Pak To". Dan diawali dengan percobaaan memotong rambut anaknya sendiri ketika baru pertama kali beliau membuka uasahanya tersebut. Dulu sebelum ia membuka usaha tersebut secara pribadi dirumahnya beliau pernah membuka usaha tersebut di rumah kontrakan yang beliau tempati sebelum pindah ke rumahnya yang sekarang.   </p>
+                            <p class="pera-top mb-50">Pak Suprapto ialah seorang owner atau pemilik dari UMKM
+                                barbershop.Ia telah menekuni bidang usaha jasa potong rambut. </p>
+                            <p class="pera-top mb-50">Sejak 10 tahun yang lalu. Berawal dari beliau mengantarkan anaknya
+                                potong rambut dan memang minatnya suka di bidang potong rambut. Dari situlah beliau
+                                mulai belajar menekuni keahliannya yang terus diasah sendiri dan pada tahun 2015
+                                akhirnya beliau memutuskan untuk membuka usaha jasa potong rambutnya sendiri di depan
+                                rumah, dengan nama "Potong Rambut Pak To". Dan diawali dengan percobaaan memotong rambut
+                                anaknya sendiri ketika baru pertama kali beliau membuka uasahanya tersebut. Dulu sebelum
+                                ia membuka usaha tersebut secara pribadi dirumahnya beliau pernah membuka usaha tersebut
+                                di rumah kontrakan yang beliau tempati sebelum pindah ke rumahnya yang sekarang. </p>
                         </div>
                     </div>
                 </div>
@@ -83,55 +100,66 @@
         <!--? Services Area Start -->
         <section class="service-area pb-170">
             <div class="container">
-                <!-- Section Tittle -->
                 <div class="row d-flex justify-content-center">
                     <div class="col-xl-7 col-lg-8 col-md-11 col-sm-11">
                         <div class="section-tittle text-center mb-90">
-                            <span>Professional Services</span>
-                            <h2>Our Best services that  we offering to you</h2>
+                            <span>Layanan</span>
+                            <h2>Penawaran pelayanan terbaik dari kami untuk anda</h2>
+                            <p class="text-muted mt-3">
+                                <i class="fas fa-hand-pointer"></i> Geser dengan cursor atau jari Anda
+                            </p>
                         </div>
+
+                        <!-- Services Slider -->
                     </div>
                 </div>
-                <!-- Section caption -->
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption text-center mb-30">
-                            <div class="service-icon">
-                                <i class="flaticon-healthcare-and-medical"></i>
-                            </div> 
-                            <div class="service-cap">
-                                <h4><a href="#">Stylish Hair Cut</a></h4>
-                                <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
+                <div class="slider owl-carousel">
+                    <?php
+                    //  QUERY UNTUK MENGAMBIL DATA DARI TABEL 'layanan'
+                    $sql = "SELECT nama_layanan, deskripsi_layanan, gambar_layanan FROM layanan ORDER BY id_layanan ASC";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            // Path gambar
+                            $gambarPath = "assets/img/layanan/" . htmlspecialchars($row["gambar_layanan"]);
+                            ?>
+                            <div class="services-caption text-center">
+                                <div class="service-icon mb-3">
+                                    <img src="<?php echo $gambarPath; ?>"
+                                        alt="<?php echo htmlspecialchars($row["nama_layanan"]); ?>" class="img-fluid rounded"
+                                        style="max-height:200px; object-fit:cover; width: 100%;">
+                                </div>
+                                <div class="service-cap">
+                                    <h4><a href="#"><?php echo htmlspecialchars($row["nama_layanan"]); ?></a></h4>
+                                    <p><?php echo htmlspecialchars($row["deskripsi_layanan"]); ?></p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption active text-center mb-30">
-                            <div class="service-icon">
-                                <i class="flaticon-fitness"></i>
-                            </div> 
-                            <div class="service-cap">
-                                <h4><a href="#">Body Massege</a></h4>
-                                <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption text-center mb-30">
-                            <div class="service-icon">
-                                <i class="flaticon-clock"></i>
-                            </div> 
-                            <div class="service-cap">
-                                <h4><a href="#">Breard Style</a></h4>
-                                <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.</p>
-                            </div>
-                        </div>
-                    </div>
+                            <?php
+                        }
+                    } else {
+                        echo "<div class='col-12'><p class='text-center'>Belum ada layanan yang tersedia.</p></div>";
+                    }
+                    ?>
                 </div>
             </div>
         </section>
         <!-- Services Area End -->
         <!-- Best Pricing Area Start -->
+        <?php
+
+        //  QUERY UNTUK MENGAMBIL DATA
+        
+        // Ambil data dari tabel 'model'
+        $sql_model = "SELECT nama_model, harga_model FROM model ORDER BY harga_model ASC";
+        $result_model = $conn->query($sql_model);
+
+        // Ambil data dari tabel 'layanan'
+        $sql_layanan = "SELECT nama_layanan, harga_layanan FROM layanan ORDER BY harga_layanan ASC";
+        $result_layanan = $conn->query($sql_layanan);
+
+        ?>
+
         <div class="best-pricing section-padding2 position-relative">
             <div class="container">
                 <div class="row justify-content-end">
@@ -140,43 +168,64 @@
                             <span>Our Best Pricing</span>
                             <h2>We provide best price<br> in the city!</h2>
                         </div>
-                        <!-- Pricing  -->
                         <div class="row">
+
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="pricing-list">
                                     <ul>
-                                        <li>Styling. . . . . . . . . . . . . . . . . . . . . . . . . . . . <span>$25</span></li>
-                                        <li>Styling + Color. . . . . . . . . . . . . . . . . . . <span>$65</span></li>
-                                        <li>Styling + Tint. . . . . . . . . . . . . . . . . . . . . .<span>$65</span></li>
-                                        <li>  Semi-permanent wave. . . . . . . . . . . . .<span>$65</span></li>
-                                        <li> Cut + Styling. . . . . . . . . . . . . . . . . . . . . .<span>$63</span></li>
-                                        <li> Cut + Styling + Color. . . . . . . . . . . . . <span>$100</span></li>
-                                        <li> Cut + Styling + Tint. . . . . . . . . . . . . . . .<span>$100</span></li>
+                                        <?php
+                                        if ($result_model && $result_model->num_rows > 0) {
+                                            // Loop untuk setiap baris data model
+                                            while ($row = $result_model->fetch_assoc()) {
+                                                $nama = htmlspecialchars($row["nama_model"]);
+                                                // Format harga. (int) untuk membulatkan seperti di HTML asli Anda ($25, bukan $25.00)
+                                                $harga = 'RP ' . (int) $row["harga_model"];
+
+                                                // Cetak list item
+                                                echo "<li> <span class='nama-layanan'>$nama</span> <span>$harga</span> </li>";
+                                            }
+                                        } else {
+                                            echo "<li>Belum ada data model.</li>";
+                                        }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                             <div class="pricing-list">
+                                <div class="pricing-list">
                                     <ul>
-                                        <li>Cut. . . . . . . . . . . . . . . . . . . . . . . . . . . . .<span>$25</span></li>
-                                        <li>Shave. . . . . . . . . . . . . . . . . . . . . . . . . . <span>$65</span></li>
-                                        <li>Beard trim. . . . . . . . . . . . . . . . . . . . . .  <span>$65</span></li>
-                                        <li>Cut + beard trim. . . . . . . . . . . . . . . . .  <span>$65</span></li>
-                                        <li>Cut + shave. . . . . . . . . . . . . . . . . . . . . . .<span>$63</span></li>
-                                        <li>Clean up. . . . . . . . . . . . . . . . . . . . . . . . .<span>$100</span></li>
+                                        <?php
+                                        if ($result_layanan && $result_layanan->num_rows > 0) {
+                                            // Loop untuk setiap baris data layanan
+                                            while ($row = $result_layanan->fetch_assoc()) {
+                                                $nama = htmlspecialchars($row["nama_layanan"]);
+                                                $harga = 'RP ' . (int) $row["harga_layanan"];
+
+                                                // Cetak list item
+                                                echo "<li> <span class='nama-layanan'>$nama</span> <span>$harga</span> </li>";
+                                            }
+                                        } else {
+                                            echo "<li>Belum ada data layanan.</li>";
+                                        }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- pricing img -->
             <div class="pricing-img">
                 <img class="pricing-img1" src="assets/img/gallery/pricing1.png" alt="">
                 <img class="pricing-img2" src="assets/img/gallery/pricing2.png" alt="">
             </div>
         </div>
+        <?php
+        // 4. TUTUP KONEKSI
+        $conn->close();
+        ?>
         <!-- Best Pricing Area End -->
         <!--? Gallery Area Start -->
         <div class="gallery-area section-padding30">
@@ -193,25 +242,29 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery1.png);"></div>
+                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery1.png);">
+                            </div>
                             <div class="overlay"></div>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery2.png);"></div>
+                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery2.png);">
+                            </div>
                             <div class="overlay"></div>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery3.png);"></div>
+                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery3.png);">
+                            </div>
                             <div class="overlay"></div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery4.png);"></div>
+                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery4.png);">
+                            </div>
                             <div class="overlay"></div>
                         </div>
                     </div>
@@ -221,43 +274,52 @@
         <!-- Gallery Area End -->
         <!-- Cut Details Start -->
         <div class="cut-details section-bg section-padding2" data-background="assets/img/gallery/section_bg02.png">
-           <div class="container">
-            <div class="cut-active dot-style">
-                <div class="single-cut">
-                    <div class="cut-icon mb-20">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50px" height="50px">
-                            <image  x="0px" y="0px" width="50px" height="50px"  xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBQ4MDDIERuyfAAADc0lEQVRYw7WYXWxTZRjH/+e0ikhh7QgfiYJZZ7bhBC6mU0LQ6DBADNGYLEaNJGpi4jTEQczYjQG8EL2ThAUTvTRGBwmECyBA+XRKHJpUL1yXFseWbe1ixgZCSAg/Lmo9bXe+up0+/5vT//Oc9/ee8z7nqwbyGbVqUL2iiuiurmtMKf2tu/52DXtW1OhVtekFRZTSkCY1rYcV0VI1arl+VULH9JvnGLhpHT/wD728z+M22QVs5ksyJOlkgds4zqlWEgzSQQ3uEzF4ju8ZpZsHK4NEOcgo7xL2AFhq4CgDtPmHPEWGg0R9AwrayjD77CY2s/RtsrRXDMhrCSc5wyIvyE6GaJ4lQogQB/idZW6QjxlkxRwQee0lWdoupec0a9uqlauHM8VrYyXqyLIuEIQIcYLPZ0JC/EJnQIh8C4xYDV0wO0hgBAgRm0kxrxhSS46mQBFCHKa7GLKbbwNHiCayRAqQCBMBdVW5etlRgGzjWFUQYgMDGHnIaZfbSIxTWNFP3MGzl0GaViQWMVXoAhv9SGn0O3hO+oLPkHiZ4y5FacrD3nPSJn5GptbrJ7+P+VnERa3VA6bWKFlFyC0NqdFUXOkqQqS06kwt1XhVIeNaZiqqSZeS0z4955jWwrBCuudSskvSRklSTDEXzznuaJ74l/m+rt4Wm3Zt8WxhcYAOU5Na7OuwJ3165RHTlKlhrfQFaZckXfH0ymOFhsNKaZX6POYSU7v2SZJ6XTz7aFJKbKfH9ZxuLLp9pIk5evaKM4ZMndXzrjOJ/7+V0Uv/rYKdZx9tOi8Jg3HqPY+kn66iGdt59jrMe/nnyX52V+mhVcsNFuchLWQqeH+vRB9xCBVeJC7xZhUQYTKstyBb+JNQ4JB3OJvfKhgJPggYEeEaz5ZCmpgI4H2+WD18Xdi2zG4uBbj8r5GxvtUs2+AE+wNCrCZHq/W7OBUlya4AEI9yjbeKnfL0VbrmiIgzyCelXnnJI/zBV3NYm6cZoaPcnVkW4yQXZtVpBp1keWVmxq7YpIsc2ys8nmbOc5k6u5zTLqtIkOQNn/eBer4hx4eY9nm3XbdwkTSfun67PEQ7R8ixh1rnKsPj/64WbdPrmtI5XdGAruqGrmu+IlquBj2hDXpGl/WdDumm2yBeEEky9KRe1Go16jFFFNVt3dSEUvpLfbqgae8B7gNdcvnkrRzZ4gAAAABJRU5ErkJggg==" />
-                        </svg>
+            <div class="container">
+                <div class="cut-active dot-style">
+                    <div class="single-cut">
+                        <div class="cut-icon mb-20">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="50px" height="50px">
+                                <image x="0px" y="0px" width="50px" height="50px"
+                                    xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBQ4MDDIERuyfAAADc0lEQVRYw7WYXWxTZRjH/+e0ikhh7QgfiYJZZ7bhBC6mU0LQ6DBADNGYLEaNJGpi4jTEQczYjQG8EL2ThAUTvTRGBwmECyBA+XRKHJpUL1yXFseWbe1ixgZCSAg/Lmo9bXe+up0+/5vT//Oc9/ee8z7nqwbyGbVqUL2iiuiurmtMKf2tu/52DXtW1OhVtekFRZTSkCY1rYcV0VI1arl+VULH9JvnGLhpHT/wD728z+M22QVs5ksyJOlkgds4zqlWEgzSQQ3uEzF4ju8ZpZsHK4NEOcgo7xL2AFhq4CgDtPmHPEWGg0R9AwrayjD77CY2s/RtsrRXDMhrCSc5wyIvyE6GaJ4lQogQB/idZW6QjxlkxRwQee0lWdoupec0a9uqlauHM8VrYyXqyLIuEIQIcYLPZ0JC/EJnQIh8C4xYDV0wO0hgBAgRm0kxrxhSS46mQBFCHKa7GLKbbwNHiCayRAqQCBMBdVW5etlRgGzjWFUQYgMDGHnIaZfbSIxTWNFP3MGzl0GaViQWMVXoAhv9SGn0O3hO+oLPkHiZ4y5FacrD3nPSJn5GptbrJ7+P+VnERa3VA6bWKFlFyC0NqdFUXOkqQqS06kwt1XhVIeNaZiqqSZeS0z4955jWwrBCuudSskvSRklSTDEXzznuaJ74l/m+rt4Wm3Zt8WxhcYAOU5Na7OuwJ3165RHTlKlhrfQFaZckXfH0ymOFhsNKaZX6POYSU7v2SZJ6XTz7aFJKbKfH9ZxuLLp9pIk5evaKM4ZMndXzrjOJ/7+V0Uv/rYKdZx9tOi8Jg3HqPY+kn66iGdt59jrMe/nnyX52V+mhVcsNFuchLWQqeH+vRB9xCBVeJC7xZhUQYTKstyBb+JNQ4JB3OJvfKhgJPggYEeEaz5ZCmpgI4H2+WD18Xdi2zG4uBbj8r5GxvtUs2+AE+wNCrCZHq/W7OBUlya4AEI9yjbeKnfL0VbrmiIgzyCelXnnJI/zBV3NYm6cZoaPcnVkW4yQXZtVpBp1keWVmxq7YpIsc2ys8nmbOc5k6u5zTLqtIkOQNn/eBer4hx4eY9nm3XbdwkTSfun67PEQ7R8ixh1rnKsPj/64WbdPrmtI5XdGAruqGrmu+IlquBj2hDXpGl/WdDumm2yBeEEky9KRe1Go16jFFFNVt3dSEUvpLfbqgae8B7gNdcvnkrRzZ4gAAAABJRU5ErkJggg==" />
+                            </svg>
+                        </div>
+                        <div class="cut-descriptions">
+                            <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula
+                                dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
+                            <span>JONT NICOLIN KOOK</span>
+                        </div>
                     </div>
-                    <div class="cut-descriptions">
-                        <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
-                        <span>JONT NICOLIN KOOK</span>
+                    <div class="single-cut">
+                        <div class="cut-icon mb-20">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="50px" height="50px">
+                                <image x="0px" y="0px" width="50px" height="50px"
+                                    xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBQ4MDDIERuyfAAADc0lEQVRYw7WYXWxTZRjH/+e0ikhh7QgfiYJZZ7bhBC6mU0LQ6DBADNGYLEaNJGpi4jTEQczYjQG8EL2ThAUTvTRGBwmECyBA+XRKHJpUL1yXFseWbe1ixgZCSAg/Lmo9bXe+up0+/5vT//Oc9/ee8z7nqwbyGbVqUL2iiuiurmtMKf2tu/52DXtW1OhVtekFRZTSkCY1rYcV0VI1arl+VULH9JvnGLhpHT/wD728z+M22QVs5ksyJOlkgds4zqlWEgzSQQ3uEzF4ju8ZpZsHK4NEOcgo7xL2AFhq4CgDtPmHPEWGg0R9AwrayjD77CY2s/RtsrRXDMhrCSc5wyIvyE6GaJ4lQogQB/idZW6QjxlkxRwQee0lWdoupec0a9uqlauHM8VrYyXqyLIuEIQIcYLPZ0JC/EJnQIh8C4xYDV0wO0hgBAgRm0kxrxhSS46mQBFCHKa7GLKbbwNHiCayRAqQCBMBdVW5etlRgGzjWFUQYgMDGHnIaZfbSIxTWNFP3MGzl0GaViQWMVXoAhv9SGn0O3hO+oLPkHiZ4y5FacrD3nPSJn5GptbrJ7+P+VnERa3VA6bWKFlFyC0NqdFUXOkqQqS06kwt1XhVIeNaZiqqSZeS0z4955jWwrBCuudSskvSRklSTDEXzznuaJ74l/m+rt4Wm3Zt8WxhcYAOU5Na7OuwJ3165RHTlKlhrfQFaZckXfH0ymOFhsNKaZX6POYSU7v2SZJ6XTz7aFJKbKfH9ZxuLLp9pIk5evaKM4ZMndXzrjOJ/7+V0Uv/rYKdZx9tOi8Jg3HqPY+kn66iGdt59jrMe/nnyX52V+mhVcsNFuchLWQqeH+vRB9xCBVeJC7xZhUQYTKstyBb+JNQ4JB3OJvfKhgJPggYEeEaz5ZCmpgI4H2+WD18Xdi2zG4uBbj8r5GxvtUs2+AE+wNCrCZHq/W7OBUlya4AEI9yjbeKnfL0VbrmiIgzyCelXnnJI/zBV3NYm6cZoaPcnVkW4yQXZtVpBp1keWVmxq7YpIsc2ys8nmbOc5k6u5zTLqtIkOQNn/eBer4hx4eY9nm3XbdwkTSfun67PEQ7R8ixh1rnKsPj/64WbdPrmtI5XdGAruqGrmu+IlquBj2hDXpGl/WdDumm2yBeEEky9KRe1Go16jFFFNVt3dSEUvpLfbqgae8B7gNdcvnkrRzZ4gAAAABJRU5ErkJggg==" />
+                            </svg>
+                        </div>
+                        <div class="cut-descriptions">
+                            <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula
+                                dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
+                            <span>JONT NICOLIN KOOK</span>
+                        </div>
                     </div>
-                </div>
-                <div class="single-cut">
-                    <div class="cut-icon mb-20">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50px" height="50px">
-                            <image  x="0px" y="0px" width="50px" height="50px"  xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBQ4MDDIERuyfAAADc0lEQVRYw7WYXWxTZRjH/+e0ikhh7QgfiYJZZ7bhBC6mU0LQ6DBADNGYLEaNJGpi4jTEQczYjQG8EL2ThAUTvTRGBwmECyBA+XRKHJpUL1yXFseWbe1ixgZCSAg/Lmo9bXe+up0+/5vT//Oc9/ee8z7nqwbyGbVqUL2iiuiurmtMKf2tu/52DXtW1OhVtekFRZTSkCY1rYcV0VI1arl+VULH9JvnGLhpHT/wD728z+M22QVs5ksyJOlkgds4zqlWEgzSQQ3uEzF4ju8ZpZsHK4NEOcgo7xL2AFhq4CgDtPmHPEWGg0R9AwrayjD77CY2s/RtsrRXDMhrCSc5wyIvyE6GaJ4lQogQB/idZW6QjxlkxRwQee0lWdoupec0a9uqlauHM8VrYyXqyLIuEIQIcYLPZ0JC/EJnQIh8C4xYDV0wO0hgBAgRm0kxrxhSS46mQBFCHKa7GLKbbwNHiCayRAqQCBMBdVW5etlRgGzjWFUQYgMDGHnIaZfbSIxTWNFP3MGzl0GaViQWMVXoAhv9SGn0O3hO+oLPkHiZ4y5FacrD3nPSJn5GptbrJ7+P+VnERa3VA6bWKFlFyC0NqdFUXOkqQqS06kwt1XhVIeNaZiqqSZeS0z4955jWwrBCuudSskvSRklSTDEXzznuaJ74l/m+rt4Wm3Zt8WxhcYAOU5Na7OuwJ3165RHTlKlhrfQFaZckXfH0ymOFhsNKaZX6POYSU7v2SZJ6XTz7aFJKbKfH9ZxuLLp9pIk5evaKM4ZMndXzrjOJ/7+V0Uv/rYKdZx9tOi8Jg3HqPY+kn66iGdt59jrMe/nnyX52V+mhVcsNFuchLWQqeH+vRB9xCBVeJC7xZhUQYTKstyBb+JNQ4JB3OJvfKhgJPggYEeEaz5ZCmpgI4H2+WD18Xdi2zG4uBbj8r5GxvtUs2+AE+wNCrCZHq/W7OBUlya4AEI9yjbeKnfL0VbrmiIgzyCelXnnJI/zBV3NYm6cZoaPcnVkW4yQXZtVpBp1keWVmxq7YpIsc2ys8nmbOc5k6u5zTLqtIkOQNn/eBer4hx4eY9nm3XbdwkTSfun67PEQ7R8ixh1rnKsPj/64WbdPrmtI5XdGAruqGrmu+IlquBj2hDXpGl/WdDumm2yBeEEky9KRe1Go16jFFFNVt3dSEUvpLfbqgae8B7gNdcvnkrRzZ4gAAAABJRU5ErkJggg==" />
-                        </svg>
-                    </div>
-                    <div class="cut-descriptions">
-                        <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
-                        <span>JONT NICOLIN KOOK</span>
-                    </div>
-                </div>
-                <div class="single-cut">
-                    <div class="cut-icon mb-20">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50px" height="50px">
-                            <image  x="0px" y="0px" width="50px" height="50px"  xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBQ4MDDIERuyfAAADc0lEQVRYw7WYXWxTZRjH/+e0ikhh7QgfiYJZZ7bhBC6mU0LQ6DBADNGYLEaNJGpi4jTEQczYjQG8EL2ThAUTvTRGBwmECyBA+XRKHJpUL1yXFseWbe1ixgZCSAg/Lmo9bXe+up0+/5vT//Oc9/ee8z7nqwbyGbVqUL2iiuiurmtMKf2tu/52DXtW1OhVtekFRZTSkCY1rYcV0VI1arl+VULH9JvnGLhpHT/wD728z+M22QVs5ksyJOlkgds4zqlWEgzSQQ3uEzF4ju8ZpZsHK4NEOcgo7xL2AFhq4CgDtPmHPEWGg0R9AwrayjD77CY2s/RtsrRXDMhrCSc5wyIvyE6GaJ4lQogQB/idZW6QjxlkxRwQee0lWdoupec0a9uqlauHM8VrYyXqyLIuEIQIcYLPZ0JC/EJnQIh8C4xYDV0wO0hgBAgRm0kxrxhSS46mQBFCHKa7GLKbbwNHiCayRAqQCBMBdVW5etlRgGzjWFUQYgMDGHnIaZfbSIxTWNFP3MGzl0GaViQWMVXoAhv9SGn0O3hO+oLPkHiZ4y5FacrD3nPSJn5GptbrJ7+P+VnERa3VA6bWKFlFyC0NqdFUXOkqQqS06kwt1XhVIeNaZiqqSZeS0z4955jWwrBCuudSskvSRklSTDEXzznuaJ74l/m+rt4Wm3Zt8WxhcYAOU5Na7OuwJ3165RHTlKlhrfQFaZckXfH0ymOFhsNKaZX6POYSU7v2SZJ6XTz7aFJKbKfH9ZxuLLp9pIk5evaKM4ZMndXzrjOJ/7+V0Uv/rYKdZx9tOi8Jg3HqPY+kn66iGdt59jrMe/nnyX52V+mhVcsNFuchLWQqeH+vRB9xCBVeJC7xZhUQYTKstyBb+JNQ4JB3OJvfKhgJPggYEeEaz5ZCmpgI4H2+WD18Xdi2zG4uBbj8r5GxvtUs2+AE+wNCrCZHq/W7OBUlya4AEI9yjbeKnfL0VbrmiIgzyCelXnnJI/zBV3NYm6cZoaPcnVkW4yQXZtVpBp1keWVmxq7YpIsc2ys8nmbOc5k6u5zTLqtIkOQNn/eBer4hx4eY9nm3XbdwkTSfun67PEQ7R8ixh1rnKsPj/64WbdPrmtI5XdGAruqGrmu+IlquBj2hDXpGl/WdDumm2yBeEEky9KRe1Go16jFFFNVt3dSEUvpLfbqgae8B7gNdcvnkrRzZ4gAAAABJRU5ErkJggg==" />
-                        </svg>
-                    </div>
-                    <div class="cut-descriptions">
-                        <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
-                        <span>JONT NICOLIN KOOK</span>
+                    <div class="single-cut">
+                        <div class="cut-icon mb-20">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                width="50px" height="50px">
+                                <image x="0px" y="0px" width="50px" height="50px"
+                                    xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBQ4MDDIERuyfAAADc0lEQVRYw7WYXWxTZRjH/+e0ikhh7QgfiYJZZ7bhBC6mU0LQ6DBADNGYLEaNJGpi4jTEQczYjQG8EL2ThAUTvTRGBwmECyBA+XRKHJpUL1yXFseWbe1ixgZCSAg/Lmo9bXe+up0+/5vT//Oc9/ee8z7nqwbyGbVqUL2iiuiurmtMKf2tu/52DXtW1OhVtekFRZTSkCY1rYcV0VI1arl+VULH9JvnGLhpHT/wD728z+M22QVs5ksyJOlkgds4zqlWEgzSQQ3uEzF4ju8ZpZsHK4NEOcgo7xL2AFhq4CgDtPmHPEWGg0R9AwrayjD77CY2s/RtsrRXDMhrCSc5wyIvyE6GaJ4lQogQB/idZW6QjxlkxRwQee0lWdoupec0a9uqlauHM8VrYyXqyLIuEIQIcYLPZ0JC/EJnQIh8C4xYDV0wO0hgBAgRm0kxrxhSS46mQBFCHKa7GLKbbwNHiCayRAqQCBMBdVW5etlRgGzjWFUQYgMDGHnIaZfbSIxTWNFP3MGzl0GaViQWMVXoAhv9SGn0O3hO+oLPkHiZ4y5FacrD3nPSJn5GptbrJ7+P+VnERa3VA6bWKFlFyC0NqdFUXOkqQqS06kwt1XhVIeNaZiqqSZeS0z4955jWwrBCuudSskvSRklSTDEXzznuaJ74l/m+rt4Wm3Zt8WxhcYAOU5Na7OuwJ3165RHTlKlhrfQFaZckXfH0ymOFhsNKaZX6POYSU7v2SZJ6XTz7aFJKbKfH9ZxuLLp9pIk5evaKM4ZMndXzrjOJ/7+V0Uv/rYKdZx9tOi8Jg3HqPY+kn66iGdt59jrMe/nnyX52V+mhVcsNFuchLWQqeH+vRB9xCBVeJC7xZhUQYTKstyBb+JNQ4JB3OJvfKhgJPggYEeEaz5ZCmpgI4H2+WD18Xdi2zG4uBbj8r5GxvtUs2+AE+wNCrCZHq/W7OBUlya4AEI9yjbeKnfL0VbrmiIgzyCelXnnJI/zBV3NYm6cZoaPcnVkW4yQXZtVpBp1keWVmxq7YpIsc2ys8nmbOc5k6u5zTLqtIkOQNn/eBer4hx4eY9nm3XbdwkTSfun67PEQ7R8ixh1rnKsPj/64WbdPrmtI5XdGAruqGrmu+IlquBj2hDXpGl/WdDumm2yBeEEky9KRe1Go16jFFFNVt3dSEUvpLfbqgae8B7gNdcvnkrRzZ4gAAAABJRU5ErkJggg==" />
+                            </svg>
+                        </div>
+                        <div class="cut-descriptions">
+                            <p>Vestibulum varius, velit sit amet tempor efficitur, ligula mi lacinia libero, vehicula
+                                dui nisi eget purus. Integer cursus nibh non risus maximus dictum. Suspendis.</p>
+                            <span>JONT NICOLIN KOOK</span>
+                        </div>
                     </div>
                 </div>
             </div>
-           </div>
         </div>
         <!-- Cut Details End -->
     </main>
@@ -267,50 +329,11 @@
         <!-- Footer End-->
     </footer>
     <!-- Scroll Up -->
-    <div id="back-top" >
+    <div id="back-top">
         <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
+    <?php
+    include 'include/js.php' ?>
+</body>
 
-    <!-- JS here -->
-
-    <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
-    <!-- Jquery, Popper, Bootstrap -->
-    <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="./assets/js/popper.min.js"></script>
-    <script src="./assets/js/bootstrap.min.js"></script>
-    <!-- Jquery Mobile Menu -->
-    <script src="./assets/js/jquery.slicknav.min.js"></script>
-
-    <!-- Jquery Slick , Owl-Carousel Plugins -->
-    <script src="./assets/js/owl.carousel.min.js"></script>
-    <script src="./assets/js/slick.min.js"></script>
-    <!-- One Page, Animated-HeadLin -->
-    <script src="./assets/js/wow.min.js"></script>
-    <script src="./assets/js/animated.headline.js"></script>
-    <script src="./assets/js/jquery.magnific-popup.js"></script>
-
-    <!-- Date Picker -->
-    <script src="./assets/js/gijgo.min.js"></script>
-    <!-- Nice-select, sticky -->
-    <script src="./assets/js/jquery.nice-select.min.js"></script>
-    <script src="./assets/js/jquery.sticky.js"></script>
-    
-    <!-- counter , waypoint,Hover Direction -->
-    <script src="./assets/js/jquery.counterup.min.js"></script>
-    <script src="./assets/js/waypoints.min.js"></script>
-    <script src="./assets/js/jquery.countdown.min.js"></script>
-    <script src="./assets/js/hover-direction-snake.min.js"></script>
-
-    <!-- contact js -->
-    <script src="./assets/js/contact.js"></script>
-    <script src="./assets/js/jquery.form.js"></script>
-    <script src="./assets/js/jquery.validate.min.js"></script>
-    <script src="./assets/js/mail-script.js"></script>
-    <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-    
-    <!-- Jquery Plugins, main Jquery -->	
-    <script src="./assets/js/plugins.js"></script>
-    <script src="./assets/js/main.js"></script>
-    
-    </body>
 </html>
