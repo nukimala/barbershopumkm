@@ -26,7 +26,6 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="hero-cap hero-cap2 text-center" style="padding-top: 120px; padding-bottom: 50px;">
-                                <img src="assets/img/logo/logo.png" alt="Pak To Barbershop" style="max-width: 150px; margin-bottom: 20px;">
                                 <h2>Pilihan Layanan</h2>
                             </div>
                         </div>
@@ -49,7 +48,7 @@
                 </div>
                 
                 <!-- Services Slider -->
-                <div class="layanan-slider owl-carousel">
+                <div class="slider owl-carousel">
                     <?php
                     //  QUERY UNTUK MENGAMBIL DATA DARI TABEL 'layanan'
                     $sql = "SELECT nama_layanan, deskripsi_layanan, gambar_layanan FROM layanan ORDER BY id_layanan ASC";
