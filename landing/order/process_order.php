@@ -115,6 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p><strong>Model Potongan:</strong> {$data_model['nama_model']}</p>
                 <p><strong>Layanan Tambahan:</strong> $nama_layanan</p>
                 <p><strong>Total Harga:</strong> Rp " . number_format($total_harga, 0, ',', '.') . "</p>
+                <a href='https://wa.me/6289525478916' class='btn'>Hubungi Kami</a>
                 <a href='order.php' class='btn'>Pesan Lagi</a>
             </div>
         </body>

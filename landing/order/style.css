@@ -1,176 +1,242 @@
-/* --- Global & Font (dari Referensi) --- */
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+/* --- Global & Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto+Slab:wght@700&display=swap');
+
+/* Variabel Warna untuk Tema "Pak To Barbershop" (Sesuai Gambar) */
+:root {
+  --page-bg: #F9F8F6;
+  --container-bg: #F7F1DE;
+  --accent-gold: #C6A969;
+  --accent-gold-dark: #AB935B;
+  --text-dark: #222222;
+  --text-medium: #555555;
+  --text-on-dark: #E0E0E0; /* Teks terang untuk di atas bg gelap */
+  --border-light: #E0E0E0;
+}
 
 body {
-    font-family: 'Lato', sans-serif;
-    font-weight: 300;
-    font-size: 16px;
-    /* Menggunakan background abu-abu terang agar kontainer putih menonjol */
-    background-color: #f2f2f2;
-    color: #777;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  background-color: var(--page-bg);
+  color: var(--text-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* --- Container Utama Halaman Pesanan --- */
-.order-container {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 4px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
-    width: 100%;
-    max-width: 650px;
-    box-sizing: border-box;
-    /* Mengadaptasi warna sidebar dari referensi sebagai border atas */
-    border-top: 5px solid #015360;
+/* --- Container Utama (Layout Split Baru) --- */
+.split-container {
+  display: flex; /* Membuat layout 2 kolom */
+  background-color: var(--container-bg);
+  border-radius: 4px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 1000px; /* Container lebih lebar untuk 2 kolom */
+  box-sizing: border-box;
+  overflow: hidden; /* Menjaga border-radius tetap rapi */
 }
 
-/* --- Header & Logo di Dalam Form --- */
-.order-header {
-    text-align: center;
-    margin-bottom: 40px;
+/* --- Kolom Kiri (Branding) --- */
+.split-info {
+  flex-basis: 40%; /* Lebar kolom kiri 40% */
+  background-color: var(--text-dark); /* Latar belakang gelap */
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-on-dark);
 }
 
-.order-logo {
-    width: 70px;
-    margin-bottom: 15px;
+.split-info .order-header {
+  text-align: center;
+  margin-bottom: 0; /* Hapus margin bawah di header */
 }
 
-.order-header h2 {
-    color: #333;
-    font-weight: 700;
-    font-size: 24px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.split-info .order-logo {
+  width: 150px;
+  margin-bottom: 15px;
+  filter: none;
 }
 
-.order-header p {
-    font-size: 16px;
-    margin-top: 8px;
-    line-height: 1.6;
+.split-info .order-header h2 {
+  font-family: 'Roboto Slab', serif;
+  color: var(--accent-gold); /* Judul warna emas */
+  font-weight: 700;
+  font-size: 26px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+.split-info .order-header p {
+  font-size: 16px;
+  margin-top: 8px;
+  line-height: 1.6;
+  color: var(--text-on-dark); /* Teks deskripsi terang */
+  opacity: 0.9;
+}
+
+/* --- Kolom Kanan (Formulir) --- */
+.split-form {
+  flex-basis: 60%; /* Lebar kolom kanan 60% */
+  padding: 40px;
+}
+
+/* --- Grid Layout untuk Form --- */
 /* --- Grup Form (Label + Input) --- */
 .form-group {
-    margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .form-group label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: #333;
-    font-size: 14px;
+  display: block;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-medium);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* --- Input Teks & Select Box --- */
+/* --- Input Teks & Select Box (Desain Unik) --- */
 input[type="text"],
 select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    font-size: 16px;
-    font-family: 'Lato', sans-serif;
-    color: #555;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  padding: 12px 5px;
+  border: none;
+  border-bottom: 2px solid var(--border-light);
+  border-radius: 0;
+  font-size: 16px; /* Disesuaikan agar pas di grid */
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  box-sizing: border-box;
+  transition: border-color 0.3s, background-color 0.3s;
+  background-color: transparent;
+}
+
+input[type="text"]::placeholder {
+  color: #999;
+  opacity: 1;
+}
+select option {
+  background: var(--container-bg);
+  color: var(--text-dark);
 }
 
 input[type="text"]:focus,
 select:focus {
-    /* Menggunakan warna sidebar sebagai aksen saat aktif */
-    border-color: #015360;
-    box-shadow: 0 0 5px rgba(1, 83, 96, 0.2);
-    outline: none;
+  border-bottom-color: var(--accent-gold);
+  box-shadow: none;
+  outline: none;
+  background-color: #FAFAFA;
 }
 
 /* --- Styling Pilihan Radio Button --- */
 .checkbox-group {
-    border-radius: 3px;
-    padding: 0;
+  border-radius: 3px;
+  padding: 0;
 }
 
 .checkbox-item {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    border: 1px solid #eee;
-    border-radius: 3px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: border-color 0.2s, background-color 0.2s;
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--border-light);
+  border-radius: 3px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  background-color: transparent;
 }
 
 .checkbox-item:hover {
-    background-color: #fafafa;
-    /* Menggunakan warna link dari referensi saat di-hover */
-    border-color: #aa0a5f;
+  background-color: #FAFAFA;
+  border-color: var(--accent-gold-dark);
 }
 
 .checkbox-item input[type="radio"] {
-    width: 16px;
-    height: 16px;
-    margin-right: 12px;
-    accent-color: #015360; /* Warna centang */
-    cursor: pointer;
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  accent-color: var(--accent-gold);
+  cursor: pointer;
 }
 
 .checkbox-item label {
-    margin: 0;
-    font-weight: 400;
-    flex-grow: 1;
-    cursor: pointer;
-    color: #555;
+  margin: 0;
+  font-weight: 400;
+  flex-grow: 1;
+  cursor: pointer;
+  color: var(--text-medium);
 }
 
 .checkbox-item:has(input[type="radio"]:checked) {
-    border-color: #015360;
-    background-color: #f7fbfc;
+  border-color: var(--accent-gold);
+  background-color: #FDFBF7;
 }
 .checkbox-item:has(input[type="radio"]:checked) label {
-    color: #015360;
-    font-weight: 700;
+  color: var(--accent-gold);
+  font-weight: 600;
 }
 
 /* --- Tombol Aksi (CTA Button) --- */
 .cta-button {
-    /* Menggunakan warna link magenta dari referensi */
-    background-color: #aa0a5f;
-    color: white;
-    padding: 14px 20px;
-    text-decoration: none;
-    border-radius: 3px;
-    display: block;
-    width: 100%;
-    border: none;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.2s;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+  background-color: var(--accent-gold);
+  color: var(--text-dark);
+  padding: 16px 20px;
+  text-decoration: none;
+  border-radius: 3px;
+  display: block;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(198, 169, 105, 0.3);
 }
 
 .cta-button:hover {
-    background-color: #8c084d; /* Warna sedikit lebih gelap saat hover */
+  background-color: var(--accent-gold-dark);
+  box-shadow: 0 6px 20px rgba(198, 169, 105, 0.4);
+  transform: translateY(-2px);
+}
+
+.cta-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 10px rgba(198, 169, 105, 0.3);
 }
 
 /* --- Penyesuaian untuk Layar HP (Responsive) --- */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-    .order-container {
-        padding: 25px;
-    }
-    .order-header h2 {
-        font-size: 20px;
-    }
+@media (max-width: 768px) {
+  .split-container {
+    flex-direction: column; /* Kolom ditumpuk secara vertikal */
+    max-width: 500px; /* Batasi lebar di HP */
+  }
+
+  .split-info,
+  .split-form {
+    flex-basis: auto; /* Hapus basis lebar */
+  }
+
+  .split-info {
+    padding: 30px;
+  }
+  
+  .split-form {
+    padding: 30px 25px; /* Padding sedikit berbeda untuk form */
+  }
+
+  /* .form-grid dihapus */
+
+  .order-header h2 {
+    font-size: 22px;
+  }
 }
