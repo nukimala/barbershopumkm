@@ -156,8 +156,8 @@
                 <div class="row justify-content-end">
                     <div class="col-xl-7 col-lg-7">
                         <div class="section-tittle mb-50">
-                            <span>Our Best Pricing</span>
-                            <h2>We provide best price<br> in the city!</h2>
+                            <span>UBAH STYLE RAMBUTMU DENGAN HARGA BERSAHABAT</span>
+                            <h2>DARI MULAI MODEL BUZZCUT SAMPAI MULET,<br> KAMU BISA DAPATKAN HARGA YANG RAMAH DIKANTONG!</h2>
                         </div>
                         <div class="row">
 
