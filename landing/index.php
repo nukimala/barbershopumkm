@@ -73,9 +73,9 @@
                                 <span>OWNER</span>
                                 <h2>PAK SUPRAPTO</h2>
                             </div>
-                            <p class="pera-top mb-50">Pak Suprapto adalah owner atau pemilik dari usaha UMKM barbershop ini, 
-                                beliau telah menekuni bidang usaha jasa potong rambut sejak 10 tahun lalu. Berawal dari beliau mengantarkan anaknya untuk potong rambut, 
-                                dari situlah beliau mendapatkan rasa minat terhadap bidang potong rambut, dari situ mulailah beliau mengasah skill yang kemudian pada tahun 2015 akhirnya beliau memutuskan untuk membuka usaha jasa potong rambut. 
+                            <p class="pera-top mb-50">Pak Suprapto adalah pemilik dari usaha UMKM barbershop ini, beliau telah menekuni bidang usaha jasa potong rambut sejak 10 tahun lalu. 
+                                Berawal dari beliau mengantarkan anaknya untuk potong rambut, dari situlah beliau mendapatkan rasa minat terhadap bidang potong rambut, 
+                                maka sejak itu mulailah beliau mengasah skill nya dalam bidang potong rambut hingga kemudian pada tahun 2015 akhirnya beliau memutuskan untuk membuka usaha jasa potong rambut yang diberi nama "Potong Rambut Pak To". 
                                 Berawal dari membuka usaha di kontrakan yang beliau sewa, hingga kini telah berdiri didepan rumah sendiri.
                             </p>
                         </div>
@@ -110,7 +110,7 @@
                     <div class="col-xl-7 col-lg-7">
                         <div class="section-tittle mb-50">
                             <span>dapatkan dengan harga yang ramah dikantong!</span>
-                            <h2>gaya kekinian dan layanan memanjakan</h2>
+                            <h2>gaya kekinian, layanan memanjakan</h2>
                         </div>
                         <div class="row">
 
