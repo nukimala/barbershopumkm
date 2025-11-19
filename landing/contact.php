@@ -63,14 +63,14 @@
                         <div class="media contact-info">
                             <span class="contact-info__icon"><i class="ti-tablet"></i></span>
                             <div class="media-body">
-                                <h3>089525478926</h3>
+                                <h3>+62 895 2547 8926</h3>
                                 <p>Setiap Hari 16.00 - 21.00</p>
                             </div>
                         </div>
                         <div class="media contact-info">
                             <span class="contact-info__icon"><i class="ti-email"></i></span>
                             <div class="media-body">
-                                <h3>paktocukur@gmail.com</h3>
+                                <h3>potongrambutpakto@gmail.com</h3>
                                 <p>Hubungi E-Mail Kami!</p>
                             </div>
                         </div>

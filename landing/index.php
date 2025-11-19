@@ -88,54 +88,7 @@
             </div>
         </section>
         <!-- About-2 Area End -->
-        <!--? Services Area Start -->
-        <section class="service-area pb-170">
-            <div class="container">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-7 col-lg-8 col-md-11 col-sm-11">
-                        <div class="section-tittle text-center mb-90">
-                            <span>Layanan</span>
-                            <h2>Penawaran pelayanan terbaik dari kami untuk anda</h2>
-                            <p class="text-muted mt-3">
-                                <i class="fas fa-hand-pointer"></i> Geser dengan cursor atau jari Anda
-                            </p>
-                        </div>
-
-                        <!-- Services Slider -->
-                    </div>
-                </div>
-                <div class="slider owl-carousel">
-                    <?php
-                    //  QUERY UNTUK MENGAMBIL DATA DARI TABEL 'layanan'
-                    $sql = "SELECT nama_layanan, deskripsi_layanan, gambar_layanan FROM layanan ORDER BY id_layanan ASC";
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            // Path gambar
-                            $gambarPath = "assets/img/layanan/" . htmlspecialchars($row["gambar_layanan"]);
-                            ?>
-                            <div class="services-caption text-center">
-                                <div class="service-icon mb-3">
-                                    <img src="<?php echo $gambarPath; ?>"
-                                        alt="<?php echo htmlspecialchars($row["nama_layanan"]); ?>" class="img-fluid rounded"
-                                        style="max-height:200px; object-fit:cover; width: 100%;">
-                                </div>
-                                <div class="service-cap">
-                                    <h4><a href="#"><?php echo htmlspecialchars($row["nama_layanan"]); ?></a></h4>
-                                    <p><?php echo htmlspecialchars($row["deskripsi_layanan"]); ?></p>
-                                </div>
-                            </div>
-                            <?php
-                        }
-                    } else {
-                        echo "<div class='col-12'><p class='text-center'>Belum ada layanan yang tersedia.</p></div>";
-                    }
-                    ?>
-                </div>
-            </div>
-        </section>
-        <!-- Services Area End -->
+         
         <!-- Best Pricing Area Start -->
         <?php
 
@@ -156,8 +109,8 @@
                 <div class="row justify-content-end">
                     <div class="col-xl-7 col-lg-7">
                         <div class="section-tittle mb-50">
-                            <span>UBAH STYLE RAMBUTMU DENGAN HARGA BERSAHABAT</span>
-                            <h2>DARI MULAI MODEL BUZZCUT SAMPAI MULET,<br> KAMU BISA DAPATKAN HARGA YANG RAMAH DIKANTONG!</h2>
+                            <span>dapatkan dengan harga yang ramah dikantong!</span>
+                            <h2>gaya kekinian dan layanan memanjakan</h2>
                         </div>
                         <div class="row">
 
@@ -209,56 +162,12 @@
                 </div>
             </div>
             <div class="pricing-img">
-                <img class="pricing-img1" src="assets/img/gallery/pkto.jpeg" alt="">
-                <img class="pricing-img2" src="assets/img/gallery/pkto.jpeg" alt="">
+                <img class="pricing-img1" src="assets/img/gallery/listbg.png" alt="">
+                <img class="pricing-img2" src="assets/img/gallery/list.png" alt="">
             </div>
         </div>
         <!-- Best Pricing Area End -->
-        <!--? Gallery Area Start -->
-        <div class="gallery-area section-padding30">
-            <div class="container">
-                <!-- Section Tittle -->
-                <div class="row justify-content-center">
-                    <div class="col-xl-6 col-lg-7 col-md-9 col-sm-10">
-                        <div class="section-tittle text-center mb-100">
-                            <span>Galeri Barbershop Kami</span>
-                            <h2>BEBERAPA DOKUMENTASI DARI BARBERSHOP KAMI</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/cukur.jpeg);">
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-6 col-sm-6">
-                        <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/lex.jpeg);">
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-6 col-sm-6">
-                        <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/wld.jpeg);">
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/antri.jpeg);">
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Gallery Area End -->
+
         <!-- Cut Details Start -->
         <?php
 
@@ -273,7 +182,7 @@ $result_pesan = $conn->query($sql_pesan);
 
 ?>
 
-<div class="cut-details section-bg section-padding2" data-background="assets/img/gallery/section_bg02.png">
+<div class="cut-details section-bg section-padding2" data-background="assets/img/gallery/section_bg.png">
     <div class="container">
         <div class="cut-active dot-style">
 

@@ -21,7 +21,6 @@
             display: inline-block;
             position: relative;
             &::before{
-                background-image: url(../img/gallery/dot.png);
                 content: "";
                 width: 80px;
                 height: 135px;

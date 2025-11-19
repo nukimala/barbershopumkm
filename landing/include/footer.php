@@ -10,20 +10,20 @@
       <!-- Teks tengah -->
       <div class="footer-info" style="flex:2;">
         <p style="margin:5px 0; font-weight:600; color:#f4c27f;">Potong Rambut Pak To</p>
-        <p style="margin:5px 0; color:#F7F1DE;">Jalan Lawu, Gang 1, Desa Balonggebang, Kec Gondang</p>
-        <p style="margin:5px 0; color:#F7F1DE;">Telp: +62 895 2547 8926 | Email: paktocukur@gmail.com</p>
+        <p style="margin:5px 0; color:#F7F1DE;">Jl. Lawu Gg. 1, Ds. Balonggebang, Kec. Gondang</p>
+        <p style="margin:5px 0; color:#F7F1DE;">Telepon: +62 895 2547 8926 | E-Mail: potongrambutpakto@gmail.com</p>
       </div>
 
       <!-- Sosial kanan -->
       <div class="footer-social" style="flex:1; text-align:right;">
         <a href="https://wa.me/6289525478916" class="social"><i class="fab fa-whatsapp"></i></a>
         <a href="https://maps.app.goo.gl/ivGLNrGXjKMc5WQh8" class="social"><i class="fas fa-map-marker-alt"></i></a>
-        <a href="mailto:wildanaish0614@gmail.com" class="social"><i class="fa fa-envelope"></i></a>
+        <a href="mailto:potongrambutpakto@gmail.com" class="social"><i class="fa fa-envelope"></i></a>
       </div>
     </div>
 
     <div class="footer-bottom" style="text-align:center; color:#999; font-size:14px; padding-top:10px;">
-      © <script>document.write(new Date().getFullYear());</script> klmpk5-shlkh-wldnx-dfr-sryn-wdy. All rights reserved.
+      © <script>document.write(new Date().getFullYear());</script> klmpk5-shlkh-wldn-dnf-shryn-wdy. All rights reserved.
     </div>
   </div>
 </footer>
