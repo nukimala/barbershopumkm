@@ -63,7 +63,7 @@
                     <div class="col-lg-6 col-md-11">
                         <!-- about-img -->
                         <div class="about-img ">
-                            <img src="assets/img/gallery/about.png" alt="">
+                            <img src="assets/img/gallery/owners.png" alt="">
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
@@ -209,8 +209,8 @@
                 </div>
             </div>
             <div class="pricing-img">
-                <img class="pricing-img1" src="assets/img/gallery/pricing1.png" alt="">
-                <img class="pricing-img2" src="assets/img/gallery/pricing2.png" alt="">
+                <img class="pricing-img1" src="assets/img/gallery/pkto.jpeg" alt="">
+                <img class="pricing-img2" src="assets/img/gallery/pkto.jpeg" alt="">
             </div>
         </div>
         <!-- Best Pricing Area End -->
@@ -221,36 +221,36 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-7 col-md-9 col-sm-10">
                         <div class="section-tittle text-center mb-100">
-                            <span>our image gellary</span>
-                            <h2>some images from our barber shop</h2>
+                            <span>Galeri Barbershop Kami</span>
+                            <h2>BEBERAPA DOKUMENTASI DARI BARBERSHOP KAMI</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery1.png);">
+                            <div class="gallery-img " style="background-image: url(assets/img/gallery/cukur.jpeg);">
                             </div>
                             <div class="overlay"></div>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery2.png);">
+                            <div class="gallery-img " style="background-image: url(assets/img/gallery/lex.jpeg);">
                             </div>
                             <div class="overlay"></div>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery3.png);">
+                            <div class="gallery-img " style="background-image: url(assets/img/gallery/wld.jpeg);">
                             </div>
                             <div class="overlay"></div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="box snake mb-30">
-                            <div class="gallery-img " style="background-image: url(assets/img/gallery/gallery4.png);">
+                            <div class="gallery-img " style="background-image: url(assets/img/gallery/antri.jpeg);">
                             </div>
                             <div class="overlay"></div>
                         </div>
