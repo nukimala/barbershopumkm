@@ -30,7 +30,7 @@
                                     </nav>
                                 </div>
                                 <div class="header-right-btn f-right d-none d-lg-block ml-30">
-                                    <a href="order/order.php" class="btn header-btn">reservasi disini!</a>
+                                    <a href="reservasi/" class="btn header-btn">reservasi disini!</a>
                                 </div>
                             </div>
                         </div>   

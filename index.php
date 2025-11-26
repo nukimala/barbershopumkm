@@ -51,7 +51,7 @@
             <div class="thumb-content-box">
                 <div class="thumb-content">
                     <h3>Pesan Jadwal Cukur Sekarang</h3>
-                    <a href="#"> <i class="fas fa-long-arrow-alt-right"></i></a>
+                    <a href="reservasi/"> <i class="fas fa-long-arrow-alt-right"></i></a>
                 </div>
             </div>
         </div>
