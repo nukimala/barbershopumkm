@@ -103,7 +103,7 @@ if (isset($_POST['submit'])) {
                     </thead>
                     <tbody>
                         <?php
-                        $result = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
+                        $result = $conn->query("SELECT * FROM produk ORDER BY id_produk");
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";

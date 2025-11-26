@@ -4,21 +4,23 @@ include 'db.php';
 
 $active_page = basename($_SERVER['PHP_SELF']);
 
-// Set default tanggal
-$tanggal_mulai = date('Y-m-01'); // Hari pertama bulan ini
-$tanggal_selesai = date('Y-m-d'); // Hari ini
+// Set default tanggal (Awal bulan ini sampai Hari ini)
+$tanggal_mulai = date('Y-m-01'); 
+$tanggal_selesai = date('Y-m-d'); 
 
 $laporan_data = [];
 $total_pendapatan = 0;
 
-// Jika user menekan tombol "Tampilkan"
+// Jika user menekan tombol "Tampilkan" (Filter Tanggal)
 if (isset($_GET['submit_tanggal'])) {
     $tanggal_mulai = $_GET['tanggal_mulai'];
     $tanggal_selesai = $_GET['tanggal_selesai'];
 }
 
-// Query untuk mengambil data laporan
-// Kita tambahkan +1 hari ke tanggal selesai agar mencakup seluruh hari itu
+// --- QUERY DATA TRANSAKSI ---
+// Kita tambahkan ' 23:59:59' ke tanggal selesai agar mencakup transaksi sampai detik terakhir hari itu
+$tanggal_selesai_query = $tanggal_selesai . ' 23:59:59';
+
 $query_laporan = $conn->prepare(
     "SELECT tj.tanggal_jual, c.nama_customer, m.nama_model, l.nama_layanan, tj.total_harga_jual
      FROM transaksi_jual tj
@@ -28,18 +30,18 @@ $query_laporan = $conn->prepare(
      WHERE tj.tanggal_jual BETWEEN ? AND ?
      ORDER BY tj.tanggal_jual ASC"
 );
-// Tambahkan ' 23:59:59' ke tanggal selesai
-$tanggal_selesai_query = $tanggal_selesai . ' 23:59:59';
+
 $query_laporan->bind_param("ss", $tanggal_mulai, $tanggal_selesai_query);
 $query_laporan->execute();
 $result_laporan = $query_laporan->get_result();
+
 if ($result_laporan->num_rows > 0) {
     while ($row = $result_laporan->fetch_assoc()) {
         $laporan_data[] = $row;
     }
 }
 
-// Query untuk total pendapatan
+// --- QUERY TOTAL PENDAPATAN ---
 $query_total = $conn->prepare(
     "SELECT SUM(total_harga_jual) as total
      FROM transaksi_jual
@@ -110,6 +112,7 @@ $total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
             <div class="laporan-hasil">
                 <h2>Laporan</h2>
                 <p class="laporan-periode">Periode: <strong><?php echo date('d M Y', strtotime($tanggal_mulai)); ?></strong> s/d <strong><?php echo date('d M Y', strtotime($tanggal_selesai)); ?></strong></p>
+                
                 <div class="table-wrapper">
                     <table class="table">
                         <thead>
@@ -129,7 +132,7 @@ $total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
                                         <td><?php echo htmlspecialchars($data['nama_customer']); ?></td>
                                         <td><?php echo htmlspecialchars($data['nama_model']); ?></td>
                                         <td><?php echo htmlspecialchars($data['nama_layanan'] ?? '-'); ?></td>
-                                        <td>Rp <?php echo number_format($data['total_harga_jual'], 0, ',', '.'); ?></td>
+                                        <td style="text-align: right;">Rp <?php echo number_format($data['total_harga_jual'], 0, ',', '.'); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
@@ -140,8 +143,8 @@ $total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
                         </tbody>
                         <tfoot>
                             <tr class="laporan-total">
-                                <th colspan="4">TOTAL PENDAPATAN</th>
-                                <th>Rp <?php echo number_format($total_pendapatan, 0, ',', '.'); ?></th>
+                                <th colspan="4" style="text-align: right; font-size: 1.1em;">TOTAL PENDAPATAN</th>
+                                <th style="text-align: right; font-size: 1.1em;">Rp <?php echo number_format($total_pendapatan, 0, ',', '.'); ?></th>
                             </tr>
                         </tfoot>
                     </table>

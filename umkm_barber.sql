@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2025 at 09:38 AM
+-- Generation Time: Nov 26, 2025 at 02:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -73,11 +73,11 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`id_customer`, `nomor_antrian`, `waktu_daftar`, `nama_customer`, `status`) VALUES
 ('CUS01', 1, '2025-11-14 15:22:25', 'Wildan', 'Selesai'),
 ('CUS02', 2, '2025-11-14 15:22:25', 'Afif', 'Selesai'),
-('CUS03', 3, '2025-11-15 15:22:25', 'Shulkhi', 'Selesai'),
-('CUS04', 4, '2025-11-15 15:22:25', 'Wahyu', 'Selesai'),
-('CUS05', 5, '2025-11-15 15:22:25', 'Faul', 'Selesai'),
-('CUS06', 6, '2025-11-16 15:22:25', 'Alex', 'Selesai'),
-('CUS07', 7, '2025-11-16 15:22:25', 'Fauzi', 'Selesai');
+('CUS03', 1, '2025-11-15 15:22:25', 'Shulkhi', 'Selesai'),
+('CUS04', 2, '2025-11-15 15:22:25', 'Wahyu', 'Selesai'),
+('CUS05', 3, '2025-11-15 15:22:25', 'Faul', 'Selesai'),
+('CUS06', 1, '2025-11-16 15:22:25', 'Alex', 'Selesai'),
+('CUS07', 2, '2025-11-16 15:22:25', 'Fauzi', 'Selesai');
 
 --
 -- Triggers `customer`
@@ -106,6 +106,27 @@ CREATE TRIGGER `generate_nomor_antrian` BEFORE INSERT ON `customer` FOR EACH ROW
   SET NEW.nomor_antrian = last_nomor + 1;
 
   SET NEW.waktu_daftar = NOW();
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_stok_saat_status_berubah` AFTER UPDATE ON `customer` FOR EACH ROW BEGIN
+
+    IF OLD.status = 'Belum Selesai' AND NEW.status = 'Selesai' THEN
+        UPDATE produk p
+        JOIN detail_layanan dl ON p.id_produk = dl.fk_produk
+        JOIN transaksi_jual tj ON dl.fk_layanan = tj.fk_layanan
+        SET p.stok = p.stok - dl.jumlah_produk
+        WHERE tj.fk_customer = NEW.id_customer;
+    END IF;
+
+    IF OLD.status = 'Selesai' AND NEW.status = 'Belum Selesai' THEN
+        UPDATE produk p
+        JOIN detail_layanan dl ON p.id_produk = dl.fk_produk
+        JOIN transaksi_jual tj ON dl.fk_layanan = tj.fk_layanan
+        SET p.stok = p.stok + dl.jumlah_produk
+        WHERE tj.fk_customer = NEW.id_customer;
+    END IF;
 END
 $$
 DELIMITER ;
@@ -522,17 +543,6 @@ CREATE TRIGGER `hitung_total_harga_jual` BEFORE INSERT ON `transaksi_jual` FOR E
   END IF;
 
   SET NEW.total_harga_jual = IFNULL(v_harga_model,0) + IFNULL(v_harga_layanan,0);
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `kurangi_stok_setelah_penjualan` AFTER INSERT ON `transaksi_jual` FOR EACH ROW BEGIN
-  IF NEW.fk_layanan IS NOT NULL THEN
-    UPDATE produk p
-    JOIN detail_layanan dl ON p.id_produk = dl.fk_produk
-    SET p.stok = p.stok - dl.jumlah_produk
-    WHERE dl.fk_layanan = NEW.fk_layanan;
-  END IF;
 END
 $$
 DELIMITER ;
