@@ -80,7 +80,7 @@ if (isset($_POST['submit'])) {
             <h1>Kelola Detail Layanan</h1>
             <div class="user-info">
                 <span><?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
-                <a href="logout.php" class="btn btn-logout">Logout</a>
+                <a href="../lamanadmin/logout.php" class="btn btn-logout">Logout</a>
             </div>
         </div>
 

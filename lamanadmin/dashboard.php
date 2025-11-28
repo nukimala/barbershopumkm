@@ -85,7 +85,7 @@ $data_js = json_encode($data);
             <h1>Dashboard</h1>
             <div class="user-info">
                 <span><?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
-                <a href="logout.php" class="btn btn-logout">Logout</a>
+                <a href="../lamanadmin/logout.php" class="btn btn-logout">Logout</a>
             </div>
         </div>
 
@@ -122,7 +122,7 @@ $data_js = json_encode($data);
             data: {
                 labels: <?php echo $labels_js; ?>,
                 datasets: [{
-                    label: 'Pendapatan (Rp)',
+                    label: 'Pendapatan',
                     data: <?php echo $data_js; ?>,
                     backgroundColor: 'rgba(33, 37, 41, 0.5)',  /* WARNA BARU */
                     borderColor: 'rgba(33, 37, 41, 1)',    /* WARNA BARU */

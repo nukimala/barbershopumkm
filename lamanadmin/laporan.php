@@ -85,7 +85,7 @@ $total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
             <h1>Laporan</h1>
             <div class="user-info">
                 <span><?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
-                <a href="logout.php" class="btn btn-logout">Logout</a>
+                <a href="../lamanadmin/logout.php" class="btn btn-logout">Logout</a>
             </div>
         </div>
 

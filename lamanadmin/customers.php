@@ -171,7 +171,7 @@ $layanan_result = $conn->query("SELECT id_layanan, nama_layanan, harga_layanan F
             <h1>Customer</h1>
             <div class="user-info">
                 <span><?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
-                <a href="logout.php" class="btn btn-logout">Logout</a>
+                <a href="../lamanadmin/logout.php" class="btn btn-logout">Logout</a>
             </div>
         </div>
 
@@ -180,16 +180,16 @@ $layanan_result = $conn->query("SELECT id_layanan, nama_layanan, harga_layanan F
             <?php if ($message) echo "<p class='$message_type'>$message</p>"; ?>
 
             <div class="form-wrapper">
-                <h2>Tambah Customer & Transaksi</h2>
+                <h2>Tambah Customer</h2>
                 <form action="customers.php" method="POST">
                     <div>
                         <label for="nama_customer">Nama Customer:</label>
                         <input type="text" id="nama_customer" name="nama_customer" required>
                     </div>
                     <div>
-                        <label for="fk_model">Pilih Model Rambut (Wajib):</label>
+                        <label for="fk_model">Pilih Model Rambut:</label>
                         <select id="fk_model" name="fk_model" required>
-                            <option value="">-- Pilih Model --</option>
+                            <option value="">Pilih Model</option>
                             <?php
                             if ($models_result->num_rows > 0) {
                                 while($row = $models_result->fetch_assoc()) {
@@ -202,7 +202,7 @@ $layanan_result = $conn->query("SELECT id_layanan, nama_layanan, harga_layanan F
                     <div>
                         <label for="fk_layanan">Pilih Layanan (Opsional):</label>
                         <select id="fk_layanan" name="fk_layanan">
-                            <option value="">-- Tidak ada layanan tambahan --</option>
+                            <option value="">Tanpa Layanan</option>
                              <?php
                              $layanan_result->data_seek(0); 
                             if ($layanan_result->num_rows > 0) {
@@ -217,7 +217,7 @@ $layanan_result = $conn->query("SELECT id_layanan, nama_layanan, harga_layanan F
                 </form>
             </div>
 
-            <h2>Data Customer & Transaksi</h2>
+            <h2>Data Transaksi</h2>
             <div class="table-wrapper">
                 <table class="table">
                     <thead>
@@ -267,9 +267,9 @@ $layanan_result = $conn->query("SELECT id_layanan, nama_layanan, harga_layanan F
                                 if ($row['status'] == 'Belum Selesai') {
                                     echo "<a href='customers.php?selesai=" . $row['id_customer'] . "' class='btn btn-success btn-sm' onclick='return confirm(\"Tandai Selesai? Stok produk akan dikurangi.\")'>Selesai</a>";
                                 } else {
-                                    echo "<a href='customers.php?batalkan=" . $row['id_customer'] . "' class='btn btn-warning btn-sm' onclick='return confirm(\"Batalkan status? Stok produk akan dikembalikan.\")'>Batalkan</a>";
+                                    echo "<a href='customers.php?batalkan=" . $row['id_customer'] . "' class='btn btn-warning btn-sm' onclick='return confirm(\"Batalkan? Stok produk akan dikembalikan.\")'>Batalkan</a>";
                                 }
-                                echo "<a href='customers.php?hapus=" . $row['id_customer'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"ANDA YAKIN? Menghapus customer juga akan menghapus data transaksinya.\")'>Hapus</a>";
+                                echo "<a href='customers.php?hapus=" . $row['id_customer'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus customer juga akan menghapus data transaksinya.\")'>Hapus</a>";
                                 echo "</div></td>";
                                 
                                 echo "</tr>";

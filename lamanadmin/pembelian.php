@@ -105,7 +105,7 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
             <h1>Pembelian Stok</h1>
             <div class="user-info">
                 <span><?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
-                <a href="logout.php" class="btn btn-logout">Logout</a>
+                <a href="../lamanadmin/logout.php" class="btn btn-logout">Logout</a>
             </div>
         </div>
 
@@ -114,13 +114,12 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
             <?php if ($message) echo "<p class='$message_type'>$message</p>"; ?>
 
             <div class="form-wrapper">
-                <h2>Catat Pembelian Baru</h2>
-                <p>Form ini akan menambah stok produk secara otomatis sesuai trigger database.</p>
+                <h2>Pembelian Baru</h2>
                 <form action="pembelian.php" method="POST">
                     <div>
                         <label>Pilih Supplier:</label>
                         <select name="fk_supplier" required>
-                            <option value="">-- Pilih Supplier --</option>
+                            <option value="">Pilih Supplier</option>
                             <?php
                             if ($suppliers->num_rows > 0) {
                                 while($row = $suppliers->fetch_assoc()) {
@@ -133,7 +132,7 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
                     <div>
                         <label>Pilih Produk:</label>
                         <select name="fk_produk" required>
-                            <option value="">-- Pilih Produk --</option>
+                            <option value="">Pilih Produk</option>
                             <?php
                             $produks->data_seek(0); 
                             if ($produks->num_rows > 0) {
@@ -145,7 +144,7 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
                         </select>
                     </div>
                     <div>
-                        <label>Jumlah Beli (per box/pack):</label>
+                        <label>Jumlah Beli (botol):</label>
                         <input type="number" name="jumlah_beli" min="1" required>
                     </div>
                     <button type="submit" name="submit_pembelian" class="btn btn-primary">Catat Pembelian</button>
@@ -158,11 +157,11 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
                     <thead>
                         <tr>
                             <th>ID Beli</th>
-                            <th>Tanggal</th>
+                            <th>Tanggal Beli</th>
                             <th>Supplier</th>
                             <th>Produk</th>
-                            <th>Jumlah</th>
-                            <th>Total Harga Beli (Per Transaksi)</th>
+                            <th>Jumlah Beli</th>
+                            <th>Total Harga Beli</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -186,7 +185,7 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
                                 echo "<td>" . $row['jumlah_beli'] . "</td>";
                                 echo "<td>" . number_format($row['total_harga_beli'], 0, ',', '.') . "</td>";
                                 echo "<td>";
-                                echo "<a href='pembelian.php?hapus=" . $row['id_detail_beli'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus riwayat ini?\")'>Hapus</a>";
+                                echo "<a href='pembelian.php?hapus=" . $row['id_detail_beli'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus riwayat juga akan menghapus data transaksinya.\")'>Hapus</a>";
                                 echo "</td>";
                                 echo "</tr>";
                             }

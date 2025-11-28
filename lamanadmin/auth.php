@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
     }
-    header('Location: login.php?error=1');
+    header('Location: index.php?error=1');
     exit();
 }
 ?>
