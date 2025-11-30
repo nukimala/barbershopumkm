@@ -23,7 +23,7 @@ if (isset($_GET['hapus'])) {
         if (!empty($nama_file)) {
             // 2. Tentukan kedua path file
             $admin_path = "uploads/" . $nama_file;
-            $landing_path = "../landing/assets/img/layanan/" . $nama_file; // Path ke landing page
+            $landing_path = "../assets/img/layanan/" . $nama_file; // Path ke landing page
             
             // 3. Hapus kedua file jika ada
             if (file_exists($admin_path)) {
@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
         
         // Tentukan kedua direktori
         $admin_dir = "uploads/"; 
-        $landing_dir = "../landing/assets/img/layanan/"; // Path relatif ke folder landing
+        $landing_dir = "../assets/img/layanan/"; // Path relatif ke folder landing
         
         // Buat nama file unik
         $file_name = basename($_FILES["gambar_layanan"]["name"]);
@@ -209,7 +209,7 @@ if (isset($_POST['submit'])) {
                                 echo "<td>" . htmlspecialchars($row['deskripsi_layanan']) . "</td>";
                                 echo "<td><div class='table-actions'>";
                                 echo "<a href='layanan_edit.php?id=" . $row['id_layanan'] . "' class='btn btn-warning btn-sm'>Edit</a>";
-                                echo "<a href='layanan.php?hapus=" . $row['id_layanan'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"ANDA YAKIN? Ini akan menghapus file dari admin dan landing page.\")'>Hapus</a>";
+                                echo "<a href='layanan.php?hapus=" . $row['id_layanan'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus layanan juga akan menghilangkan tampilan pada halaman utama.\")'>Hapus</a>";
                                 echo "</div></td>";
                                 echo "</tr>";
                             }

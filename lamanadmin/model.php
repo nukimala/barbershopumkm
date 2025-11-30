@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
         
         // Tentukan kedua direktori
         $admin_dir = "uploads/"; 
-        $landing_dir = "../landing/assets/img/model/"; // Path relatif ke folder landing
+        $landing_dir = "../assets/img/model/"; // Path relatif ke folder landing
         
         // Buat nama file unik
         $file_name = basename($_FILES["gambar_model"]["name"]);
@@ -210,7 +210,7 @@ if (isset($_POST['submit'])) {
                                 echo "<td>" . htmlspecialchars($row['deskripsi_model']) . "</td>";
                                 echo "<td><div class='table-actions'>";
                                 echo "<a href='model_edit.php?id=" . $row['id_model'] . "' class='btn btn-warning btn-sm'>Edit</a>";
-                                echo "<a href='model.php?hapus=" . $row['id_model'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"ANDA YAKIN? Ini akan menghapus file dari admin dan landing page.\")'>Hapus</a>";
+                                echo "<a href='model.php?hapus=" . $row['id_model'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus model juga akan menghilangkan tampilan pada halaman utama.\")'>Hapus</a>";
                                 echo "</div></td>";
                                 echo "</tr>";
                             }
