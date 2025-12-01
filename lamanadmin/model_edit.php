@@ -1,6 +1,6 @@
 <?php
 include 'session_check.php';
-include 'db.php';
+include '../include/db.php';
 
 $active_page = 'model.php';
 $message = '';

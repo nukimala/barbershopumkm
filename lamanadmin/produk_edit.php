@@ -1,6 +1,6 @@
 <?php
 include 'session_check.php';
-include 'db.php';
+include '../include/db.php';
 
 $active_page = 'produk.php';
 $message = '';
@@ -100,7 +100,6 @@ if (isset($_GET['id'])) {
                     <div>
                         <label>Stok Saat Ini:</label>
                         <input type="number" name="stok" value="<?php echo $produk['stok']; ?>" required>
-                        <small>Anda dapat menyesuaikan stok secara manual di sini.</small>
                     </div>
                     <button type="submit" name="submit_edit" class="btn btn-primary">Simpan Perubahan</button>
                     <a href="produk.php" class="btn btn-secondary">Batal</a>

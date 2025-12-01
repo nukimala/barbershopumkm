@@ -1,6 +1,6 @@
 <?php
 include 'session_check.php';
-include 'db.php';
+include '../include/db.php';
 
 $active_page = basename($_SERVER['PHP_SELF']);
 $message = '';
@@ -90,12 +90,11 @@ if (isset($_POST['submit'])) {
 
             <div class="form-wrapper">
                 <h2>Tambah Detail Layanan</h2>
-                <p>Halaman ini untuk menentukan produk apa saja yang termasuk dalam sebuah paket layanan.</p>
                 <form action="detail_layanan.php" method="POST">
                     <div>
                         <label>Pilih Layanan:</label>
                         <select name="fk_layanan" required>
-                            <option value="">-- Pilih Layanan --</option>
+                            <option value="">Pilih Layanan</option>
                             <?php
                             $layanan_result = $conn->query("SELECT * FROM layanan ORDER BY nama_layanan");
                             while ($row = $layanan_result->fetch_assoc()) {
@@ -107,7 +106,7 @@ if (isset($_POST['submit'])) {
                     <div>
                         <label>Pilih Produk:</label>
                         <select name="fk_produk" required>
-                            <option value="">-- Pilih Produk --</option>
+                            <option value="">Pilih Produk</option>
                             <?php
                             $produk_result = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
                             while ($row = $produk_result->fetch_assoc()) {

@@ -1,6 +1,6 @@
 <?php
 include 'session_check.php';
-include 'db.php';
+include '../include/db.php';
 
 $active_page = basename($_SERVER['PHP_SELF']);
 $message = '';
@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
                         <input type="text" name="nama_produk" required>
                     </div>
                     <div>
-                        <label>Harga Beli (per unit/botol):</label>
+                        <label>Harga Beli (per botol):</label>
                         <input type="number" step="0.01" name="harga_beli" required>
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary">Tambah Produk</button>
@@ -113,7 +113,7 @@ if (isset($_POST['submit'])) {
                                 echo "<td>" . $row['stok'] . "</td>";
                                 echo "<td><div class='table-actions'>";
                                 echo "<a href='produk_edit.php?id=" . $row['id_produk'] . "' class='btn btn-warning btn-sm'>Edit</a>";
-                                echo "<a href='produk.php?hapus=" . $row['id_produk'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"ANDA YAKIN? Menghapus produk ini mungkin gagal jika sedang terikat di Detail Layanan.\")'>Hapus</a>";
+                                echo "<a href='produk.php?hapus=" . $row['id_produk'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus produk juga akan mempengaruhi layanan yang terlibat.\")'>Hapus</a>";
                                 echo "</div></td>";
                                 echo "</tr>";
                             }
