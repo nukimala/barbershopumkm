@@ -6,7 +6,10 @@ $active_page = basename($_SERVER['PHP_SELF']);
 $message = '';
 $message_type = 'message';
 
-// === FITUR HAPUS MODEL (DIPERBARUI) ===
+// Tentukan direktori penyimpanan (Relative path dari folder admin)
+$target_dir = "../assets/img/model/";
+
+// === FITUR HAPUS MODEL ===
 if (isset($_GET['hapus'])) {
     $id_model_hapus = $_GET['hapus'];
     
@@ -20,34 +23,26 @@ if (isset($_GET['hapus'])) {
         $row_img = $result_img->fetch_assoc();
         $nama_file = $row_img['gambar_model'];
         
-        if (!empty($nama_file)) {
-            // 2. Tentukan kedua path file
-            $admin_path = "uploads/" . $nama_file;
-            $landing_path = "../landing/assets/img/model/" . $nama_file; // Path ke landing page
-            
-            // 3. Hapus kedua file jika ada
-            if (file_exists($admin_path)) {
-                unlink($admin_path);
-            }
-            if (file_exists($landing_path)) {
-                unlink($landing_path);
-            }
+        // 2. Hapus file dari folder assets
+        $file_path = $target_dir . $nama_file;
+        if (!empty($nama_file) && file_exists($file_path)) {
+            unlink($file_path);
         }
     }
     
-    // 4. Hapus data dari database
+    // 3. Hapus data dari database
     $stmt_hapus = $conn->prepare("DELETE FROM model WHERE id_model = ?");
     $stmt_hapus->bind_param("s", $id_model_hapus);
     
     if ($stmt_hapus->execute()) {
-        $message = "Model berhasil dihapus dari kedua direktori.";
+        $message = "Model berhasil dihapus.";
     } else {
         $message = "Gagal menghapus model. Error: " . $conn->error;
         $message_type = 'message error';
     }
 }
 
-// === LOGIKA TAMBAH MODEL (DIPERBARUI) ===
+// === LOGIKA TAMBAH MODEL ===
 if (isset($_POST['submit'])) {
     $nama_model = $_POST['nama_model'];
     $harga_model = $_POST['harga_model'];
@@ -56,10 +51,6 @@ if (isset($_POST['submit'])) {
     
     if (isset($_FILES['gambar_model']) && $_FILES['gambar_model']['error'] == 0) {
         
-        // Tentukan kedua direktori
-        $admin_dir = "uploads/"; 
-        $landing_dir = "../assets/img/model/"; // Path relatif ke folder landing
-        
         // Buat nama file unik
         $file_name = basename($_FILES["gambar_model"]["name"]);
         $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
@@ -67,31 +58,19 @@ if (isset($_POST['submit'])) {
         $safe_file_name = preg_replace("/[^A-Za-z0-9_-]/", "", $file_name_no_ext);
         $unique_file_name = $safe_file_name . '-' . time() . '.' . $file_ext;
         
-        // Tentukan kedua path file lengkap
-        $admin_path = $admin_dir . $unique_file_name;
-        $landing_path = $landing_dir . $unique_file_name;
+        $target_file_path = $target_dir . $unique_file_name;
         
         $allowed_types = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         
         if (in_array($file_ext, $allowed_types)) {
             // Buat direktori jika belum ada
-            if (!file_exists($admin_dir)) { mkdir($admin_dir, 0777, true); }
-            if (!file_exists($landing_dir)) { mkdir($landing_dir, 0777, true); } // Buat folder landing
+            if (!file_exists($target_dir)) { mkdir($target_dir, 0777, true); }
 
-            // 1. Pindahkan file upload ke folder admin
-            if (move_uploaded_file($_FILES["gambar_model"]["tmp_name"], $admin_path)) {
-                
-                // 2. Salin file dari admin ke folder landing
-                if (copy($admin_path, $landing_path)) {
-                    $gambar_path_db = $unique_file_name; // Sukses
-                } else {
-                    $message = "Error: File berhasil diunggah ke admin, tapi GAGAL disalin ke folder landing.";
-                    $message_type = 'message error';
-                    // Hapus file yang sudah terlanjur diunggah agar konsisten
-                    unlink($admin_path); 
-                }
+            // Pindahkan file langsung ke folder assets
+            if (move_uploaded_file($_FILES["gambar_model"]["tmp_name"], $target_file_path)) {
+                $gambar_path_db = $unique_file_name; // Simpan nama file saja di DB
             } else { 
-                $message = "Error: Gagal memindahkan file yang diunggah."; 
+                $message = "Error: Gagal memindahkan file ke folder assets."; 
                 $message_type = 'message error'; 
             }
         } else { 
@@ -100,13 +79,13 @@ if (isset($_POST['submit'])) {
         }
     }
     
-    // 3. Masukkan ke database HANYA jika tidak ada error
+    // Masukkan ke database jika tidak ada error (atau jika tidak ada gambar)
     if (empty($message)) {
         $sql = "INSERT INTO model (nama_model, harga_model, deskripsi_model, gambar_model) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sdss", $nama_model, $harga_model, $deskripsi_model, $gambar_path_db);
         if ($stmt->execute()) { 
-            $message = "Model baru berhasil ditambahkan ke admin dan landing page."; 
+            $message = "Model baru berhasil ditambahkan."; 
         } else { 
             $message = "Error: Gagal menyimpan ke database. " . $stmt->error; 
             $message_type = 'message error'; 
@@ -197,8 +176,8 @@ if (isset($_POST['submit'])) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
                                 echo "<td>";
-                                // Path gambar tetap menggunakan 'uploads/' karena ini panel admin
-                                $gambar_url = "uploads/" . htmlspecialchars($row['gambar_model']);
+                                // Mengambil gambar langsung dari folder assets
+                                $gambar_url = $target_dir . htmlspecialchars($row['gambar_model']);
                                 if (!empty($row['gambar_model']) && file_exists($gambar_url)) {
                                     echo "<img src='" . $gambar_url . "' alt='" . htmlspecialchars($row['nama_model']) . "' class='table-image'>";
                                 } else {
@@ -210,7 +189,7 @@ if (isset($_POST['submit'])) {
                                 echo "<td>" . htmlspecialchars($row['deskripsi_model']) . "</td>";
                                 echo "<td><div class='table-actions'>";
                                 echo "<a href='model_edit.php?id=" . $row['id_model'] . "' class='btn btn-warning btn-sm'>Edit</a>";
-                                echo "<a href='model.php?hapus=" . $row['id_model'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus model juga akan menghilangkan tampilan pada halaman utama.\")'>Hapus</a>";
+                                echo "<a href='model.php?hapus=" . $row['id_model'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus model ini?\")'>Hapus</a>";
                                 echo "</div></td>";
                                 echo "</tr>";
                             }

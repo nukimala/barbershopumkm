@@ -6,7 +6,10 @@ $active_page = basename($_SERVER['PHP_SELF']);
 $message = '';
 $message_type = 'message';
 
-// === FITUR HAPUS LAYANAN (DIPERBARUI) ===
+// Tentukan direktori penyimpanan (Relative path dari folder admin)
+$target_dir = "../assets/img/layanan/";
+
+// === FITUR HAPUS LAYANAN ===
 if (isset($_GET['hapus'])) {
     $id_layanan_hapus = $_GET['hapus'];
     
@@ -20,34 +23,26 @@ if (isset($_GET['hapus'])) {
         $row_img = $result_img->fetch_assoc();
         $nama_file = $row_img['gambar_layanan'];
         
-        if (!empty($nama_file)) {
-            // 2. Tentukan kedua path file
-            $admin_path = "uploads/" . $nama_file;
-            $landing_path = "../assets/img/layanan/" . $nama_file; // Path ke landing page
-            
-            // 3. Hapus kedua file jika ada
-            if (file_exists($admin_path)) {
-                unlink($admin_path);
-            }
-            if (file_exists($landing_path)) {
-                unlink($landing_path);
-            }
+        // 2. Hapus file dari folder assets
+        $file_path = $target_dir . $nama_file;
+        if (!empty($nama_file) && file_exists($file_path)) {
+            unlink($file_path);
         }
     }
     
-    // 4. Hapus data dari database
+    // 3. Hapus data dari database
     $stmt_hapus = $conn->prepare("DELETE FROM layanan WHERE id_layanan = ?");
     $stmt_hapus->bind_param("s", $id_layanan_hapus);
     
     if ($stmt_hapus->execute()) {
-        $message = "Layanan berhasil dihapus dari kedua direktori.";
+        $message = "Layanan berhasil dihapus.";
     } else {
         $message = "Gagal menghapus layanan. Error: " . $conn->error;
         $message_type = 'message error';
     }
 }
 
-// === LOGIKA TAMBAH LAYANAN (DIPERBARUI) ===
+// === LOGIKA TAMBAH LAYANAN ===
 if (isset($_POST['submit'])) {
     $nama_layanan = $_POST['nama_layanan'];
     $harga_layanan = $_POST['harga_layanan'];
@@ -56,10 +51,6 @@ if (isset($_POST['submit'])) {
     
     if (isset($_FILES['gambar_layanan']) && $_FILES['gambar_layanan']['error'] == 0) {
         
-        // Tentukan kedua direktori
-        $admin_dir = "uploads/"; 
-        $landing_dir = "../assets/img/layanan/"; // Path relatif ke folder landing
-        
         // Buat nama file unik
         $file_name = basename($_FILES["gambar_layanan"]["name"]);
         $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
@@ -67,30 +58,19 @@ if (isset($_POST['submit'])) {
         $safe_file_name = preg_replace("/[^A-Za-z0-9_-]/", "", $file_name_no_ext);
         $unique_file_name = $safe_file_name . '-' . time() . '.' . $file_ext;
         
-        // Tentukan kedua path file lengkap
-        $admin_path = $admin_dir . $unique_file_name;
-        $landing_path = $landing_dir . $unique_file_name;
+        $target_file_path = $target_dir . $unique_file_name;
         
         $allowed_types = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         
         if (in_array($file_ext, $allowed_types)) {
             // Buat direktori jika belum ada
-            if (!file_exists($admin_dir)) { mkdir($admin_dir, 0777, true); }
-            if (!file_exists($landing_dir)) { mkdir($landing_dir, 0777, true); } // Buat folder landing
+            if (!file_exists($target_dir)) { mkdir($target_dir, 0777, true); }
 
-            // 1. Pindahkan file upload ke folder admin
-            if (move_uploaded_file($_FILES["gambar_layanan"]["tmp_name"], $admin_path)) {
-                
-                // 2. Salin file dari admin ke folder landing
-                if (copy($admin_path, $landing_path)) {
-                    $gambar_path_db = $unique_file_name; // Sukses
-                } else {
-                    $message = "Error: File berhasil diunggah ke admin, tapi GAGAL disalin ke folder landing.";
-                    $message_type = 'message error';
-                    unlink($admin_path); 
-                }
+            // Pindahkan file langsung ke folder assets
+            if (move_uploaded_file($_FILES["gambar_layanan"]["tmp_name"], $target_file_path)) {
+                $gambar_path_db = $unique_file_name; // Simpan nama file saja
             } else { 
-                $message = "Error: Gagal memindahkan file yang diunggah."; 
+                $message = "Error: Gagal memindahkan file ke folder assets."; 
                 $message_type = 'message error'; 
             }
         } else { 
@@ -99,13 +79,13 @@ if (isset($_POST['submit'])) {
         }
     }
     
-    // 3. Masukkan ke database HANYA jika tidak ada error
+    // Masukkan ke database jika tidak ada error
     if (empty($message)) {
         $sql = "INSERT INTO layanan (nama_layanan, harga_layanan, deskripsi_layanan, gambar_layanan) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sdss", $nama_layanan, $harga_layanan, $deskripsi_layanan, $gambar_path_db);
         if ($stmt->execute()) { 
-            $message = "Layanan baru berhasil ditambahkan ke admin dan landing page."; 
+            $message = "Layanan baru berhasil ditambahkan."; 
         } else { 
             $message = "Error: Gagal menyimpan ke database. " . $stmt->error; 
             $message_type = 'message error'; 
@@ -196,8 +176,8 @@ if (isset($_POST['submit'])) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
                                 echo "<td>";
-                                // Path gambar tetap menggunakan 'uploads/'
-                                $gambar_url = "uploads/" . htmlspecialchars($row['gambar_layanan']);
+                                // Mengambil gambar langsung dari folder assets
+                                $gambar_url = $target_dir . htmlspecialchars($row['gambar_layanan']);
                                 if (!empty($row['gambar_layanan']) && file_exists($gambar_url)) {
                                     echo "<img src='" . $gambar_url . "' alt='" . htmlspecialchars($row['nama_layanan']) . "' class='table-image'>";
                                 } else {
@@ -209,7 +189,7 @@ if (isset($_POST['submit'])) {
                                 echo "<td>" . htmlspecialchars($row['deskripsi_layanan']) . "</td>";
                                 echo "<td><div class='table-actions'>";
                                 echo "<a href='layanan_edit.php?id=" . $row['id_layanan'] . "' class='btn btn-warning btn-sm'>Edit</a>";
-                                echo "<a href='layanan.php?hapus=" . $row['id_layanan'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus layanan juga akan menghilangkan tampilan pada halaman utama.\")'>Hapus</a>";
+                                echo "<a href='layanan.php?hapus=" . $row['id_layanan'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus layanan ini?\")'>Hapus</a>";
                                 echo "</div></td>";
                                 echo "</tr>";
                             }

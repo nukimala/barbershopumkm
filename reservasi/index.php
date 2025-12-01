@@ -1,6 +1,6 @@
 <?php
 // Pastikan path db.php benar
-include 'file/koneksi.php'; 
+include '../include/db.php'; 
 
 $message = '';
 $message_type = '';
@@ -94,7 +94,7 @@ $layanan = $conn->query("SELECT * FROM layanan ORDER BY nama_layanan ASC");
 <body>
 
     <div class="header">
-        <img src="file/logo.png" alt="Pak To Barbershop Logo" class="logo">
+        <img src="../assets/img/logo/logo.png" alt="Pak To Barbershop Logo" class="logo">
         <h1 class="title">Potong Rambut Pak To</h1>
         <p class="subtitle">Barber Lokal, Gaya Profesional</p>
     </div>
@@ -122,7 +122,7 @@ $layanan = $conn->query("SELECT * FROM layanan ORDER BY nama_layanan ASC");
                         
                         <div class="card-content">
                             <div class="card-img-wrapper">
-                                <img src="file/asset/<?php echo $row['gambar_model']; ?>" 
+                                <img src="../assets/img/model/<?php echo $row['gambar_model']; ?>" 
                                      alt="<?php echo $row['nama_model']; ?>" 
                                      class="card-img"
                                      onerror="this.src='https://via.placeholder.com/300x200?text=No+Image';">
@@ -180,7 +180,7 @@ $layanan = $conn->query("SELECT * FROM layanan ORDER BY nama_layanan ASC");
                                 <?php if($is_habis): ?>
                                     <div class="badge-habis">HABIS</div>
                                 <?php endif; ?>
-                                <img src="file/asset/<?php echo $row['gambar_layanan']; ?>" 
+                                <img src="../assets/img/layanan/<?php echo $row['gambar_layanan']; ?>" 
                                      alt="<?php echo $row['nama_layanan']; ?>" 
                                      class="card-img"
                                      onerror="this.src='https://via.placeholder.com/300x200?text=No+Image';">
