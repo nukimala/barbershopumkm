@@ -36,9 +36,7 @@ if (isset($_POST['name']) && isset($_POST['message'])) {
     // Tentukan admin default untuk menampung pesan
     $default_admin_id = 'ADM01'; 
 
-    // Query INSERT tidak lagi menyertakan id_pesan (karena ada trigger)
-    // tapi sekarang harus menyertakan fk_admin (karena NOT NULL)
-    $sql = "INSERT INTO pesan (nama_pengirim, isi_pesan, fk_admin) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO pesan (nama_pengirim, isi_pesan, fk_admin, waktu_kirim) VALUES (?, ?, ?, NOW())";
 
     // Siapkan statement
     $stmt = $conn->prepare($sql);
