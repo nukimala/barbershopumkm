@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_pembelian'])) {
             $stmt_detail->execute();
             
             $conn->commit();
-            $message = "Pembelian berhasil dicatat. Stok produk telah diperbarui oleh trigger.";
+            $message = "Pembelian berhasil dicatat.";
             
         } catch (Exception $e) {
             $conn->rollback();
