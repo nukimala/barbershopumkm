@@ -4,18 +4,29 @@ include '../include/db.php';
 
 $active_page = basename($_SERVER['PHP_SELF']);
 
-// --- Data untuk Kartu ---
+// --- DATA UNTUK KARTU (STATISTIK) ---
+
+// 1. Antrian Pending (Sisa antrian saat ini)
 $q_cust_pending = $conn->query("SELECT COUNT(id_customer) as total FROM customer WHERE status = 'Belum Selesai'");
 $antrian_pending = $q_cust_pending->fetch_assoc()['total'];
 
-$q_cust_selesai = $conn->query("SELECT COUNT(id_customer) as total FROM customer WHERE status = 'Selesai'");
-$antrian_selesai = $q_cust_selesai->fetch_assoc()['total'];
+// 2. Total Customer (7 HARI TERAKHIR) - REVISI
+// Menghitung jumlah transaksi dalam kurun waktu 7 hari ke belakang
+$q_cust_7hari = $conn->query("SELECT COUNT(id_jual) as total FROM transaksi_jual WHERE DATE(tanggal_jual) >= CURDATE() - INTERVAL 6 DAY");
+$customer_7hari = $q_cust_7hari->fetch_assoc()['total'];
 
-$q_pendapatan_all = $conn->query("SELECT SUM(total_harga_jual) as total FROM transaksi_jual");
-$total_pendapatan = $q_pendapatan_all->fetch_assoc()['total'];
+// 3. Pendapatan (7 HARI TERAKHIR) - REVISI
+// Menghitung total uang masuk dalam kurun waktu 7 hari ke belakang
+$q_pendapatan_7hari = $conn->query("SELECT SUM(total_harga_jual) as total FROM transaksi_jual WHERE DATE(tanggal_jual) >= CURDATE() - INTERVAL 6 DAY");
+$pendapatan_7hari = $q_pendapatan_7hari->fetch_assoc()['total'];
+
+// Pastikan tidak error jika hasil null (belum ada penjualan)
+if ($pendapatan_7hari === null) {
+    $pendapatan_7hari = 0;
+}
 
 
-// --- Data untuk Grafik (7 Hari Terakhir) ---
+// --- DATA UNTUK GRAFIK (7 HARI TERAKHIR) ---
 $labels = [];
 $data = [];
 $data_raw = []; 
@@ -26,7 +37,7 @@ $sql_grafik = "SELECT
                FROM 
                    transaksi_jual
                WHERE 
-                   tanggal_jual >= CURDATE() - INTERVAL 6 DAY
+                   DATE(tanggal_jual) >= CURDATE() - INTERVAL 6 DAY
                GROUP BY 
                    DATE(tanggal_jual)
                ORDER BY 
@@ -36,6 +47,7 @@ while($row = $result_grafik->fetch_assoc()) {
     $data_raw[$row['tanggal']] = $row['total'];
 }
 
+// Loop 7 hari ke belakang untuk mengisi grafik (termasuk hari yang 0 penjualan)
 for ($i = 6; $i >= 0; $i--) {
     $tanggal = date('Y-m-d', strtotime("-$i days"));
     $labels[] = date('d M', strtotime($tanggal)); 
@@ -93,21 +105,23 @@ $data_js = json_encode($data);
             
             <div class="cards">
                 <div class="card">
-                    <h3>Total Antrian (Belum Selesai)</h3>
-                    <p><?php echo $antrian_pending; ?></p>
+                    <h3>Antrian (Belum Selesai)</h3>
+                    <p style="color: #dc3545;"><?php echo $antrian_pending; ?></p>
                 </div>
+                
                 <div class="card">
-                    <h3>Total Antrian (Selesai)</h3>
-                    <p><?php echo $antrian_selesai; ?></p>
+                    <h3>Total Customer (7 Hari)</h3>
+                    <p style="color: #007bff;"><?php echo $customer_7hari; ?></p>
                 </div>
+                
                 <div class="card">
-                    <h3>Total Pendapatan (Semua)</h3>
-                    <p>Rp <?php echo number_format($total_pendapatan, 0, ',', '.'); ?></p>
+                    <h3>Pendapatan (7 Hari)</h3>
+                    <p style="color: #28a745;">Rp <?php echo number_format($pendapatan_7hari, 0, ',', '.'); ?></p>
                 </div>
             </div>
 
             <div class="chart-wrapper">
-                <h2>Pendapatan 7 Hari Terakhir</h2>
+                <h2>Tren Pendapatan (7 Hari Terakhir)</h2>
                 <canvas id="myChart"></canvas>
             </div>
 
@@ -118,18 +132,21 @@ $data_js = json_encode($data);
         const ctx = document.getElementById('myChart');
         
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line', // Saya ganti ke 'line' agar tren naik turun lebih enak dilihat (opsional, bisa diganti 'bar')
             data: {
                 labels: <?php echo $labels_js; ?>,
                 datasets: [{
-                    label: 'Pendapatan',
+                    label: 'Pendapatan Harian',
                     data: <?php echo $data_js; ?>,
-                    backgroundColor: 'rgba(33, 37, 41, 0.5)',  /* WARNA BARU */
-                    borderColor: 'rgba(33, 37, 41, 1)',    /* WARNA BARU */
-                    borderWidth: 1
+                    backgroundColor: 'rgba(33, 37, 41, 0.2)',
+                    borderColor: 'rgba(33, 37, 41, 1)',
+                    borderWidth: 2,
+                    tension: 0.3, // Membuat garis sedikit melengkung halus
+                    fill: true
                 }]
             },
             options: {
+                responsive: true,
                 scales: {
                     y: {
                         beginAtZero: true,

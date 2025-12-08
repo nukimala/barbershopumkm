@@ -4,52 +4,101 @@ include '../include/db.php';
 
 $active_page = basename($_SERVER['PHP_SELF']);
 
-// Set default tanggal (Awal bulan ini sampai Hari ini)
+// 1. Inisialisasi Variable
 $tanggal_mulai = date('Y-m-01'); 
 $tanggal_selesai = date('Y-m-d'); 
+$jenis_laporan = 'penjualan'; // Default
 
 $laporan_data = [];
-$total_pendapatan = 0;
+$total_nominal = 0; // Bisa jadi Total Pendapatan atau Total Pengeluaran
 
-// Jika user menekan tombol "Tampilkan" (Filter Tanggal)
-if (isset($_GET['submit_tanggal'])) {
+// 2. Tangkap Input Filter
+if (isset($_GET['submit_filter'])) {
     $tanggal_mulai = $_GET['tanggal_mulai'];
     $tanggal_selesai = $_GET['tanggal_selesai'];
+    $jenis_laporan = $_GET['jenis_laporan'];
 }
 
-// --- QUERY DATA TRANSAKSI ---
-// Kita tambahkan ' 23:59:59' ke tanggal selesai agar mencakup transaksi sampai detik terakhir hari itu
-$tanggal_selesai_query = $tanggal_selesai . ' 23:59:59';
+// Format tanggal untuk query (sampai detik terakhir)
+$tgl_start_query = $tanggal_mulai . ' 00:00:00';
+$tgl_end_query   = $tanggal_selesai . ' 23:59:59';
 
-$query_laporan = $conn->prepare(
-    "SELECT tj.tanggal_jual, c.nama_customer, m.nama_model, l.nama_layanan, tj.total_harga_jual
-     FROM transaksi_jual tj
-     JOIN customer c ON tj.fk_customer = c.id_customer
-     JOIN model m ON tj.fk_model = m.id_model
-     LEFT JOIN layanan l ON tj.fk_layanan = l.id_layanan
-     WHERE tj.tanggal_jual BETWEEN ? AND ?
-     ORDER BY tj.tanggal_jual ASC"
-);
+// 3. Logika Query Berdasarkan Jenis Laporan
+switch ($jenis_laporan) {
+    case 'pembelian':
+        // === QUERY PEMBELIAN STOK ===
+        // Mengambil detail barang, harga satuan saat beli, dan sumbernya
+        $sql = "SELECT db.id_detail_beli, tb.tanggal_beli, 
+                       COALESCE(s.nama_supplier, tb.sumber_lain, 'Lokal/Ad-hoc') AS sumber,
+                       p.nama_produk, db.jumlah_beli, db.harga_beli_satuan
+                FROM detail_beli db
+                JOIN transaksi_beli tb ON db.fk_beli = tb.id_beli
+                JOIN produk p ON db.fk_produk = p.id_produk
+                LEFT JOIN supplier s ON tb.fk_supplier = s.id_supplier
+                WHERE tb.tanggal_beli BETWEEN ? AND ?
+                ORDER BY tb.tanggal_beli DESC";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $tgl_start_query, $tgl_end_query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        while ($row = $result->fetch_assoc()) {
+            // Hitung subtotal per baris
+            $row['subtotal'] = $row['jumlah_beli'] * $row['harga_beli_satuan'];
+            $laporan_data[] = $row;
+            $total_nominal += $row['subtotal'];
+        }
+        $judul_laporan = "Laporan Pembelian Stok (Pengeluaran)";
+        break;
 
-$query_laporan->bind_param("ss", $tanggal_mulai, $tanggal_selesai_query);
-$query_laporan->execute();
-$result_laporan = $query_laporan->get_result();
+    case 'customer':
+        // === QUERY PERFORMA CUSTOMER ===
+        // Melihat siapa customer yang datang di periode ini & total belanja mereka
+        $sql = "SELECT c.nama_customer, 
+                       COUNT(tj.id_jual) as jumlah_kunjungan, 
+                       SUM(tj.total_harga_jual) as total_belanja
+                FROM customer c
+                JOIN transaksi_jual tj ON c.id_customer = tj.fk_customer
+                WHERE tj.tanggal_jual BETWEEN ? AND ?
+                GROUP BY c.id_customer
+                ORDER BY total_belanja DESC"; // Urutkan dari yang paling "sultan"
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $tgl_start_query, $tgl_end_query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        while ($row = $result->fetch_assoc()) {
+            $laporan_data[] = $row;
+            // Untuk customer, total nominal bisa berarti total omset dari customer yang terdata
+            $total_nominal += $row['total_belanja'];
+        }
+        $judul_laporan = "Laporan Aktivitas Customer";
+        break;
 
-if ($result_laporan->num_rows > 0) {
-    while ($row = $result_laporan->fetch_assoc()) {
-        $laporan_data[] = $row;
-    }
+    default: // 'penjualan'
+        // === QUERY PENJUALAN (DEFAULT) ===
+        $sql = "SELECT tj.tanggal_jual, tj.id_jual, c.nama_customer, m.nama_model, l.nama_layanan, tj.total_harga_jual
+                FROM transaksi_jual tj
+                JOIN customer c ON tj.fk_customer = c.id_customer
+                JOIN model m ON tj.fk_model = m.id_model
+                LEFT JOIN layanan l ON tj.fk_layanan = l.id_layanan
+                WHERE tj.tanggal_jual BETWEEN ? AND ?
+                ORDER BY tj.tanggal_jual ASC";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $tgl_start_query, $tgl_end_query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $laporan_data[] = $row;
+            $total_nominal += $row['total_harga_jual'];
+        }
+        $judul_laporan = "Laporan Penjualan (Pendapatan)";
+        break;
 }
-
-// --- QUERY TOTAL PENDAPATAN ---
-$query_total = $conn->prepare(
-    "SELECT SUM(total_harga_jual) as total
-     FROM transaksi_jual
-     WHERE tanggal_jual BETWEEN ? AND ?"
-);
-$query_total->bind_param("ss", $tanggal_mulai, $tanggal_selesai_query);
-$query_total->execute();
-$total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
 
 ?>
 <!DOCTYPE html>
@@ -59,13 +108,22 @@ $total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
     <title>Laporan | Admin</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Khusus Print agar rapi */
+        @media print {
+            .sidebar, .topbar, .form-wrapper, .no-print { display: none !important; }
+            .main-content { margin-left: 0 !important; }
+            .content-wrapper { padding: 0 !important; }
+            .laporan-hasil { box-shadow: none !important; border: none !important; }
+            table { width: 100% !important; border: 1px solid #000; }
+            th, td { border: 1px solid #000 !important; padding: 5px !important; }
+        }
+    </style>
 </head>
 <body>
     
     <div class="sidebar">
-        <div class="sidebar-logo">
-            <img src="logo.png" alt="Barbershop Logo">
-        </div>
+        <div class="sidebar-logo"><img src="logo.png" alt="Barbershop Logo"></div>
         <ul>
             <li><a href="dashboard.php" class="<?php echo ($active_page == 'dashboard.php') ? 'active' : ''; ?>">Dashboard</a></li>
             <li><a href="customers.php" class="<?php echo ($active_page == 'customers.php') ? 'active' : ''; ?>">Customer</a></li>
@@ -80,9 +138,8 @@ $total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
     </div>
 
     <div class="main-content">
-        
         <div class="topbar">
-            <h1>Laporan</h1>
+            <h1>Pusat Laporan</h1>
             <div class="user-info">
                 <span><?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
                 <a href="../lamanadmin/logout.php" class="btn btn-logout">Logout</a>
@@ -95,56 +152,97 @@ $total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
                 <h2>Filter Laporan</h2>
                 <form action="laporan.php" method="GET" class="filter-form">
                     <div class="form-group">
-                        <label for="tanggal_mulai">Tanggal Mulai:</label>
-                        <input type="date" id="tanggal_mulai" name="tanggal_mulai" value="<?php echo $tanggal_mulai; ?>" required>
+                        <label>Jenis Laporan:</label>
+                        <select name="jenis_laporan" style="width: 100%; padding: 10px;">
+                            <option value="penjualan" <?php echo ($jenis_laporan == 'penjualan') ? 'selected' : ''; ?>>Laporan Penjualan (Pendapatan)</option>
+                            <option value="pembelian" <?php echo ($jenis_laporan == 'pembelian') ? 'selected' : ''; ?>>Laporan Pembelian Stok (Pengeluaran)</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="tanggal_selesai">Tanggal Selesai:</label>
-                        <input type="date" id="tanggal_selesai" name="tanggal_selesai" value="<?php echo $tanggal_selesai; ?>" required>
+                        <label>Dari Tanggal:</label>
+                        <input type="date" name="tanggal_mulai" value="<?php echo $tanggal_mulai; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Sampai Tanggal:</label>
+                        <input type="date" name="tanggal_selesai" value="<?php echo $tanggal_selesai; ?>" required>
                     </div>
                     <div class="form-group-submit">
-                        <button type="submit" name="submit_tanggal" value="1" class="btn btn-primary">Tampilkan</button>
-                        <button type="button" onclick="window.print()" class="btn btn-secondary">Cetak Laporan</button>
+                        <button type="submit" name="submit_filter" value="1" class="btn btn-primary">Tampilkan</button>
+                        <button type="button" onclick="window.print()" class="btn btn-secondary no-print">🖨️ Cetak PDF</button>
                     </div>
                 </form>
             </div>
 
             <div class="laporan-hasil">
-                <h2>Laporan</h2>
-                <p class="laporan-periode">Periode: <strong><?php echo date('d M Y', strtotime($tanggal_mulai)); ?></strong> s/d <strong><?php echo date('d M Y', strtotime($tanggal_selesai)); ?></strong></p>
+                <h2 style="text-align: center; margin-bottom: 5px;"><?php echo $judul_laporan; ?></h2>
+                <p class="laporan-periode" style="text-align: center; margin-top: 0;">
+                    Periode: <strong><?php echo date('d/m/Y', strtotime($tanggal_mulai)); ?></strong> s/d <strong><?php echo date('d/m/Y', strtotime($tanggal_selesai)); ?></strong>
+                </p>
+                <hr>
                 
                 <div class="table-wrapper">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Tanggal</th>
-                                <th>Nama Customer</th>
-                                <th>Model</th>
-                                <th>Layanan</th>
-                                <th>Total Harga</th>
+                                <?php if ($jenis_laporan == 'penjualan'): ?>
+                                    <th>Tanggal</th>
+                                    <th>No Nota</th>
+                                    <th>Customer</th>
+                                    <th>Item (Model+Layanan)</th>
+                                    <th style="text-align: right;">Total (Rp)</th>
+                                
+                                <?php elseif ($jenis_laporan == 'pembelian'): ?>
+                                    <th>Tanggal</th>
+                                    <th>Supplier / Sumber</th>
+                                    <th>Produk</th>
+                                    <th>Qty</th>
+                                    <th>Harga @</th>
+                                    <th style="text-align: right;">Subtotal (Rp)</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (count($laporan_data) > 0): ?>
-                                <?php foreach ($laporan_data as $data): ?>
+                                <?php foreach ($laporan_data as $row): ?>
                                     <tr>
-                                        <td><?php echo date('d M Y, H:i', strtotime($data['tanggal_jual'])); ?></td>
-                                        <td><?php echo htmlspecialchars($data['nama_customer']); ?></td>
-                                        <td><?php echo htmlspecialchars($data['nama_model']); ?></td>
-                                        <td><?php echo htmlspecialchars($data['nama_layanan'] ?? '-'); ?></td>
-                                        <td style="text-align: right;">Rp <?php echo number_format($data['total_harga_jual'], 0, ',', '.'); ?></td>
+                                        <?php if ($jenis_laporan == 'penjualan'): ?>
+                                            <td><?php echo date('d/m/Y H:i', strtotime($row['tanggal_jual'])); ?></td>
+                                            <td><?php echo $row['id_jual']; ?></td>
+                                            <td><?php echo htmlspecialchars($row['nama_customer']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['nama_model']); ?><?php echo $row['nama_layanan'] ? ' + '.$row['nama_layanan'] : ''; ?></td>
+                                            <td style="text-align: right;"><?php echo number_format($row['total_harga_jual'], 0, ',', '.'); ?></td>
+                                        
+                                        <?php elseif ($jenis_laporan == 'pembelian'): ?>
+                                            <td><?php echo date('d/m/Y', strtotime($row['tanggal_beli'])); ?></td>
+                                            <td><?php echo htmlspecialchars($row['sumber']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['nama_produk']); ?></td>
+                                            <td><?php echo $row['jumlah_beli']; ?></td>
+                                            <td><?php echo number_format($row['harga_beli_satuan'], 0, ',', '.'); ?></td>
+                                            <td style="text-align: right;"><?php echo number_format($row['subtotal'], 0, ',', '.'); ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="5" class="no-data">Tidak ada data transaksi pada periode ini.</td>
+                                    <td colspan="6" class="no-data" style="text-align:center; padding: 20px;">
+                                        Tidak ada data transaksi pada periode dan kategori ini.
+                                    </td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
                         <tfoot>
-                            <tr class="laporan-total">
-                                <th colspan="4" style="text-align: right; font-size: 1.1em;">TOTAL PENDAPATAN</th>
-                                <th style="text-align: right; font-size: 1.1em;">Rp <?php echo number_format($total_pendapatan, 0, ',', '.'); ?></th>
+                            <tr class="laporan-total" style="background: #f1f1f1;">
+                                <?php 
+                                    // Hitung colspan agar rapi
+                                    $colspan = ($jenis_laporan == 'customer') ? 2 : 
+                                               (($jenis_laporan == 'pembelian') ? 5 : 4); 
+                                ?>
+                                <th colspan="<?php echo $colspan; ?>" style="text-align: right; font-size: 1.1em;">
+                                    <?php echo ($jenis_laporan == 'pembelian') ? 'TOTAL PENGELUARAN:' : 'TOTAL PENDAPATAN:'; ?>
+                                </th>
+                                <th style="text-align: right; font-size: 1.1em;">
+                                    Rp <?php echo number_format($total_nominal, 0, ',', '.'); ?>
+                                </th>
                             </tr>
                         </tfoot>
                     </table>
@@ -153,6 +251,5 @@ $total_pendapatan = $query_total->get_result()->fetch_assoc()['total'];
 
         </div> 
     </div> 
-
 </body>
 </html>

@@ -7,71 +7,112 @@ $message = '';
 $message_type = 'message';
 $fk_admin = $_SESSION['admin_id'];
 
-// === FITUR HAPUS RIWAYAT ===
-if (isset($_GET['hapus'])) {
-    $id_detail_beli_hapus = $_GET['hapus'];
-    
-    $stmt_hapus = $conn->prepare("DELETE FROM detail_beli WHERE id_detail_beli = ?");
-    $stmt_hapus->bind_param("s", $id_detail_beli_hapus);
-    
-    if ($stmt_hapus->execute()) {
-        $message = "Riwayat pembelian berhasil dihapus.";
-    } else {
-        $message = "Gagal menghapus riwayat: " . $conn->error;
-        $message_type = 'message error';
-    }
-}
-
-
-// === LOGIKA TAMBAH PEMBELIAN ===
+// === LOGIKA TAMBAH PEMBELIAN (MULTI ITEM) ===
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_pembelian'])) {
-    $fk_supplier = $_POST['fk_supplier'];
-    $fk_produk = $_POST['fk_produk'];
-    $jumlah_beli = $_POST['jumlah_beli'];
     
-    if (empty($fk_supplier) || empty($fk_produk) || empty($jumlah_beli) || $jumlah_beli <= 0) {
-        $message = "Semua field wajib diisi dan jumlah harus lebih dari 0.";
+    // 1. Ambil Data Header
+    $fk_supplier = isset($_POST['fk_supplier']) ? trim($_POST['fk_supplier']) : ''; 
+    $sumber_lain = isset($_POST['sumber_lain']) ? trim($_POST['sumber_lain']) : ''; 
+    
+    // 2. Ambil Data Detail
+    $raw_produk = $_POST['fk_produk'] ?? [];
+    $raw_harga  = $_POST['harga_satuan'] ?? [];
+    $raw_jumlah = $_POST['jumlah_beli'] ?? [];
+
+    // Konversi paksa ke array
+    $produk_items = is_array($raw_produk) ? $raw_produk : [$raw_produk];
+    $harga_items  = is_array($raw_harga)  ? $raw_harga  : [$raw_harga];
+    $jumlah_items = is_array($raw_jumlah) ? $raw_jumlah : [$raw_jumlah];
+    
+    // Validasi
+    if (empty($produk_items) || count($produk_items) === 0 || empty($produk_items[0])) {
+        $message = "Mohon masukkan minimal satu produk.";
         $message_type = 'message error';
     } else {
         
         $conn->begin_transaction();
         try {
-            $id_beli = '';
-            $stmt_cek = $conn->prepare("SELECT id_beli FROM transaksi_beli WHERE fk_supplier = ? AND fk_admin = ? AND DATE(tanggal_beli) = CURDATE() LIMIT 1");
-            $stmt_cek->bind_param("ss", $fk_supplier, $fk_admin);
-            $stmt_cek->execute();
-            $result_cek = $stmt_cek->get_result();
+            // A. BUAT HEADER TRANSAKSI
+            $id_beli = ''; // Variabel penampung ID
             
-            if ($result_cek->num_rows > 0) {
-                $id_beli = $result_cek->fetch_assoc()['id_beli'];
+            if (empty($fk_supplier)) {
+                // Pembelian Lokal
+                $stmt_ins_beli = $conn->prepare("INSERT INTO transaksi_beli (tanggal_beli, fk_admin, sumber_lain) VALUES (NOW(), ?, ?)");
+                $stmt_ins_beli->bind_param("ss", $fk_admin, $sumber_lain);
+                $stmt_ins_beli->execute();
             } else {
+                // Pembelian Supplier Resmi
                 $stmt_ins_beli = $conn->prepare("INSERT INTO transaksi_beli (tanggal_beli, fk_supplier, fk_admin) VALUES (NOW(), ?, ?)");
                 $stmt_ins_beli->bind_param("ss", $fk_supplier, $fk_admin);
                 $stmt_ins_beli->execute();
+            }
+
+            // [PERBAIKAN UTAMA DI SINI]
+            // Karena ID dibuat oleh Trigger (misal: BEL05), kita tidak bisa pakai $conn->insert_id.
+            // Kita harus ambil manual ID terakhir yang baru saja terbentuk.
+            $res_get_id = $conn->query("SELECT id_beli FROM transaksi_beli ORDER BY id_beli DESC LIMIT 1");
+            $row_id = $res_get_id->fetch_assoc();
+            $id_beli = $row_id['id_beli'];
+
+            // Cek apakah ID berhasil diambil
+            if (empty($id_beli)) {
+                throw new Exception("Gagal mengambil ID Transaksi dari database.");
+            }
+
+            // B. LOOPING INSERT DETAIL BARANG
+            $stmt_detail = $conn->prepare("INSERT INTO detail_beli (fk_beli, fk_produk, harga_beli_satuan, jumlah_beli) VALUES (?, ?, ?, ?)");
+            
+            for ($i = 0; $i < count($produk_items); $i++) {
+                $p_id = $produk_items[$i];
+                $raw_p_harga = isset($harga_items[$i]) ? $harga_items[$i] : 0;
+                $p_qty       = isset($jumlah_items[$i]) ? $jumlah_items[$i] : 0;
                 
-                $result_id = $conn->query("SELECT id_beli FROM transaksi_beli WHERE fk_supplier = '$fk_supplier' AND fk_admin = '$fk_admin' AND DATE(tanggal_beli) = CURDATE() LIMIT 1");
-                $id_beli = $result_id->fetch_assoc()['id_beli'];
+                // Bersihkan format harga (hapus titik ribuan)
+                $p_harga = str_replace('.', '', $raw_p_harga); 
+                
+                if (!empty($p_id) && $p_qty > 0) {
+                    $stmt_detail->bind_param("ssdi", $id_beli, $p_id, $p_harga, $p_qty); // Perhatikan tipe data bind param
+                    $stmt_detail->execute();
+                }
             }
             
-            $stmt_detail = $conn->prepare("INSERT INTO detail_beli (jumlah_beli, fk_beli, fk_produk) VALUES (?, ?, ?)");
-            $stmt_detail->bind_param("iss", $jumlah_beli, $id_beli, $fk_produk);
-            $stmt_detail->execute();
-            
             $conn->commit();
-            $message = "Pembelian berhasil dicatat.";
+            $message = "Transaksi pembelian berhasil disimpan!";
             
         } catch (Exception $e) {
             $conn->rollback();
-            $message = "Error: Gagal mencatat pembelian. " . $e->getMessage();
+            $message = "Error Database: " . $e->getMessage();
             $message_type = 'message error';
         }
     }
 }
 
-$suppliers = $conn->query("SELECT * FROM supplier ORDER BY nama_supplier");
-$produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
+// === FITUR HAPUS ITEM RIWAYAT ===
+if (isset($_GET['hapus'])) {
+    $id_detail_hapus = $_GET['hapus'];
+    $conn->begin_transaction();
+    try {
+        $stmt_del = $conn->prepare("DELETE FROM detail_beli WHERE id_detail_beli = ?");
+        $stmt_del->bind_param("s", $id_detail_hapus);
+        $stmt_del->execute();
+        $conn->commit();
+        $message = "Item berhasil dihapus.";
+    } catch (Exception $e) {
+        $conn->rollback();
+        $message = "Gagal hapus: " . $e->getMessage();
+        $message_type = "message error";
+    }
+}
 
+// Ambil data untuk Dropdown
+$suppliers = $conn->query("SELECT * FROM supplier ORDER BY nama_supplier");
+$produk_query = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
+$produk_list = [];
+while ($row = $produk_query->fetch_assoc()) {
+    $produk_list[] = $row;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -79,13 +120,19 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
     <title>Pembelian Stok | Admin</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .table-input { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .table-input th, .table-input td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .table-input th { background-color: #f1f1f1; }
+        .table-input input, .table-input select { width: 100%; padding: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;}
+        .btn-add-row { background: #28a745; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 10px; font-size: 0.9em;}
+        .btn-remove-row { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+    </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="sidebar-logo">
-            <img src="logo.png" alt="Barbershop Logo">
-        </div>
+        <div class="sidebar-logo"><img src="logo.png" alt="Barbershop Logo"></div>
         <ul>
             <li><a href="dashboard.php" class="<?php echo ($active_page == 'dashboard.php') ? 'active' : ''; ?>">Dashboard</a></li>
             <li><a href="customers.php" class="<?php echo ($active_page == 'customers.php') ? 'active' : ''; ?>">Customer</a></li>
@@ -100,7 +147,6 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
     </div>
 
     <div class="main-content">
-        
         <div class="topbar">
             <h1>Pembelian Stok</h1>
             <div class="user-info">
@@ -110,44 +156,71 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
         </div>
 
         <div class="content-wrapper">
-            
             <?php if ($message) echo "<p class='$message_type'>$message</p>"; ?>
 
-            <div class="form-wrapper">
-                <h2>Pembelian Baru</h2>
+            <div class="form-wrapper" style="max-width: 900px;">
+                <h2>Input Transaksi Baru</h2>
                 <form action="pembelian.php" method="POST">
-                    <div>
-                        <label>Pilih Supplier:</label>
-                        <select name="fk_supplier" required>
-                            <option value="">Pilih Supplier</option>
-                            <?php
-                            if ($suppliers->num_rows > 0) {
+                    
+                    <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <label><strong>Supplier / Sumber:</strong></label>
+                        <select name="fk_supplier" id="selectSupplier" onchange="toggleSumberLain()" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                            <option value="">-- Pembelian Lokal / Lainnya --</option>
+                            <?php if ($suppliers->num_rows > 0) {
                                 while($row = $suppliers->fetch_assoc()) {
                                     echo "<option value='{$row['id_supplier']}'>{$row['nama_supplier']}</option>";
                                 }
-                            }
-                            ?>
+                            } ?>
                         </select>
+                        <input type="text" name="sumber_lain" id="inputSumberLain" 
+                               placeholder="Nama Toko (Wajib jika pembelian lokal)" 
+                               style="width: 100%; padding: 10px; display: block;" required>
                     </div>
-                    <div>
-                        <label>Pilih Produk:</label>
-                        <select name="fk_produk" required>
-                            <option value="">Pilih Produk</option>
-                            <?php
-                            $produks->data_seek(0); 
-                            if ($produks->num_rows > 0) {
-                                while($row = $produks->fetch_assoc()) {
-                                    echo "<option value='{$row['id_produk']}'>{$row['nama_produk']}</option>";
-                                }
-                            }
-                            ?>
-                        </select>
+
+                    <button type="button" class="btn-add-row" onclick="addRow()">+ Tambah Produk Lain</button>
+                    
+                    <table class="table-input" id="transactionTable">
+                        <thead>
+                            <tr>
+                                <th width="35%">Produk</th>
+                                <th width="25%">Harga Satuan (Rp)</th>
+                                <th width="15%">Qty</th>
+                                <th width="20%">Subtotal</th>
+                                <th width="5%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select name="fk_produk[]" class="produk-select" onchange="updatePrice(this)" required>
+                                        <option value="" data-harga="0">Pilih Produk</option>
+                                        <?php foreach ($produk_list as $prod): ?>
+                                            <option value="<?= $prod['id_produk'] ?>" data-harga="<?= $prod['harga_beli'] ?>">
+                                                <?= $prod['nama_produk'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="harga_satuan[]" class="input-harga" min="0" value="0" oninput="calculateSubtotal(this)" required>
+                                </td>
+                                <td>
+                                    <input type="number" name="jumlah_beli[]" class="input-qty" min="1" value="1" oninput="calculateSubtotal(this)" required>
+                                </td>
+                                <td>
+                                    <input type="text" class="input-subtotal" value="0" readonly style="background: #eee;">
+                                </td>
+                                <td>
+                                    <button type="button" class="btn-remove-row" onclick="removeRow(this)">X</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top: 20px; text-align: right;">
+                        <h3>Total Estimasi: Rp <span id="grandTotal">0</span></h3>
+                        <button type="submit" name="submit_pembelian" class="btn btn-primary" style="padding: 12px 25px; font-size: 16px;">Simpan Transaksi</button>
                     </div>
-                    <div>
-                        <label>Jumlah Beli (botol):</label>
-                        <input type="number" name="jumlah_beli" min="1" required>
-                    </div>
-                    <button type="submit" name="submit_pembelian" class="btn btn-primary">Catat Pembelian</button>
                 </form>
             </div>
             
@@ -156,49 +229,113 @@ $produks = $conn->query("SELECT * FROM produk ORDER BY nama_produk");
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>ID Beli</th>
-                            <th>Tanggal Beli</th>
-                            <th>Supplier</th>
+                            <th>Tanggal</th>
+                            <th>ID Nota</th>
+                            <th>Sumber</th>
                             <th>Produk</th>
-                            <th>Jumlah Beli</th>
-                            <th>Total Harga Beli</th>
-                            <th>Aksi</th>
+                            <th>Harga @</th>
+                            <th>Qty</th>
+                            <th>Total Item</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT db.id_detail_beli, tb.id_beli, tb.tanggal_beli, s.nama_supplier, p.nama_produk, db.jumlah_beli, tb.total_harga_beli
+                        $sql = "SELECT db.id_detail_beli, tb.id_beli, tb.tanggal_beli, 
+                                COALESCE(s.nama_supplier, tb.sumber_lain, 'Lokal') AS nama_sumber, 
+                                p.nama_produk, db.jumlah_beli, db.harga_beli_satuan
                                 FROM detail_beli db
                                 JOIN transaksi_beli tb ON db.fk_beli = tb.id_beli
                                 JOIN produk p ON db.fk_produk = p.id_produk
-                                JOIN supplier s ON tb.fk_supplier = s.id_supplier
-                                ORDER BY tb.tanggal_beli DESC, db.id_detail_beli DESC
+                                LEFT JOIN supplier s ON tb.fk_supplier = s.id_supplier
+                                ORDER BY tb.tanggal_beli DESC, tb.id_beli DESC
                                 LIMIT 20";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
+                                $total_item = $row['jumlah_beli'] * $row['harga_beli_satuan'];
                                 echo "<tr>";
+                                echo "<td>" . date('d/m/Y', strtotime($row['tanggal_beli'])) . "</td>";
                                 echo "<td>" . $row['id_beli'] . "</td>";
-                                echo "<td>" . $row['tanggal_beli'] . "</td>";
-                                echo "<td>" . htmlspecialchars($row['nama_supplier']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['nama_sumber']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['nama_produk']) . "</td>";
+                                echo "<td>Rp " . number_format($row['harga_beli_satuan'], 0, ',', '.') . "</td>";
                                 echo "<td>" . $row['jumlah_beli'] . "</td>";
-                                echo "<td>" . number_format($row['total_harga_beli'], 0, ',', '.') . "</td>";
-                                echo "<td>";
-                                echo "<a href='pembelian.php?hapus=" . $row['id_detail_beli'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus riwayat juga akan menghapus data transaksinya.\")'>Hapus</a>";
-                                echo "</td>";
+                                echo "<td>Rp " . number_format($total_item, 0, ',', '.') . "</td>";
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='7' class='no-data'>Belum ada riwayat pembelian.</td></tr>";
+                            echo "<tr><td colspan='7' class='no-data'>Belum ada riwayat.</td></tr>";
                         }
                         ?>
                     </tbody>
                 </table>
             </div>
-
         </div> 
     </div> 
 
+    <script>
+        function toggleSumberLain() {
+            var selectBox = document.getElementById("selectSupplier");
+            var inputBox = document.getElementById("inputSumberLain");
+            if (selectBox.value === "") {
+                inputBox.style.display = "block";
+                inputBox.required = true; 
+            } else {
+                inputBox.style.display = "none";
+                inputBox.required = false;
+                inputBox.value = ""; 
+            }
+        }
+
+        function addRow() {
+            var table = document.getElementById("transactionTable").getElementsByTagName('tbody')[0];
+            var newRow = table.rows[0].cloneNode(true); 
+            newRow.querySelector('.input-harga').value = 0;
+            newRow.querySelector('.input-qty').value = 1;
+            newRow.querySelector('.input-subtotal').value = 0;
+            newRow.querySelector('select').value = "";
+            table.appendChild(newRow);
+        }
+
+        function removeRow(btn) {
+            var row = btn.parentNode.parentNode;
+            var table = row.parentNode;
+            if (table.rows.length > 1) {
+                table.removeChild(row);
+                calculateGrandTotal(); 
+            } else {
+                alert("Minimal harus ada satu baris produk.");
+            }
+        }
+
+        function updatePrice(selectElement) {
+            var price = selectElement.options[selectElement.selectedIndex].getAttribute('data-harga');
+            var row = selectElement.parentNode.parentNode;
+            var priceInput = row.querySelector('.input-harga');
+            priceInput.value = price; 
+            calculateSubtotal(priceInput); 
+        }
+
+        function calculateSubtotal(element) {
+            var row = element.parentNode.parentNode;
+            var price = parseFloat(row.querySelector('.input-harga').value) || 0;
+            var qty = parseFloat(row.querySelector('.input-qty').value) || 0;
+            var subtotal = price * qty;
+            row.querySelector('.input-subtotal').value = subtotal.toLocaleString('id-ID');
+            calculateGrandTotal();
+        }
+
+        function calculateGrandTotal() {
+            var subtotals = document.querySelectorAll('.input-subtotal');
+            var grandTotal = 0;
+            subtotals.forEach(function(item) {
+                var val = item.value.replace(/\./g, '');
+                grandTotal += parseFloat(val) || 0;
+            });
+            document.getElementById('grandTotal').innerText = grandTotal.toLocaleString('id-ID');
+        }
+        
+        toggleSumberLain();
+    </script>
 </body>
 </html>

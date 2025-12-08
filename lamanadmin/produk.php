@@ -10,13 +10,22 @@ $message_type = 'message';
 if (isset($_GET['hapus'])) {
     $id_produk_hapus = $_GET['hapus'];
     
+    // Cek dulu apakah produk sudah pernah dipakai di transaksi?
+    // Jika sudah pernah dibeli/dijual, sebaiknya jangan dihapus permanen (soft delete) atau ditolak.
+    // Di sini kita pakai logika sederhana: Coba hapus, jika gagal (karena Foreign Key), tampilkan error.
+    
     $stmt_hapus = $conn->prepare("DELETE FROM produk WHERE id_produk = ?");
     $stmt_hapus->bind_param("s", $id_produk_hapus);
     
-    if ($stmt_hapus->execute()) {
-        $message = "Produk berhasil dihapus.";
-    } else {
-        $message = "Gagal menghapus produk. Pastikan produk tidak digunakan di 'Detail Layanan' manapun. Error: " . $conn->error;
+    try {
+        if ($stmt_hapus->execute()) {
+            $message = "Produk berhasil dihapus.";
+        } else {
+            throw new Exception($conn->error);
+        }
+    } catch (Exception $e) {
+        // Error biasanya karena Foreign Key (produk ini ada di riwayat transaksi)
+        $message = "Gagal menghapus! Produk ini sudah tercatat dalam riwayat transaksi (Beli/Jual).";
         $message_type = 'message error';
     }
 }
@@ -24,13 +33,19 @@ if (isset($_GET['hapus'])) {
 // === LOGIKA TAMBAH PRODUK ===
 if (isset($_POST['submit'])) {
     $nama_produk = $_POST['nama_produk'];
-    $harga_beli = $_POST['harga_beli'];
-    $stok = 0; 
+    $harga_beli = $_POST['harga_beli']; // Ini jadi harga default
+    $stok = 0; // Stok awal produk baru pasti 0
+    
     $sql = "INSERT INTO produk (nama_produk, harga_beli, stok) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sdi", $nama_produk, $harga_beli, $stok);
-    if ($stmt->execute()) { $message = "Produk baru berhasil ditambahkan."; } 
-    else { $message = "Error: " . $stmt->error; $message_type = 'message error'; }
+    
+    if ($stmt->execute()) { 
+        $message = "Produk baru berhasil ditambahkan."; 
+    } else { 
+        $message = "Error: " . $stmt->error; 
+        $message_type = 'message error'; 
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -63,7 +78,7 @@ if (isset($_POST['submit'])) {
     <div class="main-content">
         
         <div class="topbar">
-            <h1>Kelola Produk</h1>
+            <h1>Kelola Produk (Master Data)</h1>
             <div class="user-info">
                 <span><?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
                 <a href="../lamanadmin/logout.php" class="btn btn-logout">Logout</a>
@@ -76,44 +91,52 @@ if (isset($_POST['submit'])) {
 
             <div class="form-wrapper">
                 <h2>Tambah Produk Baru</h2>
+                <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">
+                    Produk yang ditambahkan di sini akan muncul di menu Pembelian Stok.
+                </p>
                 <form action="produk.php" method="POST">
                     <div>
                         <label>Nama Produk:</label>
-                        <input type="text" name="nama_produk" required>
+                        <input type="text" name="nama_produk" placeholder="Contoh: Pomade Waterbased" required>
                     </div>
                     <div>
-                        <label>Harga Beli (per botol):</label>
-                        <input type="number" step="0.01" name="harga_beli" required>
+                        <label>Harga Beli Acuan (Per Botol):</label>
+                        <input type="number" step="0.01" name="harga_beli" placeholder="Harga standar dari supplier" required>
+                        <small style="color: #888;">Harga ini akan muncul otomatis saat input pembelian, namun bisa diubah saat transaksi.</small>
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary">Tambah Produk</button>
                 </form>
             </div>
 
-            <h2>Daftar Produk Saat Ini</h2>
+            <h2>Daftar Stok Produk Saat Ini</h2>
             <div class="table-wrapper">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nama</th>
-                            <th>Harga Beli</th>
-                            <th>Stok</th>
+                            <th>Nama Produk</th>
+                            <th>Harga Beli (Acuan)</th>
+                            <th>Stok Tersedia</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $result = $conn->query("SELECT * FROM produk ORDER BY id_produk");
+                        $result = $conn->query("SELECT * FROM produk ORDER BY nama_produk ASC");
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
                                 echo "<td>" . $row['id_produk'] . "</td>";
                                 echo "<td>" . htmlspecialchars($row['nama_produk']) . "</td>";
-                                echo "<td>" . number_format($row['harga_beli'], 0, ',', '.') . "</td>";
-                                echo "<td>" . $row['stok'] . "</td>";
+                                echo "<td>Rp " . number_format($row['harga_beli'], 0, ',', '.') . "</td>";
+                                
+                                // Highlight Stok jika menipis (opsional, visual saja)
+                                $stok_class = ($row['stok'] < 5) ? 'style="color:red; font-weight:bold;"' : '';
+                                echo "<td $stok_class>" . $row['stok'] . " pcs</td>";
+                                
                                 echo "<td><div class='table-actions'>";
                                 echo "<a href='produk_edit.php?id=" . $row['id_produk'] . "' class='btn btn-warning btn-sm'>Edit</a>";
-                                echo "<a href='produk.php?hapus=" . $row['id_produk'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Hapus? Menghapus produk juga akan mempengaruhi layanan yang terlibat.\")'>Hapus</a>";
+                                echo "<a href='produk.php?hapus=" . $row['id_produk'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin hapus? Produk yang sudah ada riwayat transaksinya tidak bisa dihapus.\")'>Hapus</a>";
                                 echo "</div></td>";
                                 echo "</tr>";
                             }
@@ -129,4 +152,4 @@ if (isset($_POST['submit'])) {
     </div> 
 
 </body>
-</html>
+</html> 
